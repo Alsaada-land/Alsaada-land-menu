@@ -3,35 +3,393 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو منتجع ساند بيتش</title>
-    <link rel="stylesheet" href="style.css">
+    <title>منيو مطعم السعادة لاند</title>
+    <!-- استدعاء خطوط عصرية وحديثة -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&family=Montserrat:wght@600;700;800&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
+        }
+
+        body {
+            background-color: #d8c3a5;
+            color: #2b2b2b;
+            padding: 15px;
+        }
+
+        .menu-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            background: #fdfaf4;
+            border-radius: 12px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+            border: 2px solid #d4af37;
+            overflow: hidden;
+        }
+
+        /* ترويسة الموقع مع الشعار الجديد */
+        .header {
+            text-align: center;
+            border-bottom: 2px solid #d4af37;
+            padding: 25px 20px;
+            background: #fff;
+        }
+
+        .logo-img {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #d4af37;
+            margin-bottom: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+        /* خط موديرن وعصري لكلمة Alsaada Land */
+        .brand-en {
+            font-family: 'Montserrat', sans-serif;
+            color: #b8973c;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+        }
+
+        .header p {
+            color: #8b6b23;
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        /* شريط الأقسام المتحرك */
+        .category-bar {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            white-space: nowrap;
+            padding: 12px 15px;
+            background: #2b2b2b;
+            border-bottom: 2px solid #d4af37;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            scroll-behavior: smooth;
+        }
+
+        .category-bar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .cat-btn {
+            background-color: #444;
+            color: #fff;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            flex-shrink: 0;
+        }
+
+        .cat-btn.all-menu {
+            background-color: #d4af37;
+            color: #2b2b2b;
+            font-weight: 700;
+        }
+
+        .cat-btn.active, .cat-btn:hover {
+            background-color: #d4af37;
+            color: #2b2b2b;
+            font-weight: 700;
+        }
+
+        /* محتوى المنيو والأقسام */
+        .menu-content {
+            padding: 20px;
+        }
+
+        .menu-section {
+            display: block;
+            margin-bottom: 35px;
+        }
+
+        .section-title {
+            background: #8b6b23;
+            color: #fff;
+            padding: 6px 15px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            display: inline-block;
+            margin-bottom: 15px;
+        }
+
+        /* شبكة مربعات الوجبات (كل مربعين جنب بعض) */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        @media (max-width: 500px) {
+            .items-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+        }
+
+        /* تصميم المربع (Card) */
+        .food-card {
+            background: #fff;
+            border: 1px solid #e2d4bd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.05);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .food-img {
+            width: 100%;
+            height: 110px;
+            object-fit: cover;
+            background-color: #f0ebd8;
+        }
+
+        .food-info {
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
+        }
+
+        .food-name {
+            font-weight: 700;
+            color: #333;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+
+        .food-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #f0f0f0;
+            padding-top: 6px;
+            margin-top: auto;
+        }
+
+        .food-price {
+            font-weight: 800;
+            color: #8b6b23;
+            font-size: 13px;
+        }
+
+        .order-hint {
+            font-size: 10px;
+            color: #777;
+            background: #f7f3e9;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+    </style>
 </head>
 <body>
-    <header>
-        <h1>ساند بيتش</h1>
-        <p>أهلاً بكم في مطعمنا</p>
-    </header>
-    <main>
-        <section class="menu-category">
-            <h2>الوجبات الرئيسية</h2>
-            <div class="menu-item">
-                <div class="item-info">
-                    <h3>برجر لحم كلاسيك</h3>
-                    <p>شريحة لحم بقري، جبنة شيدر، خس، طماطم، مع بطاطا مقلية.</p>
-                </div>
-                <div class="item-price">35 ₪</div>
+
+<div class="menu-wrapper">
+    <!-- الترويسة مع الشعار الجديد واسم Alsaada Land -->
+    <div class="header">
+        <img src="logo.jpg" alt="شعار السعادة لاند" class="logo-img">
+        <div class="brand-en">Alsaada Land</div>
+        <p>أرقى المطاعم والجلسات العائلية على مستوى قطاع غزة</p>
+    </div>
+
+    <!-- شريط الأقسام المتحرك -->
+    <div class="category-bar">
+        <button class="cat-btn all-menu active" onclick="filterCategory('all', this)">المنيو كامل</button>
+        <button class="cat-btn" onclick="filterCategory('main', this)">الوجبات الرئيسية</button>
+        <button class="cat-btn" onclick="filterCategory('shawarma', this)">الشاورما</button>
+        <button class="cat-btn" onclick="filterCategory('western', this)">ساندويتشات غربي</button>
+        <button class="cat-btn" onclick="filterCategory('pizza-fish', this)">البيتزا والأسماك</button>
+        <button class="cat-btn" onclick="filterCategory('desserts', this)">الحلويات</button>
+        <button class="cat-btn" onclick="filterCategory('cold-drinks', this)">العصائر والموهيتو</button>
+        <button class="cat-btn" onclick="filterCategory('hot-drinks', this)">المشروبات الساخنة</button>
+        <button class="cat-btn" onclick="filterCategory('shisha', this)">الأراجيل والخدمات</button>
+    </div>
+
+    <div class="menu-content">
+        
+        <!-- 1. الوجبات الرئيسية -->
+        <div id="main" class="menu-section">
+            <div class="section-title">الوجبات الرئيسيّة</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=300" class="food-img"><div class="food-info"><div class="food-name">طاجن لحمة بالخضار</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1514944298352-fff69f39e8e2?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة لحم + رز لشخص 1</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة نصف دجاجة مسخن</div><div class="food-footer"><span class="food-price">65 ₪</span><span class="order-hint">بلدي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة نصف دجاجة فرن + رز</div><div class="food-footer"><span class="food-price">55 ₪</span><span class="order-hint">ساخن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة مشاوي مشكل</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">على الفحم</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة اسكالوبيني</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">مقرمش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1600891964599-f61ba0e24092?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة ستيك دجاج بصوص المشروم</div><div class="food-footer"><span class="food-price">65 ₪</span><span class="order-hint">فاخر</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1604908176997-125f2596f37c?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة مسحب دجاج</div><div class="food-footer"><span class="food-price">55 ₪</span><span class="order-hint">طري</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة ستيك دجاج بالخضار</div><div class="food-footer"><span class="food-price">65 ₪</span><span class="order-hint">صحي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة كباب عربي</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">تبلتنا</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة ستيك فيليه بالكريمة</div><div class="food-footer"><span class="food-price">70 ₪</span><span class="order-hint">مميز</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1544025162-d76694265947?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة ستيك فيليه بالخضار</div><div class="food-footer"><span class="food-price">70 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة شقف فيليه مشوي باللية</div><div class="food-footer"><span class="food-price">80 ₪</span><span class="order-hint">بلدي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة شيش طاووق</div><div class="food-footer"><span class="food-price">55 ₪</span><span class="order-hint">متبل</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة دجاج عالأفحم</div><div class="food-footer"><span class="food-price">55 ₪</span><span class="order-hint">على الفحم</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة شنيتسل</div><div class="food-footer"><span class="food-price">45 ₪</span><span class="order-hint">مقرمش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة دجاج بروست</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">مقرمش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1604908176997-125f2596f37c?w=300" class="food-img"><div class="food-info"><div class="food-name">كوردن بلو</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">جبنة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" class="food-img"><div class="food-info"><div class="food-name">امباسدور</div><div class="food-footer"><span class="food-price">80 ₪</span><span class="order-hint">فاخر</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=300" class="food-img"><div class="food-info"><div class="food-name">فخد مشوي بالخضار</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">بالفرن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة السعادة لاند</div><div class="food-footer"><span class="food-price">65 ₪</span><span class="order-hint">الخاصة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" class="food-img"><div class="food-info"><div class="food-name">مكس فواكه البحر</div><div class="food-footer"><span class="food-price">75 ₪</span><span class="order-hint">بحري</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1604908176997-125f2596f37c?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة دجاج بالجبن</div><div class="food-footer"><span class="food-price">60 ₪</span><span class="order-hint">بالفرن</span></div></div></div>
             </div>
-        </section>
-        <section class="menu-category">
-            <h2>المشروبات</h2>
-            <div class="menu-item">
-                <div class="item-info">
-                    <h3>عصير برتقال طبيعي</h3>
-                    <p>معصور طازج بدون سكر مضاف.</p>
-                </div>
-                <div class="item-price">12 ₪</div>
+        </div>
+
+        <!-- 2. الشاورما -->
+        <div id="shawarma" class="menu-section">
+            <div class="section-title">الشاورما</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة شاورما</div><div class="food-footer"><span class="food-price">55 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما دبل لحمة</div><div class="food-footer"><span class="food-price">25 ₪</span><span class="order-hint">ساخن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما سوري</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">سوري</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما صاروخ</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">كبير</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">صفيحة شاورما</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">مخبوز</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما اساور / عرب</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">مميز</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما بيجي</div><div class="food-footer"><span class="food-price">35 ₪</span><span class="order-hint">جبنة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما فينو</div><div class="food-footer"><span class="food-price">25 ₪</span><span class="order-hint">فرنسي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما ضاني دبل</div><div class="food-footer"><span class="food-price">45 ₪</span><span class="order-hint">لحم ضاني</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما ضاني دبل دبل</div><div class="food-footer"><span class="food-price">50 ₪</span><span class="order-hint">إكسترا</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">صفيحة شاورما ضاني</div><div class="food-footer"><span class="food-price">50 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=300" class="food-img"><div class="food-info"><div class="food-name">شاورما ضاني سوري</div><div class="food-footer"><span class="food-price">50 ₪</span><span class="order-hint">فاخر</span></div></div></div>
             </div>
-        </section>
-    </main>
+        </div>
+
+        <!-- 3. ساندويتشات غربي -->
+        <div id="western" class="menu-section">
+            <div class="section-title">ساندويتشات غربي</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">صفيحة مسحب بالجبن</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">ساخن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">صفيحة ستيك دجاج</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" class="food-img"><div class="food-info"><div class="food-name">ساندويتش تشكن بيتزا</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">جبنة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">ساندوتش دجاج بالجبنة</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">مذابة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">ساندويتش شرائح فيليه بالخضار</div><div class="food-footer"><span class="food-price">35 ₪</span><span class="order-hint">صحي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">ساندوتش السعادة لاند</div><div class="food-footer"><span class="food-price">45 ₪</span><span class="order-hint">مميز</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">ساندوتش مكسيكي حار</div><div class="food-footer"><span class="food-price">35 ₪</span><span class="order-hint">سبايسي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">ساندوتش زنجر</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">مقرمش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" class="food-img"><div class="food-info"><div class="food-name">كالزوني</div><div class="food-footer"><span class="food-price">45 ₪</span><span class="order-hint">ايطالي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">تشكن برجر</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">لذيذ</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">بيف برجر عرض</div><div class="food-footer"><span class="food-price">25 ₪</span><span class="order-hint">لحم صافي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=300" class="food-img"><div class="food-info"><div class="food-name">برجر بروست</div><div class="food-footer"><span class="food-price">35 ₪</span><span class="order-hint">مقرمش</span></div></div></div>
+            </div>
+        </div>
+
+        <!-- 4. البيتزا والأسماك -->
+        <div id="pizza-fish" class="menu-section">
+            <div class="section-title">البيتزا والأسماك</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" class="food-img"><div class="food-info"><div class="food-name">بيتزا وسط شاورما</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">عجين طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" class="food-img"><div class="food-info"><div class="food-name">بيتزا وسط لحمة مفرومة</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">بالجبن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?w=300" class="food-img"><div class="food-info"><div class="food-name">بيتزا وسط خضار / مرجريتا</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">كلاسيك</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" class="food-img"><div class="food-info"><div class="food-name">وجبة سمك 500 غر</div><div class="food-footer"><span class="food-price">120 ₪</span><span class="order-hint">طازج بحري</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" class="food-img"><div class="food-info"><div class="food-name">كيلو سمك</div><div class="food-footer"><span class="food-price">220 ₪</span><span class="order-hint">صيد اليوم</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?w=300" class="food-img"><div class="food-info"><div class="food-name">كيلو سمك شامل ملحقاته</div><div class="food-footer"><span class="food-price">270 ₪</span><span class="order-hint">متكامل</span></div></div></div>
+            </div>
+        </div>
+
+        <!-- 5. الحلويات -->
+        <div id="desserts" class="menu-section">
+            <div class="section-title">الحلويات والمخبوزات الحلوة</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">تشيز بلوبري / لوتس</div><div class="food-footer"><span class="food-price">30-35 ₪</span><span class="order-hint">حلو</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">هبه دبي / براونيز</div><div class="food-footer"><span class="food-price">35 ₪</span><span class="order-hint">شوكولاتة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">كنافة نوتيلا / أيس كريم</div><div class="food-footer"><span class="food-price">25-30 ₪</span><span class="order-hint">ساخن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">بان بريدو (كافيه/مانجا/فراولة)</div><div class="food-footer"><span class="food-price">40 ₪</span><span class="order-hint">فاخر</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">تيراميسو / حلا السعادة لاند</div><div class="food-footer"><span class="food-price">30-40 ₪</span><span class="order-hint">بارد</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">لقيمات نوتيلا / مكس</div><div class="food-footer"><span class="food-price">25-30 ₪</span><span class="order-hint">مقرمش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">كريب نوتيلا / سوشي كريب</div><div class="food-footer"><span class="food-price">25-35 ₪</span><span class="order-hint">لذيذ</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">فوتوتشيني كريب / بان كيك</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">طازج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024601-bec78aea704b?w=300" class="food-img"><div class="food-info"><div class="food-name">قالب كيك (صغير/وسط/كبير)</div><div class="food-footer"><span class="food-price">100-200 ₪</span><span class="order-hint">حسب الطلب</span></div></div></div>
+            </div>
+        </div>
+
+        <!-- 6. العصائر والموهيتو -->
+        <div id="cold-drinks" class="menu-section">
+            <div class="section-title">العصائر الطبيعية، الموهيتو والميلك شيك</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" class="food-img"><div class="food-info"><div class="food-name">ليمون ونعنع / برتقال</div><div class="food-footer"><span class="food-price">20 ₪</span><span class="order-hint">طبيعي 100%</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" class="food-img"><div class="food-info"><div class="food-name">مانجا / فراولة / شمام</div><div class="food-footer"><span class="food-price">20 ₪</span><span class="order-hint">مثلج</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1613478223719-2ab802602423?w=300" class="food-img"><div class="food-info"><div class="food-name">کوكتيل اسطنبولي / فخفيخينا</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">فواكه</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=300" class="food-img"><div class="food-info"><div class="food-name">ايس كوفي</div><div class="food-footer"><span class="food-price">25 ₪</span><span class="order-hint">منعش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300" class="food-img"><div class="food-info"><div class="food-name">موهيتو (مانجا/فراولة/خوخ)</div><div class="food-footer"><span class="food-price">25 ₪</span><span class="order-hint">صودا ونعناع</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=300" class="food-img"><div class="food-info"><div class="food-name">موهيتو السعادة لاند</div><div class="food-footer"><span class="food-price">35 ₪</span><span class="order-hint">خلطة خاصة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=300" class="food-img"><div class="food-info"><div class="food-name">ميلك شيك (جميع النكهات)</div><div class="food-footer"><span class="food-price">25 ₪</span><span class="order-hint">آيس كريم</span></div></div></div>
+            </div>
+        </div>
+
+        <!-- 7. المشروبات الساخنة والغازية -->
+        <div id="hot-drinks" class="menu-section">
+            <div class="section-title">المشروبات الساخنة والغازية والمياه</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=300" class="food-img"><div class="food-info"><div class="food-name">قهوة سنجل / دبل</div><div class="food-footer"><span class="food-price">7-10 ₪</span><span class="order-hint">ساخن</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1534778101976-62847782c213?w=300" class="food-img"><div class="food-info"><div class="food-name">اسبريسو / نسكافيه / كابتشينو</div><div class="food-footer"><span class="food-price">8 ₪</span><span class="order-hint">رغوة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=300" class="food-img"><div class="food-info"><div class="food-name">شاي / شوكو</div><div class="food-footer"><span class="food-price">7-8 ₪</span><span class="order-hint">أفخر أنواع الشاي</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1622483767028-3f66f32aef97?w=300" class="food-img"><div class="food-info"><div class="food-name">كولا / سبرايت / طاقة</div><div class="food-footer"><span class="food-price">10 ₪</span><span class="order-hint">بارد</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=300" class="food-img"><div class="food-info"><div class="food-name">مياه معدنية (صغيرة/كبيرة)</div><div class="food-footer"><span class="food-price">5-10 ₪</span><span class="order-hint">نقية</span></div></div></div>
+            </div>
+        </div>
+
+        <!-- 8. الأراجيل والخدمات -->
+        <div id="shisha" class="menu-section">
+            <div class="section-title">الأراجيل والخدمات</div>
+            <div class="items-grid">
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=300" class="food-img"><div class="food-info"><div class="food-name">ارقيلة (فاخر / بحيرني / ميزو)</div><div class="food-footer"><span class="food-price">90 ₪</span><span class="order-hint">معسل فاخر</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=300" class="food-img"><div class="food-info"><div class="food-name">ارقيلة (ليمون ونعنع / كرز)</div><div class="food-footer"><span class="food-price">70 ₪</span><span class="order-hint">منعش</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=300" class="food-img"><div class="food-info"><div class="food-name">ارقيلة السعادة لاند</div><div class="food-footer"><span class="food-price">80 ₪</span><span class="order-hint">خلطة المطعم</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=300" class="food-img"><div class="food-info"><div class="food-name">خدمة ارقيلة / فحم</div><div class="food-footer"><span class="food-price">30-50 ₪</span><span class="order-hint">تغيير فحم</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=300" class="food-img"><div class="food-info"><div class="food-name">ايجار طاولة / مراجيح</div><div class="food-footer"><span class="food-price">30 ₪</span><span class="order-hint">جلسات مريحة</span></div></div></div>
+                <div class="food-card"><img src="https://images.unsplash.com/photo-1513151233558-d860c5398176?w=300" class="food-img"><div class="food-info"><div class="food-name">خدمة عيد ميلاد / طاولة</div><div class="food-footer"><span class="food-price">20 ₪</span><span class="order-hint">تجهيز خاص</span></div></div></div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function filterCategory(sectionId, btnElement) {
+        const sections = document.querySelectorAll('.menu-section');
+        const buttons = document.querySelectorAll('.cat-btn');
+
+        buttons.forEach(btn => btn.classList.remove('active'));
+        btnElement.classList.add('active');
+
+        if (sectionId === 'all') {
+            sections.forEach(sec => sec.style.display = 'block');
+        } else {
+            sections.forEach(sec => {
+                if (sec.id === sectionId) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
+        }
+
+        btnElement.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+    }
+</script>
+
 </body>
 </html>
