@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منيو منتجع ساند بيتش</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>ساند بيتش</h1>
+        <p>أهلاً بكم في مطعمنا</p>
+    </header>
+    <main>
+        <section class="menu-category">
+            <h2>الوجبات الرئيسية</h2>
+            <div class="menu-item">
+                <div class="item-info">
+                    <h3>برجر لحم كلاسيك</h3>
+                    <p>شريحة لحم بقري، جبنة شيدر، خس، طماطم، مع بطاطا مقلية.</p>
+                </div>
+                <div class="item-price">35 ₪</div>
+            </div>
+        </section>
+        <section class="menu-category">
+            <h2>المشروبات</h2>
+            <div class="menu-item">
+                <div class="item-info">
+                    <h3>عصير برتقال طبيعي</h3>
+                    <p>معصور طازج بدون سكر مضاف.</p>
+                </div>
+                <div class="item-price">12 ₪</div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>
