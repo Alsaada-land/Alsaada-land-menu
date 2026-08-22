@@ -26,7 +26,9 @@
         .admin-trigger:hover { background: var(--gold); color: #0a0c10; }
 
         .hero { text-align: center; padding: 45px 20px 25px; background: radial-gradient(circle at top, #1e2638 0%, var(--bg-dark) 70%); border-bottom: 1px solid var(--card-border); position: relative; }
-        .logo-badge { width: 75px; height: 75px; background: var(--gold-gradient); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; color: #0a0c10; box-shadow: 0 0 25px rgba(212, 175, 55, 0.35); margin-bottom: 12px; }
+        .logo-badge { width: 75px; height: 75px; background: var(--gold-gradient); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; color: #0a0c10; box-shadow: 0 0 25px rgba(212, 175, 55, 0.35); margin-bottom: 12px; overflow: hidden; padding: 0; }
+        .logo-badge img { width: 100%; height: 100%; object-fit: cover; }
+        
         .hero h1 { font-size: 1.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
         .hero p { color: var(--text-muted); font-size: 0.95rem; }
         
@@ -45,8 +47,10 @@
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
         .item-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
         .item-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
-        .item-img-container { width: 100%; height: 150px; overflow: hidden; position: relative; background: #1a2234; }
-        .item-img { width: 100%; height: 100%; object-fit: cover; }
+        
+        .item-img-container { width: 100%; height: 150px; overflow: hidden; position: relative; background: #1a2234; display: flex; align-items: center; justify-content: center; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
+        
         .item-content-body { padding: 14px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
         .item-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
         .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; }
@@ -63,14 +67,17 @@
         .cart-total { font-weight: 700; color: #fff; }
         .order-btn { background: #25d366; color: #fff; border: none; padding: 8px 18px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
 
-        /* شريط تحكم المدير العلوي (يظهر عند تسجيل الدخول) */
-        #adminTopBar { display: none; background: #1a2234; border-bottom: 2px solid var(--gold); padding: 15px; margin-bottom: 20px; border-radius: 12px; }
+        /* لوحة التحكم للأدمن */
         .admin-input { width: 100%; padding: 8px 12px; background: #0a0c10; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; font-size: 0.9rem; margin-bottom: 8px; outline: none; }
         .admin-input:focus { border-color: var(--gold); }
-        .admin-controls-box { display: flex; gap: 5px; margin-top: 10px; }
-        .btn-edit { background: #25d366; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; flex: 1; }
-        .btn-delete { background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; }
+        .btn-edit { background: #25d366; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; flex: 1; }
+        .btn-delete { background: #e74c3c; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; }
         .add-item-card { background: var(--card-bg); border: 2px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; display: none; }
+        
+        /* أداة التحكم بتعديل وتحريك الصورة */
+        .img-adjuster { background: #0d1117; padding: 8px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-muted); }
+        .img-adjuster label { display: block; margin-bottom: 2px; color: var(--gold-light); }
+        .img-adjuster input[type="range"] { width: 100%; accent-color: var(--gold); }
     </style>
 </head>
 <body>
@@ -79,19 +86,19 @@
         <div class="admin-trigger" onclick="checkAdminLogin()" title="لوحة التحكم">
             <i class="fa-solid fa-lock" id="lockIcon"></i>
         </div>
-        <div class="logo-badge"><i class="fa-solid fa-crown"></i></div>
+        <div class="logo-badge">
+            <img src="logo.jpg" alt="شعار السعادة لاند">
+        </div>
         <h1>مطعم السعادة لاند</h1>
         <p>تجربة طعام فاخرة تجمع الأصالة والمذاق الرفيع</p>
     </header>
 
     <main class="container">
-        <!-- قسم إضافة طبق جديد (يظهر فقط للأدمن) -->
+        <!-- إضافة طبق جديد مع رفع صورة من الاستوديو وتعديلها -->
         <div class="add-item-card" id="addItemSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد للقائمة</h3>
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
-                <input type="text" id="newName" class="admin-input" placeholder="اسم الطبق">
-                <input type="number" id="newPrice" class="admin-input" placeholder="السعر (₪)">
-            </div>
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد مع صورة من الاستوديو</h3>
+            <input type="text" id="newName" class="admin-input" placeholder="اسم الطبق">
+            <input type="number" id="newPrice" class="admin-input" placeholder="السعر (₪)">
             <select id="newCat" class="admin-input">
                 <option value="shawarma">الشاورما</option>
                 <option value="oriental">المأكولات الشرقية</option>
@@ -103,8 +110,19 @@
                 <option value="drinks">المشروبات</option>
             </select>
             <input type="text" id="newDesc" class="admin-input" placeholder="وصف الطبق">
-            <input type="text" id="newImg" class="admin-input" placeholder="رابط صورة الطبق (URL)">
-            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;" onclick="addNewItem()">إضافة الطبق الآن</button>
+            
+            <div style="margin-bottom: 8px;">
+                <label style="font-size: 0.85rem; color: var(--gold);">اختر صورة من الاستوديو:</label>
+                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="previewNewImage(event)">
+            </div>
+            
+            <div style="text-align: center; margin-bottom: 10px; background: #0a0c10; padding: 10px; border-radius: 8px;">
+                <div style="width: 100px; height: 100px; margin: auto; overflow: hidden; border-radius: 50%; border: 2px solid var(--gold); position: relative; background: #141824;">
+                    <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover;">
+                </div>
+            </div>
+
+            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;" onclick="addNewItem()">إضافة الطبق للقائمة</button>
         </div>
 
         <div class="sticky-nav" style="border-radius: 15px; margin-bottom: 20px;">
@@ -125,7 +143,6 @@
             </div>
         </div>
 
-        <!-- شبكة الأطباق -->
         <div class="menu-grid" id="menuGrid">
             <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">جاري تحميل الأصناف السحابية...</div>
         </div>
@@ -165,6 +182,20 @@
         let menuItems = [];
         let cart = {};
         let isAdminLoggedIn = false;
+        let newUploadedImageBase64 = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
+
+        // رفع وتعديل معاينة صورة الإضافة الجديدة
+        window.previewNewImage = function(event) {
+            const file = event.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    newUploadedImageBase64 = e.target.result;
+                    document.getElementById('newImgPreview').src = newUploadedImageBase64;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
 
         // تسجيل الدخول كأدمن
         window.checkAdminLogin = function() {
@@ -185,7 +216,7 @@
                 isAdminLoggedIn = true;
                 document.getElementById('addItemSection').style.display = 'block';
                 document.getElementById('lockIcon').className = "fa-solid fa-unlock-keyhole";
-                alert("تم تسجيل الدخول بنجاح! يمكنك الآن التعديل والحذف مباشرة من المنيو.");
+                alert("تم تسجيل الدخول بنجاح!");
                 renderMenu(menuItems);
             } else {
                 alert("كلمة المرور غير صحيحة!");
@@ -217,16 +248,36 @@
                 const card = document.createElement('div');
                 card.className = 'item-card';
 
-                // إذا الأدمن مسجل دخول بنعرض له خيارات التعديل والحذف أسفل الكارت
+                let zoomVal = item.zoom || 1;
+                let posXVal = item.posX || 0;
+                let posYVal = item.posY || 0;
+
                 let adminControlsHTML = '';
                 if (isAdminLoggedIn) {
                     adminControlsHTML = `
-                        <div style="background: #1a2234; padding: 10px; border-top: 1px solid var(--card-border); margin-top: 10px;">
+                        <div style="background: #1a2234; padding: 12px; border-top: 1px solid var(--card-border); margin-top: 10px;">
                             <input type="text" id="name_${item.id}" class="admin-input" value="${item.name}" placeholder="الاسم">
                             <input type="number" id="price_${item.id}" class="admin-input" value="${item.price}" placeholder="السعر">
-                            <input type="text" id="img_${item.id}" class="admin-input" value="${item.img || ''}" placeholder="رابط الصورة">
-                            <div class="admin-controls-box">
-                                <button class="btn-edit" onclick="updateItem('${item.id}')"><i class="fa-solid fa-save"></i> حفظ</button>
+                            
+                            <div style="margin-bottom: 8px;">
+                                <label style="font-size:0.75rem; color:var(--gold);">تغيير صورة الطبق من الاستوديو:</label>
+                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="updateItemImageFile(event, '${item.id}')">
+                            </div>
+
+                            <!-- أداة التحكم بتكبير وتحريك الصورة (يميناً، يساراً، فوق، تحت) -->
+                            <div class="img-adjuster">
+                                <label>تكبير/تصغير الصورة (Zoom): <span id="zoom_val_${item.id}">${zoomVal}</span></label>
+                                <input type="range" min="1" max="2.5" step="0.1" value="${zoomVal}" oninput="adjustImageProp('${item.id}', 'zoom', this.value)">
+                                
+                                <label style="margin-top: 5px;">تحريك أفقي (يمين/يسار):</label>
+                                <input type="range" min="-100" max="100" value="${posXVal}" oninput="adjustImageProp('${item.id}', 'x', this.value)">
+
+                                <label style="margin-top: 5px;">تحريك عمودي (فوق/تحت):</label>
+                                <input type="range" min="-100" max="100" value="${posYVal}" oninput="adjustImageProp('${item.id}', 'y', this.value)">
+                            </div>
+
+                            <div style="display: flex; gap: 5px; margin-top: 5px;">
+                                <button class="btn-edit" onclick="updateItemData('${item.id}')"><i class="fa-solid fa-save"></i> حفظ التعديلات</button>
                                 <button class="btn-delete" onclick="deleteItem('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>
                             </div>
                         </div>
@@ -235,7 +286,7 @@
 
                 card.innerHTML = `
                     <div class="item-img-container">
-                        <img src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${item.name}" class="item-img">
+                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${item.name}" class="item-img" style="transform: scale(${zoomVal}) translate(${posXVal}px, ${posYVal}px);">
                     </div>
                     <div class="item-content-body">
                         <div>
@@ -255,52 +306,95 @@
             });
         }
 
-        // تحديث صنف (اسم، سعر، صورة)
-        window.updateItem = async function(id) {
+        // تفاعلات السلايدر للتعديل الفوري لشكل الصورة
+        window.adjustImageProp = function(id, type, val) {
+            let imgEl = document.getElementById(`img_view_${id}`);
+            let item = menuItems.find(i => i.id === id);
+            if(!item) return;
+
+            if(type === 'zoom') item.zoom = Number(val);
+            if(type === 'x') item.posX = Number(val);
+            if(type === 'y') item.posY = Number(val);
+
+            imgEl.style.transform = `scale(${item.zoom || 1}) translate(${item.posX || 0}px, ${item.posY || 0}px)`;
+        }
+
+        // رفع صورة جديدة للكارت القائم من الاستوديو
+        let tempUpdatedImages = {};
+        window.updateItemImageFile = function(event, id) {
+            const file = event.target.files[0];
+            if(file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    tempUpdatedImages[id] = e.target.result;
+                    document.getElementById(`img_view_${id}`).src = e.target.result;
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // حفظ تعديلات الكارت (اسم، سعر، إحداثيات الصورة) في فايربيس
+        window.updateItemData = async function(id) {
             let newName = document.getElementById(`name_${id}`).value;
             let newPrice = document.getElementById(`price_${id}`).value;
-            let newImg = document.getElementById(`img_${id}`).value;
+            let item = menuItems.find(i => i.id === id);
+
+            let updatePayload = {
+                name: newName,
+                price: Number(newPrice),
+                zoom: item.zoom || 1,
+                posX: item.posX || 0,
+                posY: item.posY || 0
+            };
+
+            if(tempUpdatedImages[id]) {
+                updatePayload.img = tempUpdatedImages[id];
+            }
+
             try {
-                await updateDoc(doc(db, "menu", id), {
-                    name: newName,
-                    price: Number(newPrice),
-                    img: newImg
-                });
-                alert("تم تحديث الطبق بنجاح وتغييره عند جميع الزبائن!");
+                await updateDoc(doc(db, "menu", id), updatePayload);
+                alert("تم حفظ التعديلات وتحديثها لدى جميع الزبائن بنجاح!");
                 loadMenuFromCloud();
             } catch (err) {
-                alert("حدث خطأ أثناء التحديث");
+                alert("حدث خطأ أثناء الحفظ");
             }
         }
 
         // حذف صنف
         window.deleteItem = async function(id) {
-            if (!confirm("هل أنت متأكد من حذف هذا الطبق نهائياً؟")) return;
+            if (!confirm("هل أنت متأكد من حذف هذا الطبق؟")) return;
             try {
                 await deleteDoc(doc(db, "menu", id));
                 alert("تم الحذف بنجاح!");
                 loadMenuFromCloud();
             } catch (err) {
-                alert("حدث خطأ أثناء الحذف");
+                alert("خطأ أثناء الحذف");
             }
         }
 
-        // إضافة صنف جديد
+        // إضافة طبق جديد مع رفع الصورة من الاستوديو
         window.addNewItem = async function() {
             let name = document.getElementById('newName').value;
             let price = document.getElementById('newPrice').value;
             let cat = document.getElementById('newCat').value;
             let desc = document.getElementById('newDesc').value;
-            let img = document.getElementById('newImg').value || "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
             
             if (!name || !price) { alert("الرجاء إدخال اسم الطبق والسعر على الأقل!"); return; }
             try {
-                await addDoc(collection(db, "menu"), { name, price: Number(price), cat, desc, img });
+                await addDoc(collection(db, "menu"), {
+                    name,
+                    price: Number(price),
+                    cat,
+                    desc,
+                    img: newUploadedImageBase64,
+                    zoom: 1,
+                    posX: 0,
+                    posY: 0
+                });
                 alert("تمت إضافة الطبق بنجاح!");
                 document.getElementById('newName').value = '';
                 document.getElementById('newPrice').value = '';
                 document.getElementById('newDesc').value = '';
-                document.getElementById('newImg').value = '';
                 loadMenuFromCloud();
             } catch (err) {
                 alert("خطأ أثناء الإضافة");
