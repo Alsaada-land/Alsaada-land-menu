@@ -163,7 +163,7 @@
             background: var(--card-bg);
             border: 1px solid var(--card-border);
             border-radius: 16px;
-            padding: 16px;
+            overflow: hidden;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -176,11 +176,39 @@
             transform: translateY(-2px);
         }
 
+        /* تنسيق صورة الطبق */
+        .item-img-container {
+            width: 100%;
+            height: 150px;
+            overflow: hidden;
+            position: relative;
+            background: #1a2234;
+        }
+
+        .item-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .item-card:hover .item-img {
+            transform: scale(1.05);
+        }
+
+        .item-content-body {
+            padding: 14px 16px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+            justify-content: space-between;
+        }
+
         .item-header {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 6px;
         }
 
         .item-title {
@@ -338,49 +366,49 @@
     </div>
 
     <script>
-        // مصفوفة الأصناف الخاصة بالسعادة لاند
+        // مصفوفة الأصناف الخاصة بالسعادة لاند مع صور مطابقة
         const menuItems = [
             // المشاوي
-            { id: 1, name: "شيش طاووق فاخر", cat: "grills", price: 30, desc: "أسياخ دجاج متبلة بأشهى البهارات ومشوية على الفحم مع السيرفيس" },
-            { id: 2, name: "كباب لحم بلدي", cat: "grills", price: 38, desc: "لحم طازج مفروم مع التوابل الخاصة مشوي على الفحم" },
-            { id: 3, name: "مشاوي مشكل ملوكي", cat: "grills", price: 58, desc: "تشكيلة من الكباب، الشيش طاووق، وقطع اللحم المشوية مع المقبلات" },
-            { id: 4, name: "ريش خروف متبلة", cat: "grills", price: 60, desc: "قطع ريش غنم طرية مشوية بإتقان مع صوصات خاصة" },
+            { id: 1, name: "شيش طاووق فاخر", cat: "grills", price: 30, desc: "أسياخ دجاج متبلة بأشهى البهارات ومشوية على الفحم مع السيرفيس", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
+            { id: 2, name: "كباب لحم بلدي", cat: "grills", price: 38, desc: "لحم طازج مفروم مع التوابل الخاصة مشوي على الفحم", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&auto=format&fit=crop&q=60" },
+            { id: 3, name: "مشاوي مشكل ملوكي", cat: "grills", price: 58, desc: "تشكيلة من الكباب، الشيش طاووق، وقطع اللحم المشوية مع المقبلات", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60" },
+            { id: 4, name: "ريش خروف متبلة", cat: "grills", price: 60, desc: "قطع ريش غنم طرية مشوية بإتقان مع صوصات خاصة", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
 
             // المأكولات الشرقية
-            { id: 5, name: "فتة دجاج بالسمنة واللوز", cat: "oriental", price: 35, desc: "أرز مبهر مع الدجاج المحمر وخبز مقرمش ومكسرات" },
-            { id: 6, name: "أرز قدرة باللحم البلدي", cat: "oriental", price: 48, desc: "أرز بالبهارات الفاخرة مع الحمص وحبات الثوم وقطع اللحم الطازجة" },
-            { id: 7, name: "سنسار ولائم ملوكي", cat: "oriental", price: 99, desc: "وجبة عائلية فاخرة مشكلة من أشهى المأكولات الشرقية" },
+            { id: 5, name: "فتة دجاج بالسمنة واللوز", cat: "oriental", price: 35, desc: "أرز مبهر مع الدجاج المحمر وخبز مقرمش ومكسرات", img: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500&auto=format&fit=crop&q=60" },
+            { id: 6, name: "أرز قدرة باللحم البلدي", cat: "oriental", price: 48, desc: "أرز بالبهارات الفاخرة مع الحمص وحبات الثوم وقطع اللحم الطازجة", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=60" },
+            { id: 7, name: "سنسار ولائم ملوكي", cat: "oriental", price: 99, desc: "وجبة عائلية فاخرة مشكلة من أشهى المأكولات الشرقية", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" },
 
             // الشاورما
-            { id: 8, name: "ساندوتش شاورما دجاج (كبير)", cat: "shawarma", price: 12, desc: "شاورما دجاج مع المخلل والثومية بخبز الصاج أو الشراك" },
-            { id: 9, name: "ساندوتش شاورما لحم (كبير)", cat: "shawarma", price: 16, desc: "لحم عجل متبل بالخلطة التركية مع صوص الطحينة" },
-            { id: 10, name: "وجبة عربي شاورما دجاج دبل", cat: "shawarma", price: 26, desc: "مقطعة مع بطاطا مقلية وسرفيس وصوصات خاصة" },
-            { id: 11, name: "سدر شاورما عائلي", cat: "shawarma", price: 95, desc: "سدر عائلي منوع لحم ودجاج مع تشكيلة كاملة من الصوصات" },
+            { id: 8, name: "ساندوتش شاورما دجاج (كبير)", cat: "shawarma", price: 12, desc: "شاورما دجاج مع المخلل والثومية بخبز الصاج أو الشراك", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=60" },
+            { id: 9, name: "ساندوتش شاورما لحم (كبير)", cat: "shawarma", price: 16, desc: "لحم عجل متبل بالخلطة التركية مع صوص الطحينة", img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=60" },
+            { id: 10, name: "وجبة عربي شاورما دجاج دبل", cat: "shawarma", price: 26, desc: "مقطعة مع بطاطا مقلية وسرفيس وصوصات خاصة", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop&q=60" },
+            { id: 11, name: "سدر شاورما عائلي", cat: "shawarma", price: 95, desc: "سدر عائلي منوع لحم ودجاج مع تشكيلة كاملة من الصوصات", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500&auto=format&fit=crop&q=60" },
 
             // الغربي والبيتزا
-            { id: 12, name: "بيتزا سوبريم إيطالية", cat: "western", price: 32, desc: "جبنة موزاريلا فاخرة مع تشكيلة خضار ولحوم وصوص خاص" },
-            { id: 13, name: "برجر كلاسيك لحم آنجوس", cat: "western", price: 25, desc: "قطعة برجر مشوية مع الجبنة الذائبة وصوص البرجر الخاص" },
-            { id: 14, name: "وجبة كرسبي زنجر حار", cat: "western", price: 28, desc: "قطع دجاج مقرمشة مع البطاطا المتبلة والمايونيز الحار" },
-            { id: 15, name: "بيتزا فور تشيز حجم عائلي", cat: "western", price: 42, desc: "أربع أنواع من أشهى الأجبان الإيطالية الذائبة" },
+            { id: 12, name: "بيتزا سوبريم إيطالية", cat: "western", price: 32, desc: "جبنة موزاريلا فاخرة مع تشكيلة خضار ولحوم وصوص خاص", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
+            { id: 13, name: "برجر كلاسيك لحم آنجوس", cat: "western", price: 25, desc: "قطعة برجر مشوية مع الجبنة الذائبة وصوص البرجر الخاص", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" },
+            { id: 14, name: "وجبة كرسبي زنجر حار", cat: "western", price: 28, desc: "قطع دجاج مقرمشة مع البطاطا المتبلة والمايونيز الحار", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 15, name: "بيتزا فور تشيز حجم عائلي", cat: "western", price: 42, desc: "أربع أنواع من أشهى الأجبان الإيطالية الذائبة", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=60" },
 
             // المقبلات
-            { id: 16, name: "حمص باللحمة والمكسرات", cat: "appetizers", price: 18, desc: "حمص ناعم بزيت الزيتون البكر مع قطع اللحم والصنوبر" },
-            { id: 17, name: "متبل باذنجان مشوي", cat: "appetizers", price: 10, desc: "باذنجان مشوي على الفحم مع الطحينة وزيت الزيتون" },
-            { id: 18, name: "بطاطا حارة بالأعشاب", cat: "appetizers", price: 12, desc: "مكعبات بطاطا مقرمشة مع الثوم والكزبرة والفلفل الحار" },
+            { id: 16, name: "حمص باللحمة والمكسرات", cat: "appetizers", price: 18, desc: "حمص ناعم بزيت الزيتون البكر مع قطع اللحم والصنوبر", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 17, name: "متبل باذنجان مشوي", cat: "appetizers", price: 10, desc: "باذنجان مشوي على الفحم مع الطحينة وزيت الزيتون", img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500&auto=format&fit=crop&q=60" },
+            { id: 18, name: "بطاطا حارة بالأعشاب", cat: "appetizers", price: 12, desc: "مكعبات بطاطا مقرمشة مع الثوم والكزبرة والفلفل الحار", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=60" },
 
             // الحلويات
-            { id: 19, name: "كنافة عربية بالمكسرات", cat: "desserts", price: 18, desc: "كنافة بالسمن البلدي محشوة بأجود أنواع المكسرات" },
-            { id: 20, name: "كريب نوتيلا ملوكي مع الفواكه", cat: "desserts", price: 22, desc: "محشو بالنوتيلا الإيطالية وقطع الموز والفراولة" },
-            { id: 21, name: "قالب كيك مناسبات فاخر", cat: "desserts", price: 120, desc: "كيك محشو بالكريمة والشوكولاتة البلجيكية حسب الطلب" },
+            { id: 19, name: "كنافة عربية بالمكسرات", cat: "desserts", price: 18, desc: "كنافة بالسمن البلدي محشوة بأجود أنواع المكسرات", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&auto=format&fit=crop&q=60" },
+            { id: 20, name: "كريب نوتيلا ملوكي مع الفواكه", cat: "desserts", price: 22, desc: "محشو بالنوتيلا الإيطالية وقطع الموز والفراولة", img: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=500&auto=format&fit=crop&q=60" },
+            { id: 21, name: "قالب كيك مناسبات فاخر", cat: "desserts", price: 120, desc: "كيك محشو بالكريمة والشوكولاتة البلجيكية حسب الطلب", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
 
             // المشروبات
-            { id: 22, name: "موهيتو بلوبيري منعش", cat: "drinks", price: 14, desc: "سيرب توت أزرق مع أوراق النعناع والليمون والصودا" },
-            { id: 23, name: "عصير أفوكادو بالمكسرات والعسل", cat: "drinks", price: 16, desc: "أفوكادو طازج مع القشطة والمكسرات والعسل الطبيعي" },
-            { id: 24, name: "ميلك شيك لوتس / أوريو", cat: "drinks", price: 15, desc: "مخفوق الحليب والآيس كريم مع بسكويت اللوتس المقرمش" },
+            { id: 22, name: "موهيتو بلوبيري منعش", cat: "drinks", price: 14, desc: "سيرب توت أزرق مع أوراق النعناع والليمون والصودا", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" },
+            { id: 23, name: "عصير أفوكادو بالمكسرات والعسل", cat: "drinks", price: 16, desc: "أفوكادو طازج مع القشطة والمكسرات والعسل الطبيعي", img: "https://images.unsplash.com/photo-1622543925917-763c33d1a46b?w=500&auto=format&fit=crop&q=60" },
+            { id: 24, name: "ميلك شيك لوتس / أوريو", cat: "drinks", price: 15, desc: "مخفوق الحليب والآيس كريم مع بسكويت اللوتس المقرمش", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
 
             // الأراجيل والخدمات
-            { id: 25, name: "أرجيلة تفاحتين نخيل فاخر", cat: "shisha", price: 15, desc: "معسل أصلي مع خدمة تبديل الفحم المستمرة" },
-            { id: 26, name: "أرجيلة ليمون ونعناع ممتازة", cat: "shisha", price: 15, desc: "طعم منعش ومميز بجودة عالية" }
+            { id: 25, name: "أرجيلة تفاحتين نخيل فاخر", cat: "shisha", price: 15, desc: "معسل أصلي مع خدمة تبديل الفحم المستمرة", img: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=500&auto=format&fit=crop&q=60" },
+            { id: 26, name: "أرجيلة ليمون ونعناع ممتازة", cat: "shisha", price: 15, desc: "طعم منعش ومميز بجودة عالية", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&auto=format&fit=crop&q=60" }
         ];
 
         let cart = {};
@@ -399,17 +427,22 @@
                 const card = document.createElement('div');
                 card.className = 'item-card';
                 card.innerHTML = `
-                    <div>
-                        <div class="item-header">
-                            <div class="item-title">${item.name}</div>
-                        </div>
-                        <div class="item-desc">${item.desc}</div>
+                    <div class="item-img-container">
+                        <img src="${item.img}" alt="${item.name}" class="item-img" loading="lazy">
                     </div>
-                    <div class="item-footer">
-                        <div class="item-price">${item.price} <span>₪</span></div>
-                        <button class="add-btn" onclick="addToCart(${item.id})">
-                            <i class="fa-solid fa-plus"></i> إضافة
-                        </button>
+                    <div class="item-content-body">
+                        <div>
+                            <div class="item-header">
+                                <div class="item-title">${item.name}</div>
+                            </div>
+                            <div class="item-desc">${item.desc}</div>
+                        </div>
+                        <div class="item-footer">
+                            <div class="item-price">${item.price} <span>₪</span></div>
+                            <button class="add-btn" onclick="addToCart(${item.id})">
+                                <i class="fa-solid fa-plus"></i> إضافة
+                            </button>
+                        </div>
                     </div>
                 `;
                 grid.appendChild(card);
@@ -484,7 +517,7 @@
 
             message += `\n*الإجمالي: ${totalPrice} ₪*`;
 
-            const phone = "972590000000"; // يمكنك استبداله برقم المطعم المعتمد
+            const phone = "972590000000"; 
             const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
             window.open(url, '_blank');
         }
