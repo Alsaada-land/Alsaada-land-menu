@@ -20,25 +20,33 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
         body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 90px; }
+        
+        /* زر الأدمن */
+        .admin-trigger { position: absolute; top: 15px; left: 15px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 200; transition: 0.3s; }
+        .admin-trigger:hover { background: var(--gold); color: #0a0c10; }
+
         .hero { text-align: center; padding: 45px 20px 25px; background: radial-gradient(circle at top, #1e2638 0%, var(--bg-dark) 70%); border-bottom: 1px solid var(--card-border); position: relative; }
         .logo-badge { width: 75px; height: 75px; background: var(--gold-gradient); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; color: #0a0c10; box-shadow: 0 0 25px rgba(212, 175, 55, 0.35); margin-bottom: 12px; }
         .hero h1 { font-size: 1.8rem; font-weight: 900; background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin-bottom: 5px; }
         .hero p { color: var(--text-muted); font-size: 0.95rem; }
+        
         .sticky-nav { position: sticky; top: 0; background: rgba(10, 12, 16, 0.92); backdrop-filter: blur(12px); z-index: 100; padding: 12px 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
         .search-box { position: relative; margin-bottom: 10px; }
         .search-box input { width: 100%; padding: 10px 40px 10px 15px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 25px; color: #fff; font-size: 0.9rem; outline: none; transition: 0.3s; }
         .search-box input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
         .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--gold); }
+        
         .categories-scroll { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 4px; scrollbar-width: none; }
         .categories-scroll::-webkit-scrollbar { display: none; }
         .cat-btn { background: var(--card-bg); border: 1px solid var(--card-border); color: var(--text-muted); padding: 7px 16px; border-radius: 20px; font-size: 0.85rem; font-weight: 500; white-space: nowrap; cursor: pointer; transition: 0.3s; }
         .cat-btn.active { background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border-color: transparent; box-shadow: 0 2px 10px rgba(212, 175, 55, 0.3); }
+        
         .container { max-width: 900px; margin: auto; padding: 20px 15px; }
         .menu-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 15px; }
         .item-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
         .item-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
         .item-img-container { width: 100%; height: 150px; overflow: hidden; position: relative; background: #1a2234; }
-        .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+        .item-img { width: 100%; height: 100%; object-fit: cover; }
         .item-content-body { padding: 14px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
         .item-title { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
         .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; }
@@ -47,40 +55,77 @@
         .item-price span { font-size: 0.85rem; font-weight: 500; color: var(--gold-light); }
         .add-btn { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold-light); padding: 6px 14px; border-radius: 10px; font-size: 0.85rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; transition: 0.2s; }
         .add-btn:hover { background: var(--gold-gradient); color: #0a0c10; }
+
+        /* سلة الطلبات */
         .cart-bar { position: fixed; bottom: 15px; left: 15px; right: 15px; max-width: 500px; margin: auto; background: #1a2234; border: 1px solid var(--gold); border-radius: 20px; padding: 12px 20px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6); z-index: 1000; display: none; }
         .cart-details { display: flex; align-items: center; gap: 12px; }
         .cart-badge { background: var(--gold-gradient); color: #0a0c10; width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 900; }
         .cart-total { font-weight: 700; color: #fff; }
         .order-btn { background: #25d366; color: #fff; border: none; padding: 8px 18px; border-radius: 12px; font-size: 0.9rem; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 6px; }
+
+        /* شريط تحكم المدير العلوي (يظهر عند تسجيل الدخول) */
+        #adminTopBar { display: none; background: #1a2234; border-bottom: 2px solid var(--gold); padding: 15px; margin-bottom: 20px; border-radius: 12px; }
+        .admin-input { width: 100%; padding: 8px 12px; background: #0a0c10; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; font-size: 0.9rem; margin-bottom: 8px; outline: none; }
+        .admin-input:focus { border-color: var(--gold); }
+        .admin-controls-box { display: flex; gap: 5px; margin-top: 10px; }
+        .btn-edit { background: #25d366; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; flex: 1; }
+        .btn-delete { background: #e74c3c; color: #fff; border: none; padding: 5px 10px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; }
+        .add-item-card { background: var(--card-bg); border: 2px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; display: none; }
     </style>
 </head>
 <body>
 
     <header class="hero">
+        <div class="admin-trigger" onclick="checkAdminLogin()" title="لوحة التحكم">
+            <i class="fa-solid fa-lock" id="lockIcon"></i>
+        </div>
         <div class="logo-badge"><i class="fa-solid fa-crown"></i></div>
         <h1>مطعم السعادة لاند</h1>
         <p>تجربة طعام فاخرة تجمع الأصالة والمذاق الرفيع</p>
     </header>
 
-    <div class="sticky-nav">
-        <div class="search-box">
-            <i class="fa-solid fa-magnifying-glass"></i>
-            <input type="text" id="searchInput" placeholder="ابحث عن وجبتك المفضلة...">
-        </div>
-        <div class="categories-scroll" id="catContainer">
-            <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
-            <button class="cat-btn" onclick="filterCategory('shawarma', this)">الشاورما</button>
-            <button class="cat-btn" onclick="filterCategory('oriental', this)">المأكولات الشرقية</button>
-            <button class="cat-btn" onclick="filterCategory('western', this)">الوجبات الغربية</button>
-            <button class="cat-btn" onclick="filterCategory('bbq', this)">وجبات المشاوي</button>
-            <button class="cat-btn" onclick="filterCategory('appetizers', this)">المقبلات والصلصات</button>
-            <button class="cat-btn" onclick="filterCategory('pizza', this)">البيتزا والكالزوني</button>
-            <button class="cat-btn" onclick="filterCategory('desserts', this)">الحلويات والجاتوهات</button>
-            <button class="cat-btn" onclick="filterCategory('drinks', this)">المشروبات</button>
-        </div>
-    </div>
-
     <main class="container">
+        <!-- قسم إضافة طبق جديد (يظهر فقط للأدمن) -->
+        <div class="add-item-card" id="addItemSection">
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد للقائمة</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <input type="text" id="newName" class="admin-input" placeholder="اسم الطبق">
+                <input type="number" id="newPrice" class="admin-input" placeholder="السعر (₪)">
+            </div>
+            <select id="newCat" class="admin-input">
+                <option value="shawarma">الشاورما</option>
+                <option value="oriental">المأكولات الشرقية</option>
+                <option value="western">الوجبات الغربية</option>
+                <option value="bbq">وجبات المشاوي</option>
+                <option value="appetizers">المقبلات والصلصات</option>
+                <option value="pizza">بيتزا وكالزوني</option>
+                <option value="desserts">الحلويات</option>
+                <option value="drinks">المشروبات</option>
+            </select>
+            <input type="text" id="newDesc" class="admin-input" placeholder="وصف الطبق">
+            <input type="text" id="newImg" class="admin-input" placeholder="رابط صورة الطبق (URL)">
+            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;" onclick="addNewItem()">إضافة الطبق الآن</button>
+        </div>
+
+        <div class="sticky-nav" style="border-radius: 15px; margin-bottom: 20px;">
+            <div class="search-box">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                <input type="text" id="searchInput" placeholder="ابحث عن وجبتك المفضلة...">
+            </div>
+            <div class="categories-scroll">
+                <button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>
+                <button class="cat-btn" onclick="filterCategory('shawarma', this)">الشاورما</button>
+                <button class="cat-btn" onclick="filterCategory('oriental', this)">المأكولات الشرقية</button>
+                <button class="cat-btn" onclick="filterCategory('western', this)">الوجبات الغربية</button>
+                <button class="cat-btn" onclick="filterCategory('bbq', this)">وجبات المشاوي</button>
+                <button class="cat-btn" onclick="filterCategory('appetizers', this)">المقبلات والصلصات</button>
+                <button class="cat-btn" onclick="filterCategory('pizza', this)">بيتزا وكالزوني</button>
+                <button class="cat-btn" onclick="filterCategory('desserts', this)">الحلويات</button>
+                <button class="cat-btn" onclick="filterCategory('drinks', this)">المشروبات</button>
+            </div>
+        </div>
+
+        <!-- شبكة الأطباق -->
         <div class="menu-grid" id="menuGrid">
             <div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">جاري تحميل الأصناف السحابية...</div>
         </div>
@@ -99,9 +144,10 @@
         </button>
     </div>
 
+    <!-- جافاسكريبت وربط Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyA0P7gSQu2rl5ZWwcXPrHedsL2OfmY3Cdk",
@@ -117,38 +163,79 @@
         const db = getFirestore(app);
 
         let menuItems = [];
-        let currentCategory = 'all';
         let cart = {};
+        let isAdminLoggedIn = false;
+
+        // تسجيل الدخول كأدمن
+        window.checkAdminLogin = function() {
+            if (isAdminLoggedIn) {
+                if (confirm("هل تريد تسجيل الخروج من لوحة التحكم؟")) {
+                    isAdminLoggedIn = false;
+                    document.getElementById('addItemSection').style.display = 'none';
+                    document.getElementById('lockIcon').className = "fa-solid fa-lock";
+                    renderMenu(menuItems);
+                }
+                return;
+            }
+
+            let u = prompt("أدخل اسم المستخدم (Username):");
+            if (u !== "zeko") { if (u !== null) alert("اسم المستخدم خطأ!"); return; }
+            let p = prompt("أدخل كلمة المرور (Password):");
+            if (p === "zeko@2001") {
+                isAdminLoggedIn = true;
+                document.getElementById('addItemSection').style.display = 'block';
+                document.getElementById('lockIcon').className = "fa-solid fa-unlock-keyhole";
+                alert("تم تسجيل الدخول بنجاح! يمكنك الآن التعديل والحذف مباشرة من المنيو.");
+                renderMenu(menuItems);
+            } else {
+                alert("كلمة المرور غير صحيحة!");
+            }
+        }
 
         async function loadMenuFromCloud() {
             try {
                 const querySnapshot = await getDocs(collection(db, "menu"));
                 menuItems = [];
-                querySnapshot.forEach((doc) => {
-                    menuItems.push({ id: doc.id, ...doc.data() });
+                querySnapshot.forEach((docSnap) => {
+                    menuItems.push({ id: docSnap.id, ...docSnap.data() });
                 });
                 renderMenu(menuItems);
             } catch (error) {
-                console.error("Error loading menu: ", error);
-                document.getElementById('menuGrid').innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">خطأ في تحميل البيانات السحابية</div>';
+                console.error(error);
             }
         }
 
         window.renderMenu = function(items) {
             const grid = document.getElementById('menuGrid');
             grid.innerHTML = '';
-            
             if (items.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">لا توجد أصناف مطابقة</div>';
+                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">لا توجد أصناف متاحة حالياً</div>';
                 return;
             }
 
             items.forEach(item => {
                 const card = document.createElement('div');
                 card.className = 'item-card';
+
+                // إذا الأدمن مسجل دخول بنعرض له خيارات التعديل والحذف أسفل الكارت
+                let adminControlsHTML = '';
+                if (isAdminLoggedIn) {
+                    adminControlsHTML = `
+                        <div style="background: #1a2234; padding: 10px; border-top: 1px solid var(--card-border); margin-top: 10px;">
+                            <input type="text" id="name_${item.id}" class="admin-input" value="${item.name}" placeholder="الاسم">
+                            <input type="number" id="price_${item.id}" class="admin-input" value="${item.price}" placeholder="السعر">
+                            <input type="text" id="img_${item.id}" class="admin-input" value="${item.img || ''}" placeholder="رابط الصورة">
+                            <div class="admin-controls-box">
+                                <button class="btn-edit" onclick="updateItem('${item.id}')"><i class="fa-solid fa-save"></i> حفظ</button>
+                                <button class="btn-delete" onclick="deleteItem('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>
+                            </div>
+                        </div>
+                    `;
+                }
+
                 card.innerHTML = `
                     <div class="item-img-container">
-                        <img src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${item.name}" class="item-img" loading="lazy">
+                        <img src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${item.name}" class="item-img">
                     </div>
                     <div class="item-content-body">
                         <div>
@@ -161,80 +248,112 @@
                                 <i class="fa-solid fa-plus"></i> إضافة
                             </button>
                         </div>
+                        ${adminControlsHTML}
                     </div>
                 `;
                 grid.appendChild(card);
             });
         }
 
+        // تحديث صنف (اسم، سعر، صورة)
+        window.updateItem = async function(id) {
+            let newName = document.getElementById(`name_${id}`).value;
+            let newPrice = document.getElementById(`price_${id}`).value;
+            let newImg = document.getElementById(`img_${id}`).value;
+            try {
+                await updateDoc(doc(db, "menu", id), {
+                    name: newName,
+                    price: Number(newPrice),
+                    img: newImg
+                });
+                alert("تم تحديث الطبق بنجاح وتغييره عند جميع الزبائن!");
+                loadMenuFromCloud();
+            } catch (err) {
+                alert("حدث خطأ أثناء التحديث");
+            }
+        }
+
+        // حذف صنف
+        window.deleteItem = async function(id) {
+            if (!confirm("هل أنت متأكد من حذف هذا الطبق نهائياً؟")) return;
+            try {
+                await deleteDoc(doc(db, "menu", id));
+                alert("تم الحذف بنجاح!");
+                loadMenuFromCloud();
+            } catch (err) {
+                alert("حدث خطأ أثناء الحذف");
+            }
+        }
+
+        // إضافة صنف جديد
+        window.addNewItem = async function() {
+            let name = document.getElementById('newName').value;
+            let price = document.getElementById('newPrice').value;
+            let cat = document.getElementById('newCat').value;
+            let desc = document.getElementById('newDesc').value;
+            let img = document.getElementById('newImg').value || "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
+            
+            if (!name || !price) { alert("الرجاء إدخال اسم الطبق والسعر على الأقل!"); return; }
+            try {
+                await addDoc(collection(db, "menu"), { name, price: Number(price), cat, desc, img });
+                alert("تمت إضافة الطبق بنجاح!");
+                document.getElementById('newName').value = '';
+                document.getElementById('newPrice').value = '';
+                document.getElementById('newDesc').value = '';
+                document.getElementById('newImg').value = '';
+                loadMenuFromCloud();
+            } catch (err) {
+                alert("خطأ أثناء الإضافة");
+            }
+        }
+
         window.filterCategory = function(cat, btn) {
             document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
             btn.classList.add('active');
-            currentCategory = cat;
-            
             if (cat === 'all') {
                 renderMenu(menuItems);
             } else {
-                const filtered = menuItems.filter(item => item.cat === cat);
-                renderMenu(filtered);
+                renderMenu(menuItems.filter(item => item.cat === cat));
             }
         }
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
-            const filtered = menuItems.filter(item => 
-                (item.name && item.name.toLowerCase().includes(query)) || 
-                (item.desc && item.desc.toLowerCase().includes(query))
-            );
-            renderMenu(filtered);
+            renderMenu(menuItems.filter(item => item.name.toLowerCase().includes(query)));
         });
 
         window.addToCart = function(id) {
             const item = menuItems.find(i => i.id == id);
             if (!item) return;
-            if (cart[id]) {
-                cart[id].qty++;
-            } else {
-                cart[id] = { ...item, qty: 1 };
-            }
+            if (cart[id]) { cart[id].qty++; } else { cart[id] = { ...item, qty: 1 }; }
             updateCartUI();
         }
 
         function updateCartUI() {
             const cartBar = document.getElementById('cartBar');
-            const cartCount = document.getElementById('cartCount');
-            const cartTotal = document.getElementById('cartTotal');
-            
-            let totalQty = 0;
-            let totalPrice = 0;
-
+            let totalQty = 0, totalPrice = 0;
             Object.values(cart).forEach(item => {
                 totalQty += item.qty;
                 totalPrice += Number(item.price) * item.qty;
             });
-
             if (totalQty > 0) {
                 cartBar.style.display = 'flex';
-                cartCount.innerText = totalQty;
-                cartTotal.innerText = `${totalPrice} ₪`;
+                document.getElementById('cartCount').innerText = totalQty;
+                document.getElementById('cartTotal').innerText = `${totalPrice} ₪`;
             } else {
                 cartBar.style.display = 'none';
             }
         }
 
         window.sendWhatsAppOrder = function() {
-            let message = "مرحباً، أود تقديم طلب جديد من منيو السعادة لاند:\n\n";
+            let message = "مرحباً، أود طلب الأطباق التالية من السعادة لاند:\n\n";
             let totalPrice = 0;
-
             Object.values(cart).forEach(item => {
                 message += `- ${item.name} (${item.qty}x) = ${Number(item.price) * item.qty} ₪\n`;
                 totalPrice += Number(item.price) * item.qty;
             });
-
-            message += `\n*الإجمالي: ${totalPrice} ₪*`;
-            const phone = "972590000000"; 
-            const url = `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+            message += `\n*الإجمالي الكلي: ${totalPrice} ₪*`;
+            window.open(`https://wa.me/972590000000?text=${encodeURIComponent(message)}`, '_blank');
         }
 
         loadMenuFromCloud();
