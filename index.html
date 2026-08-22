@@ -176,7 +176,6 @@
             transform: translateY(-2px);
         }
 
-        /* تنسيق صورة الطبق */
         .item-img-container {
             width: 100%;
             height: 150px;
@@ -336,14 +335,14 @@
         </div>
         <div class="categories-scroll" id="catContainer">
             <button class="cat-btn active" onclick="filterCategory('all')">الكل</button>
-            <button class="cat-btn" onclick="filterCategory('grills')">المشاوي</button>
-            <button class="cat-btn" onclick="filterCategory('oriental')">المأكولات الشرقية</button>
             <button class="cat-btn" onclick="filterCategory('shawarma')">الشاورما</button>
-            <button class="cat-btn" onclick="filterCategory('western')">الغربي والبيتزا</button>
-            <button class="cat-btn" onclick="filterCategory('appetizers')">المقبلات</button>
-            <button class="cat-btn" onclick="filterCategory('desserts')">الحلويات والجاتوه</button>
-            <button class="cat-btn" onclick="filterCategory('drinks')">المشروبات والكوكتيل</button>
-            <button class="cat-btn" onclick="filterCategory('shisha')">الأراجيل والخدمات</button>
+            <button class="cat-btn" onclick="filterCategory('oriental')">المأكولات الشرقية</button>
+            <button class="cat-btn" onclick="filterCategory('western')">الوجبات الغربية</button>
+            <button class="cat-btn" onclick="filterCategory('bbq')">وجبات المشاوي</button>
+            <button class="cat-btn" onclick="filterCategory('appetizers')">المقبلات والصلصات</button>
+            <button class="cat-btn" onclick="filterCategory('pizza')">البيتزا والكالزوني</button>
+            <button class="cat-btn" onclick="filterCategory('desserts')">الحلويات والجاتوهات</button>
+            <button class="cat-btn" onclick="filterCategory('drinks')">المشروبات</button>
         </div>
     </div>
 
@@ -366,49 +365,145 @@
     </div>
 
     <script>
-        // مصفوفة الأصناف الخاصة بالسعادة لاند مع صور مطابقة
+        // الأصناف مطابقة لصور المنيو الرسمي بدقة
         const menuItems = [
-            // المشاوي
-            { id: 1, name: "شيش طاووق فاخر", cat: "grills", price: 30, desc: "أسياخ دجاج متبلة بأشهى البهارات ومشوية على الفحم مع السيرفيس", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
-            { id: 2, name: "كباب لحم بلدي", cat: "grills", price: 38, desc: "لحم طازج مفروم مع التوابل الخاصة مشوي على الفحم", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&auto=format&fit=crop&q=60" },
-            { id: 3, name: "مشاوي مشكل ملوكي", cat: "grills", price: 58, desc: "تشكيلة من الكباب، الشيش طاووق، وقطع اللحم المشوية مع المقبلات", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60" },
-            { id: 4, name: "ريش خروف متبلة", cat: "grills", price: 60, desc: "قطع ريش غنم طرية مشوية بإتقان مع صوصات خاصة", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
+            // قسم الشاورما
+            { id: 1, name: "بوكس السعادة", cat: "shawarma", price: 50, desc: "بوكس الشاورما الملكي المتكامل", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=60" },
+            { id: 2, name: "فرشوحة شاروما (عادي / دبل / دبل دبل)", cat: "shawarma", price: 18, desc: "فرشوحة شاورما طازجة (عادي: 18 / دبل: 20 / دبل دبل: 25)", img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=60" },
+            { id: 3, name: "سوري شاروما", cat: "shawarma", price: 32, desc: "سندوتش شاورما على الطريقة السورية", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop&q=60" },
+            { id: 4, name: "فرشوحة السعادة", cat: "shawarma", price: 25, desc: "فرشوحة خاصة بخلطة السعادة المميزة", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=60" },
+            { id: 5, name: "صفيحة السعادة", cat: "shawarma", price: 37, desc: "صفيحة شاورما فاخرة", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500&auto=format&fit=crop&q=60" },
+            { id: 6, name: "بيتا شاروما", cat: "shawarma", price: 10, desc: "سندوتش بيتا شاورما خفيف", img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=60" },
+            { id: 7, name: "بيتا السعادة", cat: "shawarma", price: 13, desc: "سندوتش بيتا السعادة الخاص", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop&q=60" },
+            { id: 8, name: "شاورما صاروخ", cat: "shawarma", price: 33, desc: "سندوتش شاورما صاروخ بحجم كبير", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=60" },
+            { id: 9, name: "وجبة شاورما لشخص", cat: "shawarma", price: 40, desc: "وجبة شاورما متكاملة فردية", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500&auto=format&fit=crop&q=60" },
+            { id: 10, name: "وجبة شاورما لشخصين", cat: "shawarma", price: 75, desc: "وجبة شاورما عائلية لشخصين", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop&q=60" },
+            { id: 11, name: "شاورما أساور", cat: "shawarma", price: 37, desc: "شاورما مقطعة بشكل أساور مميزة", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=60" },
+            { id: 12, name: "شاورما نابلس", cat: "shawarma", price: 40, desc: "شاورما على الطريقة النابلسية العريقة", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500&auto=format&fit=crop&q=60" },
+            { id: 13, name: "كيلو الشاورما", cat: "shawarma", price: 100, desc: "كيلو شاورما صافي مع التغميسات", img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=60" },
 
-            // المأكولات الشرقية
-            { id: 5, name: "فتة دجاج بالسمنة واللوز", cat: "oriental", price: 35, desc: "أرز مبهر مع الدجاج المحمر وخبز مقرمش ومكسرات", img: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500&auto=format&fit=crop&q=60" },
-            { id: 6, name: "أرز قدرة باللحم البلدي", cat: "oriental", price: 48, desc: "أرز بالبهارات الفاخرة مع الحمص وحبات الثوم وقطع اللحم الطازجة", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=60" },
-            { id: 7, name: "سنسار ولائم ملوكي", cat: "oriental", price: 99, desc: "وجبة عائلية فاخرة مشكلة من أشهى المأكولات الشرقية", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" },
+            // قسم المأكولات الشرقية
+            { id: 14, name: "فتة غزاوية (نصف دجاجة)", cat: "oriental", price: 45, desc: "فتة غزاوية أصلية بنصف دجاجة", img: "https://images.unsplash.com/photo-1633964913295-ceb43826e7c9?w=500&auto=format&fit=crop&q=60" },
+            { id: 15, name: "فتة غزاوية (دجاجة كاملة)", cat: "oriental", price: 90, desc: "فتة غزاوية عائلية بدجاجة كاملة", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" },
+            { id: 16, name: "فتة غزاوية (نصف كيلو لحم عجل)", cat: "oriental", price: 49, desc: "فتة غزاوية بلحم العجل الطازج", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=60" },
+            { id: 17, name: "فتة غزاوية (كيلو لحم عجل)", cat: "oriental", price: 99, desc: "فتة غزاوية ملوكية بكيلو لحم عجل", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" },
+            { id: 18, name: "أرز قدرة/مبهر/كبسة/أصفر (نصف دجاجة)", cat: "oriental", price: 42, desc: "اختيارك من الأرز مع نصف دجاجة", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=60" },
+            { id: 19, name: "أرز قدرة/مبهر/كبسة/أصفر (دجاجة كاملة)", cat: "oriental", price: 85, desc: "اختيارك من الأرز مع دجاجة كاملة", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" },
+            { id: 20, name: "أرز قدرة/مبهر/كبسة/أصفر (نصف كيلو لحم)", cat: "oriental", price: 47, desc: "أرز مع نصف كيلو لحم عجل", img: "https://images.unsplash.com/photo-1563379091339-03b21ab4a4f8?w=500&auto=format&fit=crop&q=60" },
+            { id: 21, name: "أرز قدرة/مبهر/كبسة/أصفر (كيلو لحم)", cat: "oriental", price: 95, desc: "أرز مع كيلو لحم عجل", img: "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=500&auto=format&fit=crop&q=60" },
+            { id: 22, name: "دجاج شواية (نصف دجاجة)", cat: "oriental", price: 35, desc: "نصف دجاجة شواية مع السرفيس", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500&auto=format&fit=crop&q=60" },
+            { id: 23, name: "دجاج شواية (دجاجة كاملة)", cat: "oriental", price: 70, desc: "دجاجة كاملة شواية مع السرفيس", img: "https://images.unsplash.com/photo-1598515214211-89d3c73ae83b?w=500&auto=format&fit=crop&q=60" },
 
-            // الشاورما
-            { id: 8, name: "ساندوتش شاورما دجاج (كبير)", cat: "shawarma", price: 12, desc: "شاورما دجاج مع المخلل والثومية بخبز الصاج أو الشراك", img: "https://images.unsplash.com/photo-1626777552726-4a6b54c97e46?w=500&auto=format&fit=crop&q=60" },
-            { id: 9, name: "ساندوتش شاورما لحم (كبير)", cat: "shawarma", price: 16, desc: "لحم عجل متبل بالخلطة التركية مع صوص الطحينة", img: "https://images.unsplash.com/photo-1529692236671-f1f6cf9683ba?w=500&auto=format&fit=crop&q=60" },
-            { id: 10, name: "وجبة عربي شاورما دجاج دبل", cat: "shawarma", price: 26, desc: "مقطعة مع بطاطا مقلية وسرفيس وصوصات خاصة", img: "https://images.unsplash.com/photo-1625813506062-0aeb1d7a094b?w=500&auto=format&fit=crop&q=60" },
-            { id: 11, name: "سدر شاورما عائلي", cat: "shawarma", price: 95, desc: "سدر عائلي منوع لحم ودجاج مع تشكيلة كاملة من الصوصات", img: "https://images.unsplash.com/photo-1541544741938-0af808871cc0?w=500&auto=format&fit=crop&q=60" },
+            // قسم الوجبات الغربية والساندويتشات الغربية
+            { id: 24, name: "اسكالوبيني بارميجانا", cat: "western", price: 58, desc: "وجبة اسكالوبيني بارميجانا فاخرة", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" },
+            { id: 25, name: "كوردن بلو", cat: "western", price: 58, desc: "صدر دجاج محشو بالجبن واللحم المدخن", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 26, name: "ستيك فيليه عجل الفريدو", cat: "western", price: 58, desc: "ستيك عجل طري مع صوص الفريدو الغني", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
+            { id: 27, name: "ستيك فيليه بايت", cat: "western", price: 75, desc: "قطع ستيك فيليه ممتازة", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
+            { id: 28, name: "السعادة راب", cat: "western", price: 37, desc: "ساندويتش راب بخلطة السعادة", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=60" },
+            { id: 29, name: "فيلييه دجاج تركي", cat: "western", price: 35, desc: "ساندويتش فيليه دجاج تركي", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 30, name: "كرسبي", cat: "western", price: 35, desc: "ساندويتش دجاج كرسبي مقرمش", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 31, name: "تشكن الاكينج", cat: "western", price: 35, desc: "ساندويتش تشكن الاكينج المميز", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 32, name: "صفيحة مسحب مكسيكي", cat: "western", price: 37, desc: "صفيحة مسحب بتبليلة مكسيكية حارة قليلاً", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" },
+            { id: 33, name: "دجاج (بالجبنة - بالكاري - بالذرة)", cat: "western", price: 33, desc: "ساندويتش دجاج بنكهتك المفضلة", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 34, name: "تشكن بيتزا", cat: "western", price: 35, desc: "ساندويتش بنكهة البيتزا والدجاج", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
+            { id: 35, name: "برجر دجاج", cat: "western", price: 27, desc: "برجر دجاج كلاسيك طازج", img: "https://images.unsplash.com/photo-1606755962773-d324e0a13086?w=500&auto=format&fit=crop&q=60" },
+            { id: 36, name: "برجر لحمة", cat: "western", price: 34, desc: "برجر لحم مشوي على الفحم", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" },
+            { id: 37, name: "بيف ستروجانوف", cat: "western", price: 47, desc: "ساندويتش بيف ستروجانوف غني بالصوص", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=60" },
+            { id: 38, name: "بيف غزة الحار", cat: "western", price: 47, desc: "ساندويتش بيف حار على الطريقة الغزاوية", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=60" },
+            { id: 39, name: "بيف امبسادور", cat: "western", price: 47, desc: "ساندويتش بيف امبسادور الملكي", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=60" },
+            { id: 40, name: "ساندويتش بابروش", cat: "western", price: 35, desc: "ساندويتش بابروش الشهير", img: "https://images.unsplash.com/photo-1528735602780-2552fd46c7af?w=500&auto=format&fit=crop&q=60" },
+            { id: 41, name: "برجر شمبينيون", cat: "western", price: 37, desc: "برجر مع صوص المشروم (الشمبينيون) والجبن", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" },
 
-            // الغربي والبيتزا
-            { id: 12, name: "بيتزا سوبريم إيطالية", cat: "western", price: 32, desc: "جبنة موزاريلا فاخرة مع تشكيلة خضار ولحوم وصوص خاص", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
-            { id: 13, name: "برجر كلاسيك لحم آنجوس", cat: "western", price: 25, desc: "قطعة برجر مشوية مع الجبنة الذائبة وصوص البرجر الخاص", img: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=500&auto=format&fit=crop&q=60" },
-            { id: 14, name: "وجبة كرسبي زنجر حار", cat: "western", price: 28, desc: "قطع دجاج مقرمشة مع البطاطا المتبلة والمايونيز الحار", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
-            { id: 15, name: "بيتزا فور تشيز حجم عائلي", cat: "western", price: 42, desc: "أربع أنواع من أشهى الأجبان الإيطالية الذائبة", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=60" },
+            // قسم وجبات المشاوي (جميع الوجبات تقدم مع خبز وسلطات وبطاطا أو أرز)
+            { id: 42, name: "وجبة مشاوي السعادة", cat: "bbq", price: 45, desc: "وجبة مشاوي مشكلة مع كافة المرافقات", img: "https://images.unsplash.com/photo-1544025162-d76694265947?w=500&auto=format&fit=crop&q=60" },
+            { id: 43, name: "وجبة شقف فيليه عجل", cat: "bbq", price: 55, desc: "قطع فيليه عجل طرية مشوية على الفحم", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
+            { id: 44, name: "وجبة مسحب فخذ دجاج", cat: "bbq", price: 39, desc: "فخذ دجاج مسحب ومشوي عالفحم", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
+            { id: 45, name: "وجبة كباب عجل", cat: "bbq", price: 28, desc: "أسياخ كباب عجل بلدي طازج", img: "https://images.unsplash.com/photo-1529193591184-b1d58069ecdd?w=500&auto=format&fit=crop&q=60" },
+            { id: 46, name: "نصف دجاجة على الفحم", cat: "bbq", price: 55, desc: "نصف دجاجة مشوية على الفحم مع السرفيس", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
+            { id: 47, name: "وجبة فيليه عجل تركي", cat: "bbq", price: 60, desc: "فليه عجل تركي مشوي", img: "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=500&auto=format&fit=crop&q=60" },
+            { id: 48, name: "وجبة فيليه دجاج", cat: "bbq", price: 43, desc: "فليه دجاج مشوي متبل بإتقان", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
+            { id: 49, name: "وجبة شيش طاووق", cat: "bbq", price: 39, desc: "أسياخ شيش طاووق دجاج مشوية", img: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500&auto=format&fit=crop&q=60" },
 
-            // المقبلات
-            { id: 16, name: "حمص باللحمة والمكسرات", cat: "appetizers", price: 18, desc: "حمص ناعم بزيت الزيتون البكر مع قطع اللحم والصنوبر", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
-            { id: 17, name: "متبل باذنجان مشوي", cat: "appetizers", price: 10, desc: "باذنجان مشوي على الفحم مع الطحينة وزيت الزيتون", img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500&auto=format&fit=crop&q=60" },
-            { id: 18, name: "بطاطا حارة بالأعشاب", cat: "appetizers", price: 12, desc: "مكعبات بطاطا مقرمشة مع الثوم والكزبرة والفلفل الحار", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=60" },
+            // قسم المقبلات والصلصات
+            { id: 50, name: "تبولة", cat: "appetizers", price: 15, desc: "تبولة لبنانية تقليدية بالبقدونس والبرغل", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 51, name: "خيار بلبن وعين الجمل", cat: "appetizers", price: 15, desc: "لبن طازج مع خيار وجوز مقرمش", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 52, name: "متبل باذنجان", cat: "appetizers", price: 10, desc: "باذنجان مشوي بالطحينة", img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500&auto=format&fit=crop&q=60" },
+            { id: 53, name: "سلطة خضار", cat: "appetizers", price: 10, desc: "خضار طازجة منوعة", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 54, name: "حمص", cat: "appetizers", price: 8, desc: "حمص ناعم بزيت الزيتون", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 55, name: "ملفوف أحمر بالمايونيز", cat: "appetizers", price: 10, desc: "سلطة ملفوف أحمر بصوص المايونيز", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 56, name: "كول سلو", cat: "appetizers", price: 10, desc: "سلطة الملفوف والجزر الأمريكية", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 57, name: "ذرة بالمايونيز", cat: "appetizers", price: 10, desc: "حبوب الذرة الحلوة مع المايونيز", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 58, name: "سلطة تركية", cat: "appetizers", price: 8, desc: "سلطة تركية حارة ومتبلة", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 59, name: "بقدونسية", cat: "appetizers", price: 8, desc: "بقدونسية بالطحينة", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 60, name: "راهب الجبل", cat: "appetizers", price: 10, desc: "مقبلات الراهب الشهيرة", img: "https://images.unsplash.com/photo-1577805947697-89e18249d767?w=500&auto=format&fit=crop&q=60" },
+            { id: 61, name: "سلطة السعادة (منفوشة)", cat: "appetizers", price: 35, desc: "خس، بندورة، ذرة، فلفل حلو، ملفوف أحمر، كرات دجاج بانيه، صوص، جبنة ايميك", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 62, name: "سلطة تشكن سيزر", cat: "appetizers", price: 30, desc: "خس، خبز محمص، جبنة، ستيك مشوي، صوص السيزر", img: "https://images.unsplash.com/photo-1550304943-4f24f54ddde9?w=500&auto=format&fit=crop&q=60" },
+            { id: 63, name: "سلطة يونانية", cat: "appetizers", price: 32, desc: "سلطة يونانية بالجبنة الفيتا والزيتون", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 64, name: "صوصات (السعادة، بيكانتي، رانش، تومية)", cat: "appetizers", price: 5, desc: "تشكيلة صوصات خاصة إضافية", img: "https://images.unsplash.com/photo-1472851294608-062f824d29cc?w=500&auto=format&fit=crop&q=60" },
+            { id: 65, name: "ورق عنب (مقبلات ساخنة)", cat: "appetizers", price: 20, desc: "ورق عنب محشي على الأصول", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 66, name: "كُبة (عدد 5)", cat: "appetizers", price: 25, desc: "كبة مقلية مقرمشة (5 حبات)", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 67, name: "مسخن رول (عدد 5)", cat: "appetizers", price: 20, desc: "رولات المسخن الفلسطيني بالدجاج والسماق (5 حبات)", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 68, name: "أصابع دجاج (عدد 5)", cat: "appetizers", price: 20, desc: "أصابع دجاج مقرمشة (5 حبات)", img: "https://images.unsplash.com/photo-1626645738196-c2a7c87a8f58?w=500&auto=format&fit=crop&q=60" },
+            { id: 69, name: "سبرينج رول (عدد 4)", cat: "appetizers", price: 16, desc: "سبرينج رول مقرمش (4 حبات)", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
+            { id: 70, name: "سلطة ساخنة", cat: "appetizers", type: "hot", price: 15, desc: "سلطة ساخنة مميزة", img: "https://images.unsplash.com/photo-1540420773420-3366772f4999?w=500&auto=format&fit=crop&q=60" },
+            { id: 71, name: "بطاطا مقلية", cat: "appetizers", price: 10, desc: "بطاطا مقلية ذهبية مقرمشة", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=60" },
+            { id: 72, name: "خبز بالثوم", cat: "appetizers", price: 10, desc: "خبز محمص بالثوم والجبن", img: "https://images.unsplash.com/photo-1573080496219-bb080dd4f877?w=500&auto=format&fit=crop&q=60" },
+            { id: 73, name: "مقبلات شامية", cat: "appetizers", price: 45, desc: "تشكيلة مققبلات شامية منوعة وفاخرة", img: "https://images.unsplash.com/photo-1541529086526-db283c563270?w=500&auto=format&fit=crop&q=60" },
 
-            // الحلويات
-            { id: 19, name: "كنافة عربية بالمكسرات", cat: "desserts", price: 18, desc: "كنافة بالسمن البلدي محشوة بأجود أنواع المكسرات", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&auto=format&fit=crop&q=60" },
-            { id: 20, name: "كريب نوتيلا ملوكي مع الفواكه", cat: "desserts", price: 22, desc: "محشو بالنوتيلا الإيطالية وقطع الموز والفراولة", img: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=500&auto=format&fit=crop&q=60" },
-            { id: 21, name: "قالب كيك مناسبات فاخر", cat: "desserts", price: 120, desc: "كيك محشو بالكريمة والشوكولاتة البلجيكية حسب الطلب", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
+            // قسم البيتزا والكالزوني
+            { id: 74, name: "بيتزا السعادة", cat: "pizza", price: 35, desc: "بيتزا السعادة الخاصة بخلطتنا الفريدة", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
+            { id: 75, name: "بيتزا بالخضار", cat: "pizza", price: 27, desc: "بيتزا خضار طازجة ومشروبات", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=60" },
+            { id: 76, name: "بيتزا نقانق", cat: "pizza", price: 29, desc: "بيتزا بنقانق اللحم الشهية", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
+            { id: 77, name: "بيتزا مارجريتا", cat: "pizza", price: 25, desc: "بيتزا الجبن الكلاسيكية", img: "https://images.unsplash.com/photo-1574071318508-1cdbab80d002?w=500&auto=format&fit=crop&q=60" },
+            { id: 78, name: "بيتزا بالذرة", cat: "pizza", price: 28, desc: "بيتزا بالذرة الحلوة والموزاريلا", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
+            { id: 79, name: "كالزوني السعادة", cat: "pizza", price: 35, desc: "فطيرة إيطالية محشوة ومخبوزة بإتقان", img: "https://images.unsplash.com/photo-1513104890138-7c749659a591?w=500&auto=format&fit=crop&q=60" },
 
-            // المشروبات
-            { id: 22, name: "موهيتو بلوبيري منعش", cat: "drinks", price: 14, desc: "سيرب توت أزرق مع أوراق النعناع والليمون والصودا", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" },
-            { id: 23, name: "عصير أفوكادو بالمكسرات والعسل", cat: "drinks", price: 16, desc: "أفوكادو طازج مع القشطة والمكسرات والعسل الطبيعي", img: "https://images.unsplash.com/photo-1622543925917-763c33d1a46b?w=500&auto=format&fit=crop&q=60" },
-            { id: 24, name: "ميلك شيك لوتس / أوريو", cat: "drinks", price: 15, desc: "مخفوق الحليب والآيس كريم مع بسكويت اللوتس المقرمش", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
+            // قسم الحلويات والجاتوهات
+            { id: 80, name: "جلاكسي كيك مع أيس كريم فانيلا", cat: "desserts", price: 27, desc: "كيك شوكولاتة جلاكسي غني مع أيس كريم", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
+            { id: 81, name: "حلا (نوتيلا - لوتس - كيندر - بلوبيري)", cat: "desserts", price: 25, desc: "حلا مختار بنكهتك المفضلة", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&auto=format&fit=crop&q=60" },
+            { id: 82, name: "دبي السعادة مع أيس كريم فانيلا", cat: "desserts", price: 35, desc: "حلا دبي الشوكولاتة الشهير مع الآيس كريم", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
+            { id: 83, name: "تيراميسو كلاسيك", cat: "desserts", price: 30, desc: "تيراميسو إيطالي أصيل", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=500&auto=format&fit=crop&q=60" },
+            { id: 84, name: "سان سباستيان", cat: "desserts", price: 32, desc: "تشيز كيك سان سباستيان الكريمي", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500&auto=format&fit=crop&q=60" },
+            { id: 85, name: "كرنشي كيك (نوتيلا / لوتس)", cat: "desserts", price: 33, desc: "كرنشي كيك مقرمش ولذيذ", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
+            { id: 86, name: "تيراميسو فيوجن (هيل وزعفران / فستق حلبي)", cat: "desserts", price: 33, desc: "تيراميسو بتنويعات شرقية فاخرة", img: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?w=500&auto=format&fit=crop&q=60" },
+            { id: 87, name: "براونيز (طحينية / فستق حلبي)", cat: "desserts", price: 25, desc: "براونيز شوكولاتة غنية", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
+            { id: 88, name: "تشيز كيك فيوجن (كنافة مع فستق حلبي)", cat: "desserts", price: 27, desc: "تشيز كيك ممزوج بالكنافة والفستق", img: "https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=500&auto=format&fit=crop&q=60" },
+            { id: 89, name: "تشوروز (نوتيلا - فستق حلبي)", cat: "desserts", price: 28, desc: "أصابع التشوروز المقرمشة", img: "https://images.unsplash.com/photo-1624371414470-36d354a44f7d?w=500&auto=format&fit=crop&q=60" },
+            { id: 90, name: "كريب (نوتيلا - كيندر - بستانشيو - لوتس - مكس)", cat: "desserts", price: 25, desc: "كريب شوكولاتة فاخر", img: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=500&auto=format&fit=crop&q=60" },
+            { id: 91, name: "كريب كيك", cat: "desserts", price: 28, desc: "طبقات كريب كيك ناعمة", img: "https://images.unsplash.com/photo-1519671482749-fd09be7ccebf?w=500&auto=format&fit=crop&q=60" },
+            { id: 92, name: "لقيمات (نوتيلا - كيندر - بستانشيو - لوتس - مكس)", cat: "desserts", price: 30, desc: "لقيمات ذهبية مقرمشة مع الصوصات", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&auto=format&fit=crop&q=60" },
+            { id: 93, name: "كنافة نوتيلا", cat: "desserts", price: 27, desc: "كنافة شرقية محشوة بالنوتيلا", img: "https://images.unsplash.com/photo-1579372786545-d24232daf58c?w=500&auto=format&fit=crop&q=60" },
+            { id: 94, name: "بلاك فورست", cat: "desserts", price: 18, desc: "كيكة الغابة السوداء الشهيرة", img: "https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&auto=format&fit=crop&q=60" },
 
-            // الأراجيل والخدمات
-            { id: 25, name: "أرجيلة تفاحتين نخيل فاخر", cat: "shisha", price: 15, desc: "معسل أصلي مع خدمة تبديل الفحم المستمرة", img: "https://images.unsplash.com/photo-1527661591475-527312dd65f5?w=500&auto=format&fit=crop&q=60" },
-            { id: 26, name: "أرجيلة ليمون ونعناع ممتازة", cat: "shisha", price: 15, desc: "طعم منعش ومميز بجودة عالية", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?w=500&auto=format&fit=crop&q=60" }
+            // قسم المشروبات والعصائر
+            { id: 95, name: "قهوة تركية (دبل 8 / سادة 5)", cat: "drinks", price: 8, desc: "قهوة تركية أصيلة", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&auto=format&fit=crop&q=60" },
+            { id: 96, name: "اسبريسو (دبل 10 / سادة 6)", cat: "drinks", price: 10, desc: "إسبريسو إيطالي مركز", img: "https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=500&auto=format&fit=crop&q=60" },
+            { id: 97, name: "كافيه لاتيه", cat: "drinks", price: 12, desc: "قهوة لاتيه بالحليب الكريمي", img: "https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=500&auto=format&fit=crop&q=60" },
+            { id: 98, name: "كافيه شوكليت", cat: "drinks", price: 17, desc: "مشروب الشوكولاتة الساخنة الغني", img: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=500&auto=format&fit=crop&q=60" },
+            { id: 99, name: "كابتشينو", cat: "drinks", price: 12, desc: "كابتشينو برغوة الحليب الغنية", img: "https://images.unsplash.com/photo-1572442388796-11668a67e53d?w=500&auto=format&fit=crop&q=60" },
+            { id: 100, name: "نسكافيه", cat: "drinks", price: 10, desc: "نسكافيه بالحليب الدافئ", img: "https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=500&auto=format&fit=crop&q=60" },
+            { id: 101, name: "شاي", cat: "drinks", price: 5, desc: "شاي أحمر منعش", img: "https://images.unsplash.com/photo-1576092768241-dec231879fc3?w=500&auto=format&fit=crop&q=60" },
+            { id: 102, name: "هوت سيدر فيوجن", cat: "drinks", price: 15, desc: "مشروب التفاح الساخن الفاخر", img: "https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=500&auto=format&fit=crop&q=60" },
+            { id: 103, name: "استوائي", cat: "drinks", price: 17, desc: "عصير استوائي فريش", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" },
+            { id: 104, name: "مانجو", cat: "drinks", price: 15, desc: "عصير مانجو طبيعي طازج", img: "https://images.unsplash.com/photo-1622543925917-763c33d1a46b?w=500&auto=format&fit=crop&q=60" },
+            { id: 105, name: "فراولة", cat: "drinks", price: 15, desc: "عصير فراولة طازج", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" },
+            { id: 106, name: "ليمون ونعناع", cat: "drinks", price: 15, desc: "عصير ليمون منعش بأوراق النعناع", img: "https://images.unsplash.com/photo-1513558161293-cdaf765ed2fd?w=500&auto=format&fit=crop&q=60" },
+            { id: 107, name: "فاكهة الموسم", cat: "drinks", price: 15, desc: "تشكيلة فواكه موسمية طازجة", img: "https://images.unsplash.com/photo-1622543925917-763c33d1a46b?w=500&auto=format&fit=crop&q=60" },
+            { id: 108, name: "ميلك شيك أوريو", cat: "drinks", price: 18, desc: "ميلك شيك مع بسكويت الأوريو", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
+            { id: 109, name: "ميلك شيك نوتيلا", cat: "drinks", price: 18, desc: "ميلك شيك بشوكولاتة النوتيلا", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
+            { id: 110, name: "ميلك شيك كيندر", cat: "drinks", price: 18, desc: "ميلك شيك بنكهة شوكولاتة كيندر", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
+            { id: 111, name: "ميلك شيك لوتس", cat: "drinks", price: 20, desc: "ميلك شيك ببسكويت اللوتس", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
+            { id: 112, name: "ميلك شيك سنيكرز", cat: "drinks", price: 20, desc: "ميلك شيك بنكهة السنيكرز الكراميل", img: "https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=500&auto=format&fit=crop&q=60" },
+            { id: 113, name: "فرابتشينو أيس كافيه", cat: "drinks", price: 15, desc: "فرابتشينو قهوة بارد ومنعش", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&auto=format&fit=crop&q=60" },
+            { id: 114, name: "أيس موكا", cat: "drinks", price: 18, desc: "موكا مثلجة بالكريمة", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&auto=format&fit=crop&q=60" },
+            { id: 115, name: "أيس فانيلا", cat: "drinks", price: 15, desc: "مشروب الفانيلا المثلج", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&auto=format&fit=crop&q=60" },
+            { id: 116, name: "أيس كراميل", cat: "drinks", price: 18, desc: "كراميل ماكياتو بارد", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&auto=format&fit=crop&q=60" },
+            { id: 117, name: "أيس كراك (فيوجن السعادة)", cat: "drinks", price: 20, desc: "مشروب السعادة البارد المميز", img: "https://images.unsplash.com/photo-1517701550927-30cf4ba1dba5?w=500&auto=format&fit=crop&q=60" },
+            { id: 118, name: "سموذي فراولة وموز", cat: "drinks", price: 18, desc: "سموذي طازج بالفراولة والموز", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop&q=60" },
+            { id: 119, name: "سموذي مانجو", cat: "drinks", price: 18, desc: "سموذي مانجو سميك ومنعش", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop&q=60" },
+            { id: 120, name: "سموذي ليمون ونعناع", cat: "drinks", price: 16, desc: "سموذي ليمون ونعناع مثلج", img: "https://images.unsplash.com/photo-1553530666-ba11a7da3888?w=500&auto=format&fit=crop&q=60" },
+            { id: 121, name: "مياه كبيرة", cat: "drinks", price: 10, desc: "زجاجة مياه معدنية كبيرة", img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500&auto=format&fit=crop&q=60" },
+            { id: 122, name: "مياه صغيرة", cat: "drinks", price: 5, desc: "زجاجة مياه معدنية صغيرة", img: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=500&auto=format&fit=crop&q=60" }
         ];
 
         let cart = {};
