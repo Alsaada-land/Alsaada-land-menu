@@ -74,7 +74,6 @@
         .btn-delete { background: #e74c3c; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; }
         .add-item-card { background: var(--card-bg); border: 2px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; display: none; }
         
-        /* أداة التحكم بتعديل وتحريك الصورة */
         .img-adjuster { background: #0d1117; padding: 8px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-muted); }
         .img-adjuster label { display: block; margin-bottom: 2px; color: var(--gold-light); }
         .img-adjuster input[type="range"] { width: 100%; accent-color: var(--gold); }
@@ -94,10 +93,9 @@
     </header>
 
     <main class="container">
-        <!-- إضافة طبق جديد مع رفع صورة من الاستوديو وتعديلها -->
         <div class="add-item-card" id="addItemSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد مع صورة من الاستوديو</h3>
-            <input type="text" id="newName" class="admin-input" placeholder="اسم الطبق">
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد من تصويرك الحقيقي</h3>
+            <input type="text" id="newName" class="admin-input" placeholder="اسم الطبق (مثال: بوكس السعادة)">
             <input type="number" id="newPrice" class="admin-input" placeholder="السعر (₪)">
             <select id="newCat" class="admin-input">
                 <option value="shawarma">الشاورما</option>
@@ -112,12 +110,12 @@
             <input type="text" id="newDesc" class="admin-input" placeholder="وصف الطبق">
             
             <div style="margin-bottom: 8px;">
-                <label style="font-size: 0.85rem; color: var(--gold);">اختر صورة من الاستوديو:</label>
-                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="previewNewImage(event)">
+                <label style="font-size: 0.85rem; color: var(--gold);">اختر صورة الطبق من الاستوديو:</label>
+                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="compressAndPreview(event, 'new')">
             </div>
             
             <div style="text-align: center; margin-bottom: 10px; background: #0a0c10; padding: 10px; border-radius: 8px;">
-                <div style="width: 100px; height: 100px; margin: auto; overflow: hidden; border-radius: 50%; border: 2px solid var(--gold); position: relative; background: #141824;">
+                <div style="width: 120px; height: 120px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); position: relative; background: #141824;">
                     <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
@@ -161,7 +159,7 @@
         </button>
     </div>
 
-    <!-- جافاسكريبت وربط Firebase -->
+    <!-- جافاسكريبت وربط Firebase مع ضغط الصور الذكي -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -182,22 +180,56 @@
         let menuItems = [];
         let cart = {};
         let isAdminLoggedIn = false;
-        let newUploadedImageBase64 = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
+        let newOptimizedImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
 
-        // رفع وتعديل معاينة صورة الإضافة الجديدة
-        window.previewNewImage = function(event) {
+        // دالة ذكية لضغط وتحجيم الصور تلقائياً لكي تحفظ في فايربيس بدون مشاكل
+        window.compressAndPreview = function(event, targetId) {
             const file = event.target.files[0];
-            if (file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    newUploadedImageBase64 = e.target.result;
-                    document.getElementById('newImgPreview').src = newUploadedImageBase64;
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const img = new Image();
+                img.src = e.target.result;
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    const MAX_WIDTH = 500; // دقة ممتازة وواضحة جداً للزبون وحجم خفيف جداً للسيرفر
+                    const MAX_HEIGHT = 500;
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > MAX_WIDTH) {
+                            height *= MAX_WIDTH / width;
+                            width = MAX_WIDTH;
+                        }
+                    } else {
+                        if (height > MAX_HEIGHT) {
+                            width *= MAX_HEIGHT / height;
+                            height = MAX_HEIGHT;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    // تحويل الصورة بنسبة ضغط 0.7 للحفاظ على الجودة وسرعة الحفظ
+                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.7);
+
+                    if (targetId === 'new') {
+                        newOptimizedImage = compressedDataUrl;
+                        document.getElementById('newImgPreview').src = compressedDataUrl;
+                    } else {
+                        tempUpdatedImages[targetId] = compressedDataUrl;
+                        document.getElementById(`img_view_${targetId}`).src = compressedDataUrl;
+                    }
                 }
-                reader.readAsDataURL(file);
             }
+            reader.readAsDataURL(file);
         }
 
-        // تسجيل الدخول كأدمن
         window.checkAdminLogin = function() {
             if (isAdminLoggedIn) {
                 if (confirm("هل تريد تسجيل الخروج من لوحة التحكم؟")) {
@@ -260,11 +292,10 @@
                             <input type="number" id="price_${item.id}" class="admin-input" value="${item.price}" placeholder="السعر">
                             
                             <div style="margin-bottom: 8px;">
-                                <label style="font-size:0.75rem; color:var(--gold);">تغيير صورة الطبق من الاستوديو:</label>
-                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="updateItemImageFile(event, '${item.id}')">
+                                <label style="font-size:0.75rem; color:var(--gold);">تغيير صورة الطبق الحقيقية:</label>
+                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="compressAndPreview(event, '${item.id}')">
                             </div>
 
-                            <!-- أداة التحكم بتكبير وتحريك الصورة (يميناً، يساراً، فوق، تحت) -->
                             <div class="img-adjuster">
                                 <label>تكبير/تصغير الصورة (Zoom): <span id="zoom_val_${item.id}">${zoomVal}</span></label>
                                 <input type="range" min="1" max="2.5" step="0.1" value="${zoomVal}" oninput="adjustImageProp('${item.id}', 'zoom', this.value)">
@@ -277,7 +308,7 @@
                             </div>
 
                             <div style="display: flex; gap: 5px; margin-top: 5px;">
-                                <button class="btn-edit" onclick="updateItemData('${item.id}')"><i class="fa-solid fa-save"></i> حفظ التعديلات</button>
+                                <button class="btn-edit" onclick="updateItemData('${item.id}')"><i class="fa-solid fa-save"></i> حفظ التعديل</button>
                                 <button class="btn-delete" onclick="deleteItem('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>
                             </div>
                         </div>
@@ -306,7 +337,6 @@
             });
         }
 
-        // تفاعلات السلايدر للتعديل الفوري لشكل الصورة
         window.adjustImageProp = function(id, type, val) {
             let imgEl = document.getElementById(`img_view_${id}`);
             let item = menuItems.find(i => i.id === id);
@@ -319,21 +349,7 @@
             imgEl.style.transform = `scale(${item.zoom || 1}) translate(${item.posX || 0}px, ${item.posY || 0}px)`;
         }
 
-        // رفع صورة جديدة للكارت القائم من الاستوديو
         let tempUpdatedImages = {};
-        window.updateItemImageFile = function(event, id) {
-            const file = event.target.files[0];
-            if(file) {
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    tempUpdatedImages[id] = e.target.result;
-                    document.getElementById(`img_view_${id}`).src = e.target.result;
-                }
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // حفظ تعديلات الكارت (اسم، سعر، إحداثيات الصورة) في فايربيس
         window.updateItemData = async function(id) {
             let newName = document.getElementById(`name_${id}`).value;
             let newPrice = document.getElementById(`price_${id}`).value;
@@ -353,14 +369,13 @@
 
             try {
                 await updateDoc(doc(db, "menu", id), updatePayload);
-                alert("تم حفظ التعديلات وتحديثها لدى جميع الزبائن بنجاح!");
+                alert("تم الحفظ بنجاح وتحديث الواقع للزبائن فوراً!");
                 loadMenuFromCloud();
             } catch (err) {
-                alert("حدث خطأ أثناء الحفظ");
+                alert("حدث خطأ أثناء الحفظ، تأكد أن حجم الصورة مناسب");
             }
         }
 
-        // حذف صنف
         window.deleteItem = async function(id) {
             if (!confirm("هل أنت متأكد من حذف هذا الطبق؟")) return;
             try {
@@ -372,7 +387,6 @@
             }
         }
 
-        // إضافة طبق جديد مع رفع الصورة من الاستوديو
         window.addNewItem = async function() {
             let name = document.getElementById('newName').value;
             let price = document.getElementById('newPrice').value;
@@ -386,12 +400,12 @@
                     price: Number(price),
                     cat,
                     desc,
-                    img: newUploadedImageBase64,
+                    img: newOptimizedImage,
                     zoom: 1,
                     posX: 0,
                     posY: 0
                 });
-                alert("تمت إضافة الطبق بنجاح!");
+                alert("تمت إضافة الطبق مع صورته الحقيقية بنجاح!");
                 document.getElementById('newName').value = '';
                 document.getElementById('newPrice').value = '';
                 document.getElementById('newDesc').value = '';
