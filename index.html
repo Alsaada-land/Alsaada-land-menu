@@ -120,7 +120,7 @@
             <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="addNewCategory()">إضافة القسم الجديد</button>
         </div>
 
-        <!-- إضافة طبق جديد (مع عربي وإنجليزي للوصف والاسم) -->
+        <!-- إضافة طبق جديد -->
         <div class="admin-section-box" id="addItemSection">
             <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
@@ -208,10 +208,9 @@
             "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء."
         ];
 
-        // تبديل اللغة (عربي / إنجليزي)
+        // تبديل اللغة بسلاسة تامة بين العربي والإنجليزية
         window.toggleLanguage = function() {
-            currentLang = (currentLang === 'ar') ? 'en' : 'tr'; // أو en
-            if(currentLang === 'tr') currentLang = 'en'; // للتوضيح عاد لـ en
+            currentLang = (currentLang === 'ar') ? 'en' : 'ar';
             
             const htmlRoot = document.getElementById('htmlRoot');
             const langBtn = document.getElementById('langBtn');
@@ -343,7 +342,6 @@
                 btn.setAttribute('onclick', `filterCategory('${key}', this)`);
                 
                 if(isAdminLoggedIn) {
-                    let editDelText = (currentLang === 'en') ? ' ✏️ 🗑️' : ' ✏️ 🗑️';
                     btn.innerHTML = `${name} <span onclick="event.stopPropagation(); editCategoryKey('${key}')" style="color:var(--gold); margin-right:5px;" title="Edit">✏️</span> <span onclick="event.stopPropagation(); deleteCategoryKey('${key}')" style="color:#e74c3c; margin-right:3px;" title="Delete">🗑️</span>`;
                 } else {
                     btn.innerText = name;
