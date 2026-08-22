@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlRoot">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو السعادة لاند | الفخامة والتميز</title>
+    <title id="pageTitle">منيو السعادة لاند | الفخامة والتميز</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
@@ -19,11 +19,12 @@
             --text-muted: #94a3b8;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 50px; }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 30px; }
         
-        /* زر الأدمن */
-        .admin-trigger { position: absolute; top: 15px; left: 15px; background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 200; transition: 0.3s; }
-        .admin-trigger:hover { background: var(--gold); color: #0a0c10; }
+        /* أزرار التحكم العليا (الأدمن وتغيير اللغة) */
+        .top-controls { position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; z-index: 200; }
+        .admin-trigger, .lang-btn { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-weight: 700; font-size: 0.85rem; }
+        .admin-trigger:hover, .lang-btn:hover { background: var(--gold); color: #0a0c10; }
 
         .hero { text-align: center; padding: 45px 20px 25px; background: radial-gradient(circle at top, #1e2638 0%, var(--bg-dark) 70%); border-bottom: 1px solid var(--card-border); position: relative; }
         .logo-badge { width: 75px; height: 75px; background: var(--gold-gradient); border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font-size: 2rem; color: #0a0c10; box-shadow: 0 0 25px rgba(212, 175, 55, 0.35); margin-bottom: 12px; overflow: hidden; padding: 0; }
@@ -69,7 +70,11 @@
         .img-adjuster label { display: block; margin-bottom: 2px; color: var(--gold-light); }
         .img-adjuster input[type="range"] { width: 100%; accent-color: var(--gold); }
 
-        /* نافذة الترحيب الأسطورية لزكريا */
+        /* حقوق الملكية بالأسفل */
+        .footer { text-align: center; padding: 30px 15px; margin-top: 40px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.85rem; }
+        .footer span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
+
+        /* نافذة الترحيب بـ زكريا */
         #welcomePopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 16, 0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 9999; animation: fadeIn 0.3s ease; }
         .welcome-card { background: var(--card-bg); border: 2px solid var(--gold); padding: 30px; border-radius: 20px; text-align: center; max-width: 380px; width: 90%; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
         .welcome-card h2 { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem; margin-bottom: 12px; }
@@ -79,49 +84,58 @@
 </head>
 <body>
 
-    <!-- نافذة الترحيب بـ زكريا -->
     <div id="welcomePopup">
         <div class="welcome-card">
             <div style="font-size: 2.5rem; color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-crown"></i></div>
             <h2 id="welcomeTitle">أهلاً بك يا زكريا</h2>
-            <p id="welcomeMsg">بطل الإنجاز والابداع.. عقول العظماء تصنع الفخامة. نتمنى لك يوماً مليئاً بالنجاح والسعادة والبركة!</p>
+            <p id="welcomeMsg">بطل الإنجاز والابداع.. عقول العظماء وحدها تصنع الفخامة. نتمنى لك يوماً مليئاً بالنجاح والسعادة والبركة!</p>
         </div>
     </div>
 
     <header class="hero">
-        <div class="admin-trigger" onclick="checkAdminLogin()" title="لوحة التحكم">
-            <i class="fa-solid fa-lock" id="lockIcon"></i>
+        <div class="top-controls">
+            <!-- زر تبديل اللغة -->
+            <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
+            <!-- زر لوحة التحكم -->
+            <div class="admin-trigger" onclick="checkAdminLogin()" title="لوحة التحكم">
+                <i class="fa-solid fa-lock" id="lockIcon"></i>
+            </div>
         </div>
         <div class="logo-badge">
             <img src="logo.jpg" alt="شعار السعادة لاند">
         </div>
-        <h1>مطعم السعادة لاند</h1>
-        <p>تجربة طعام فاخرة تجمع الأصالة والمذاق الرفيع</p>
+        <h1 id="mainTitle">مطعم السعادة لاند</h1>
+        <p id="mainSubtitle">تجربة طعام فاخرة تجمع الأصالة والمذاق الرفيع</p>
     </header>
 
     <main class="container">
-        <!-- إدارة القوائم (إضافة قائمة جديدة) - تظهر فقط للأدمن -->
+        <!-- إدارة القوائم -->
         <div class="admin-section-box" id="addCategorySection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-folder-plus"></i> إضافة قسم (قائمة) جديدة</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddCatTitle"><i class="fa-solid fa-folder-plus"></i> إضافة قسم (قائمة) جديدة</h3>
             <div style="display: flex; gap: 8px;">
-                <input type="text" id="newCatKey" class="admin-input" placeholder="اسم البرمجة للانجليزي (مثال: burgers)" style="margin-bottom:0;">
-                <input type="text" id="newCatName" class="admin-input" placeholder="اسم القسم بالعربي (مثال: البرجر الفاخر)" style="margin-bottom:0;">
+                <input type="text" id="newCatKey" class="admin-input" placeholder="اسم الكود (مثال: burgers)" style="margin-bottom:0;">
+                <input type="text" id="newCatNameAr" class="admin-input" placeholder="اسم القسم بالعربي" style="margin-bottom:0;">
+                <input type="text" id="newCatNameEn" class="admin-input" placeholder="اسم القسم بالانجليزي" style="margin-bottom:0;">
             </div>
             <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="addNewCategory()">إضافة القسم الجديد</button>
         </div>
 
-        <!-- إضافة طبق جديد -->
+        <!-- إضافة طبق جديد (مع عربي وإنجليزي للوصف والاسم) -->
         <div class="admin-section-box" id="addItemSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد للقائمة</h3>
-            <input type="text" id="newName" class="admin-input" placeholder="اسم الطبق">
+            <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <input type="text" id="newNameAr" class="admin-input" placeholder="اسم الطبق بالعربي">
+                <input type="text" id="newNameEn" class="admin-input" placeholder="اسم الطبق بالانجليزي">
+            </div>
             <input type="number" id="newPrice" class="admin-input" placeholder="السعر (₪)">
-            <select id="newCat" class="admin-input">
-                <!-- تعبئة الأقسام ديناميكياً -->
-            </select>
-            <input type="text" id="newDesc" class="admin-input" placeholder="وصف الطبق">
+            <select id="newCat" class="admin-input"></select>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
+                <input type="text" id="newDescAr" class="admin-input" placeholder="وصف الطبق بالعربي">
+                <input type="text" id="newDescEn" class="admin-input" placeholder="وصف الطبق بالانجليزي">
+            </div>
             
             <div style="margin-bottom: 8px;">
-                <label style="font-size: 0.85rem; color: var(--gold);">اختر صورة الطبق الحقيقية:</label>
+                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق الحقيقية:</label>
                 <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="compressAndPreview(event, 'new')">
             </div>
             
@@ -149,6 +163,12 @@
         </div>
     </main>
 
+    <!-- حقوق الملكية الفخمة بالأسفل -->
+    <footer class="footer">
+        <p>جميع الحقوق محفوظة © 2026 لـ <span>مطعم السعادة لاند</span></p>
+        <p style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">Al-Saada Land Restaurant. All Rights Reserved.</p>
+    </footer>
+
     <!-- جافاسكريبت وربط Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
@@ -169,27 +189,55 @@
 
         let menuItems = [];
         let categories = {
-            'shawarma': 'الشاورما',
-            'oriental': 'المأكولات الشرقية',
-            'western': 'الوجبات الغربية',
-            'bbq': 'وجبات المشاوي',
-            'appetizers': 'المقبلات والصلصات',
-            'pizza': 'بيتزا وكالزوني',
-            'desserts': 'الحلويات',
-            'drinks': 'المشروبات'
+            'shawarma': { ar: 'الشاورما', en: 'Shawarma' },
+            'oriental': { ar: 'المأكولات الشرقية', en: 'Oriental Food' },
+            'western': { ar: 'الوجبات الغربية', en: 'Western Meals' },
+            'bbq': { ar: 'وجبات المشاوي', en: 'BBQ & Grills' },
+            'appetizers': { ar: 'المقبلات والصلصات', en: 'Appetizers' },
+            'pizza': { ar: 'بيتزا وكالزوني', en: 'Pizza & Calzone' },
+            'desserts': { ar: 'الحلويات', en: 'Desserts' },
+            'drinks': { ar: 'المشروبات', en: 'Drinks' }
         };
         let isAdminLoggedIn = false;
+        let currentLang = 'ar';
         let newOptimizedImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
 
-        // عبارات ترحيبية أسطورية ومحفزة لاسم زكريا
         const zekoMessages = [
             "مرحباً بك يا زكريا.. يا بطل الإنجاز والتميز، عقول العظماء وحدها تصنع الفخامة. نتمنى لك يوماً مليئاً بالنجاح والسعادة!",
             "أهلاً بالقائد زكريا! خطوتك اليوم تفتح أبواباً جديدة للإبداع والنجاح. دام وجهك مفعماً بالسعادة والتوفيق!",
-            "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء.",
-            "مرحباً زكريا الحبيب.. كل شيء يتحول إلى تحفة فنية تحت إشرافك. نهارك سعيد ومليء بالطاقة الإيجابية!"
+            "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء."
         ];
 
-        // ضغط عالي الجودة للصور
+        // تبديل اللغة (عربي / إنجليزي)
+        window.toggleLanguage = function() {
+            currentLang = (currentLang === 'ar') ? 'en' : 'tr'; // أو en
+            if(currentLang === 'tr') currentLang = 'en'; // للتوضيح عاد لـ en
+            
+            const htmlRoot = document.getElementById('htmlRoot');
+            const langBtn = document.getElementById('langBtn');
+            const mainTitle = document.getElementById('mainTitle');
+            const mainSubtitle = document.getElementById('mainSubtitle');
+            const searchInput = document.getElementById('searchInput');
+
+            if(currentLang === 'en') {
+                htmlRoot.setAttribute('dir', 'ltr');
+                htmlRoot.setAttribute('lang', 'en');
+                langBtn.innerText = 'AR';
+                mainTitle.innerText = 'Al-Saada Land Restaurant';
+                mainSubtitle.innerText = 'A luxurious dining experience combining authenticity and exquisite taste';
+                searchInput.placeholder = 'Search for your favorite meal...';
+            } else {
+                htmlRoot.setAttribute('dir', 'rtl');
+                htmlRoot.setAttribute('lang', 'ar');
+                langBtn.innerText = 'EN';
+                mainTitle.innerText = 'مطعم السعادة لاند';
+                mainSubtitle.innerText = 'تجربة طعام فاخرة تجمع الأصالة والمذاق الرفيع';
+                searchInput.placeholder = 'ابحث عن وجبتك المفضلة...';
+            }
+            renderCategories();
+            renderMenu(menuItems);
+        }
+
         window.compressAndPreview = function(event, targetId) {
             const file = event.target.files[0];
             if (!file) return;
@@ -200,7 +248,7 @@
                 img.src = e.target.result;
                 img.onload = function() {
                     const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800; // دقة عالية جداً وواضحة للزبون
+                    const MAX_WIDTH = 800;
                     const MAX_HEIGHT = 800;
                     let width = img.width;
                     let height = img.height;
@@ -252,14 +300,11 @@
                 document.getElementById('addCategorySection').style.display = 'block';
                 document.getElementById('lockIcon').className = "fa-solid fa-unlock-keyhole";
                 
-                // إظهار رسالة الترحيب الأسطورية لزكريا لمدة 3 ثواني
                 let randomMsg = zekoMessages[Math.floor(Math.random() * zekoMessages.length)];
                 document.getElementById('welcomeMsg').innerText = randomMsg;
                 let popup = document.getElementById('welcomePopup');
                 popup.style.display = 'flex';
-                setTimeout(() => {
-                    popup.style.display = 'none';
-                }, 3300); // تختفي بعد 3.3 ثانية
+                setTimeout(() => { popup.style.display = 'none'; }, 3300);
 
                 renderMenu(menuItems);
                 renderCategories();
@@ -282,69 +327,68 @@
             }
         }
 
-        // رسم الأقسام والقوائم
         window.renderCategories = function() {
             const container = document.getElementById('catContainer');
             const selectEl = document.getElementById('newCat');
             
-            container.innerHTML = `<button class="cat-btn active" onclick="filterCategory('all', this)">الكل</button>`;
+            let allText = (currentLang === 'en') ? 'All' : 'الكل';
+            container.innerHTML = `<button class="cat-btn active" onclick="filterCategory('all', this)">${allText}</button>`;
             if(selectEl) selectEl.innerHTML = '';
 
             for (let key in categories) {
-                let name = categories[key];
+                let name = categories[key][currentLang] || categories[key].ar;
                 
-                // زر التصنيف للزباين
                 let btn = document.createElement('button');
                 btn.className = 'cat-btn';
                 btn.setAttribute('onclick', `filterCategory('${key}', this)`);
                 
                 if(isAdminLoggedIn) {
-                    btn.innerHTML = `${name} <span onclick="event.stopPropagation(); editCategoryKey('${key}')" style="color:var(--gold); margin-right:5px;" title="تعديل اسم القسم">✏️</span> <span onclick="event.stopPropagation(); deleteCategoryKey('${key}')" style="color:#e74c3c; margin-right:3px;" title="حذف القسم">🗑️</span>`;
+                    let editDelText = (currentLang === 'en') ? ' ✏️ 🗑️' : ' ✏️ 🗑️';
+                    btn.innerHTML = `${name} <span onclick="event.stopPropagation(); editCategoryKey('${key}')" style="color:var(--gold); margin-right:5px;" title="Edit">✏️</span> <span onclick="event.stopPropagation(); deleteCategoryKey('${key}')" style="color:#e74c3c; margin-right:3px;" title="Delete">🗑️</span>`;
                 } else {
                     btn.innerText = name;
                 }
                 container.appendChild(btn);
 
-                // خيارات القائمة لربط صنف جديد
                 if(selectEl) {
                     let opt = document.createElement('option');
                     opt.value = key;
-                    opt.innerText = name;
+                    opt.innerText = categories[key].ar + ' / ' + categories[key].en;
                     selectEl.appendChild(opt);
                 }
             }
         }
 
-        // إضافة قسم جديد
         window.addNewCategory = function() {
             let key = document.getElementById('newCatKey').value.trim().toLowerCase();
-            let name = document.getElementById('newCatName').value.trim();
-            if(!key || !name) { alert("الرجاء إدخال اسم القسم بالعربي والإنجليزية!"); return; }
+            let nameAr = document.getElementById('newCatNameAr').value.trim();
+            let nameEn = document.getElementById('newCatNameEn').value.trim();
+            if(!key || !nameAr || !nameEn) { alert("الرجاء إدخال الكود والاسم بالعربي والإنجليزي!"); return; }
             if(categories[key]) { alert("هذا القسم موجود مسبقاً!"); return; }
 
-            categories[key] = name;
+            categories[key] = { ar: nameAr, en: nameEn };
             alert("تمت إضافة القسم بنجاح!");
             document.getElementById('newCatKey').value = '';
-            document.getElementById('newCatName').value = '';
+            document.getElementById('newCatNameAr').value = '';
+            document.getElementById('newCatNameEn').value = '';
             renderCategories();
         }
 
-        // تعديل اسم القسم
         window.editCategoryKey = function(key) {
-            let newName = prompt("أدخل الاسم الجديد للقسم:", categories[key]);
-            if(newName) {
-                categories[key] = newName;
+            let newAr = prompt("الاسم الجديد بالعربي:", categories[key].ar);
+            let newEn = prompt("الاسم الجديد بالإنجليزية:", categories[key].en);
+            if(newAr && newEn) {
+                categories[key] = { ar: newAr, en: newEn };
                 renderCategories();
-                alert("تم تعديل اسم القسم بنجاح!");
+                alert("تم التعديل بنجاح!");
             }
         }
 
-        // حذف القسم
         window.deleteCategoryKey = function(key) {
-            if(confirm(`هل أنت متأكد من حذف قسم (${categories[key]})؟`)) {
+            if(confirm(`هل أنت متأكد من حذف هذا القسم؟`)) {
                 delete categories[key];
                 renderCategories();
-                alert("تم حذف القسم بنجاح!");
+                alert("تم الحذف بنجاح!");
             }
         }
 
@@ -352,7 +396,8 @@
             const grid = document.getElementById('menuGrid');
             grid.innerHTML = '';
             if (items.length === 0) {
-                grid.innerHTML = '<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">لا توجد أصناف متاحة حالياً</div>';
+                let noData = (currentLang === 'en') ? 'No items available' : 'لا توجد أصناف متاحة حالياً';
+                grid.innerHTML = `<div style="grid-column: 1/-1; text-align: center; color: var(--text-muted); padding: 40px;">${noData}</div>`;
                 return;
             }
 
@@ -364,18 +409,31 @@
                 let posXVal = item.posX || 0;
                 let posYVal = item.posY || 0;
 
+                let title = (currentLang === 'en') ? (item.nameEn || item.nameAr || item.name) : (item.nameAr || item.name);
+                let desc = (currentLang === 'en') ? (item.descEn || item.descAr || item.desc || '') : (item.descAr || item.desc || '');
+
                 let adminControlsHTML = '';
                 if (isAdminLoggedIn) {
                     let catOptions = '';
                     for(let k in categories) {
-                        catOptions += `<option value="${k}" ${item.cat === k ? 'selected' : ''}>${categories[k]}</option>`;
+                        catOptions += `<option value="${k}" ${item.cat === k ? 'selected' : ''}>${categories[k].ar}</option>`;
                     }
+
+                    let saveText = (currentLang === 'en') ? 'Save' : 'حفظ';
+                    let delText = (currentLang === 'en') ? 'Delete' : 'حذف';
 
                     adminControlsHTML = `
                         <div style="background: #1a2234; padding: 12px; border-top: 1px solid var(--card-border); margin-top: 10px;">
-                            <input type="text" id="name_${item.id}" class="admin-input" value="${item.name}" placeholder="الاسم">
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+                                <input type="text" id="nameAr_${item.id}" class="admin-input" value="${item.nameAr || item.name || ''}" placeholder="الاسم عربي">
+                                <input type="text" id="nameEn_${item.id}" class="admin-input" value="${item.nameEn || ''}" placeholder="Name English">
+                            </div>
                             <input type="number" id="price_${item.id}" class="admin-input" value="${item.price}" placeholder="السعر">
                             <select id="cat_${item.id}" class="admin-input">${catOptions}</select>
+                            <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
+                                <input type="text" id="descAr_${item.id}" class="admin-input" value="${item.descAr || item.desc || ''}" placeholder="وصف عربي">
+                                <input type="text" id="descEn_${item.id}" class="admin-input" value="${item.descEn || ''}" placeholder="Desc English">
+                            </div>
                             
                             <div style="margin-bottom: 8px;">
                                 <label style="font-size:0.75rem; color:var(--gold);">تغيير صورة الطبق:</label>
@@ -383,19 +441,19 @@
                             </div>
 
                             <div class="img-adjuster">
-                                <label>تكبير/تصغير الصورة (Zoom): <span id="zoom_val_${item.id}">${zoomVal}</span></label>
+                                <label>Zoom: <span id="zoom_val_${item.id}">${zoomVal}</span></label>
                                 <input type="range" min="1" max="2.5" step="0.1" value="${zoomVal}" oninput="adjustImageProp('${item.id}', 'zoom', this.value)">
                                 
-                                <label style="margin-top: 5px;">تحريك أفقي (يمين/يسار):</label>
+                                <label style="margin-top: 5px;">Move X (Left/Right):</label>
                                 <input type="range" min="-100" max="100" value="${posXVal}" oninput="adjustImageProp('${item.id}', 'x', this.value)">
 
-                                <label style="margin-top: 5px;">تحريك عمودي (فوق/تحت):</label>
+                                <label style="margin-top: 5px;">Move Y (Up/Down):</label>
                                 <input type="range" min="-100" max="100" value="${posYVal}" oninput="adjustImageProp('${item.id}', 'y', this.value)">
                             </div>
 
                             <div style="display: flex; gap: 5px; margin-top: 5px;">
-                                <button class="btn-edit" onclick="updateItemData('${item.id}')"><i class="fa-solid fa-save"></i> حفظ</button>
-                                <button class="btn-delete" onclick="deleteItem('${item.id}')"><i class="fa-solid fa-trash"></i> حذف</button>
+                                <button class="btn-edit" onclick="updateItemData('${item.id}')"><i class="fa-solid fa-save"></i> ${saveText}</button>
+                                <button class="btn-delete" onclick="deleteItem('${item.id}')"><i class="fa-solid fa-trash"></i> ${delText}</button>
                             </div>
                         </div>
                     `;
@@ -403,12 +461,12 @@
 
                 card.innerHTML = `
                     <div class="item-img-container">
-                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${item.name}" class="item-img" style="transform: scale(${zoomVal}) translate(${posXVal}px, ${posYVal}px);">
+                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${title}" class="item-img" style="transform: scale(${zoomVal}) translate(${posXVal}px, ${posYVal}px);">
                     </div>
                     <div class="item-content-body">
                         <div>
-                            <div class="item-title">${item.name}</div>
-                            <div class="item-desc">${item.desc || ''}</div>
+                            <div class="item-title">${title}</div>
+                            <div class="item-desc">${desc}</div>
                         </div>
                         <div class="item-footer">
                             <div class="item-price">${item.price} <span>₪</span></div>
@@ -434,15 +492,21 @@
 
         let tempUpdatedImages = {};
         window.updateItemData = async function(id) {
-            let newName = document.getElementById(`name_${id}`).value;
-            let newPrice = document.getElementById(`price_${id}`).value;
+            let nameAr = document.getElementById(`nameAr_${id}`).value;
+            let nameEn = document.getElementById(`nameEn_${id}`).value;
+            let price = document.getElementById(`price_${id}`).value;
             let newCat = document.getElementById(`cat_${id}`).value;
+            let descAr = document.getElementById(`descAr_${id}`).value;
+            let descEn = document.getElementById(`descEn_${id}`).value;
             let item = menuItems.find(i => i.id === id);
 
             let updatePayload = {
-                name: newName,
-                price: Number(newPrice),
+                nameAr,
+                nameEn,
+                price: Number(price),
                 cat: newCat,
+                descAr,
+                descEn,
                 zoom: item.zoom || 1,
                 posX: item.posX || 0,
                 posY: item.posY || 0
@@ -454,15 +518,15 @@
 
             try {
                 await updateDoc(doc(db, "menu", id), updatePayload);
-                alert("تم الحفظ وتحديث البيانات للزبائن فوراً!");
+                alert("تم الحفظ بنجاح!");
                 loadMenuFromCloud();
             } catch (err) {
-                alert("حدث خطأ أثناء الحفظ");
+                alert("خطأ أثناء الحفظ");
             }
         }
 
         window.deleteItem = async function(id) {
-            if (!confirm("هل أنت متأكد من حذف هذا الطبق؟")) return;
+            if (!confirm("هل أنت متأكد من الحذف؟")) return;
             try {
                 await deleteDoc(doc(db, "menu", id));
                 alert("تم الحذف بنجاح!");
@@ -473,27 +537,33 @@
         }
 
         window.addNewItem = async function() {
-            let name = document.getElementById('newName').value;
+            let nameAr = document.getElementById('newNameAr').value;
+            let nameEn = document.getElementById('newNameEn').value;
             let price = document.getElementById('newPrice').value;
             let cat = document.getElementById('newCat').value;
-            let desc = document.getElementById('newDesc').value;
+            let descAr = document.getElementById('newDescAr').value;
+            let descEn = document.getElementById('newDescEn').value;
             
-            if (!name || !price) { alert("الرجاء إدخال اسم الطبق والسعر على الأقل!"); return; }
+            if (!nameAr || !price) { alert("الرجاء إدخال اسم الطبق والسعر على الأقل!"); return; }
             try {
                 await addDoc(collection(db, "menu"), {
-                    name,
+                    nameAr,
+                    nameEn: nameEn || nameAr,
                     price: Number(price),
                     cat,
-                    desc,
+                    descAr,
+                    descEn: descEn || descAr,
                     img: newOptimizedImage,
                     zoom: 1,
                     posX: 0,
                     posY: 0
                 });
                 alert("تمت إضافة الطبق بنجاح!");
-                document.getElementById('newName').value = '';
+                document.getElementById('newNameAr').value = '';
+                document.getElementById('newNameEn').value = '';
                 document.getElementById('newPrice').value = '';
-                document.getElementById('newDesc').value = '';
+                document.getElementById('newDescAr').value = '';
+                document.getElementById('newDescEn').value = '';
                 loadMenuFromCloud();
             } catch (err) {
                 alert("خطأ أثناء الإضافة");
@@ -512,7 +582,10 @@
 
         document.getElementById('searchInput').addEventListener('input', (e) => {
             const query = e.target.value.toLowerCase().trim();
-            renderMenu(menuItems.filter(item => item.name.toLowerCase().includes(query)));
+            renderMenu(menuItems.filter(item => 
+                (item.nameAr && item.nameAr.toLowerCase().includes(query)) || 
+                (item.nameEn && item.nameEn.toLowerCase().includes(query))
+            ));
         });
 
         loadMenuFromCloud();
