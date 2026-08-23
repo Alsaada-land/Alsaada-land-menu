@@ -64,6 +64,9 @@
         .btn-delete { background: #e74c3c; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; }
         .admin-section-box { background: var(--card-bg); border: 2px dashed var(--gold); padding: 15px; border-radius: 16px; margin-bottom: 20px; display: none; }
         
+        .theme-preset-btn { background: #1a2234; border: 1px solid var(--card-border); color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: 0.2s; text-align: center; }
+        .theme-preset-btn:hover { border-color: var(--gold); }
+
         .img-adjuster { background: #0d1117; padding: 8px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-muted); }
         .img-adjuster label { display: block; margin-bottom: 2px; color: var(--gold-light); }
         .img-adjuster input[type="range"] { width: 100%; accent-color: var(--gold); }
@@ -103,20 +106,28 @@
     </header>
 
     <main class="container">
-        <!-- تحكم بالألوان والهوية البصرية (تظهر للأدمن فقط) -->
+        <!-- قسم تخصيص الألوان مع معاينة فورية لزكريا -->
         <div class="admin-section-box" id="themeSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الهوية البصرية والألوان</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الألوان والثيم (معاينة فورية لك وحدك)</h3>
+            
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px;">
+                <button class="theme-preset-btn" onclick="applyPreset('#0a0c10', '#141824', '#d4af37')">🖤 أسود فخم الملكي</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#f8fafc', '#ffffff', '#2563eb')">🤍 أبيض عصري ناصع</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#111827', '#1f2937', '#f59e0b')">👑 ذهبي ملكي دافئ</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#1e293b', '#334155', '#94a3b8')">🩶 رمادي راقي هادئ</button>
+            </div>
+
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
                 <div>
                     <label style="font-size: 0.8rem; color: var(--gold-light);">لون الخلفية العامة:</label>
-                    <input type="color" id="bgColorPicker" class="admin-input" value="#0a0c10" style="height: 40px; cursor: pointer;">
+                    <input type="color" id="bgColorPicker" class="admin-input" value="#0a0c10" style="height: 40px; cursor: pointer;" oninput="livePreviewTheme()">
                 </div>
                 <div>
-                    <label style="font-size: 0.8rem; color: var(--gold-light);">لون اللمسات الذهبية:</label>
-                    <input type="color" id="goldColorPicker" class="admin-input" value="#d4af37" style="height: 40px; cursor: pointer;">
+                    <label style="font-size: 0.8rem; color: var(--gold-light);">لون اللمسات (الذهبى/المميز):</label>
+                    <input type="color" id="goldColorPicker" class="admin-input" value="#d4af37" style="height: 40px; cursor: pointer;" oninput="livePreviewTheme()">
                 </div>
             </div>
-            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;" onclick="saveThemeSettings()">تطبيق وحفظ الألوان فوراً</button>
+            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;" onclick="saveThemeSettings()">حفظ التغييرات ونشرها للزبائن فوراً</button>
         </div>
 
         <!-- إدارة القوائم -->
@@ -217,28 +228,51 @@
             "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء."
         ];
 
-        // تطبيق الألوان على الموقع
+        // تطبيق الألوان على الشاشة
         window.applyThemeColors = function(bgColor, goldColor) {
             document.documentElement.style.setProperty('--bg-dark', bgColor);
+            if(bgColor === '#f8fafc') {
+                document.documentElement.style.setProperty('--card-bg', '#ffffff');
+                document.documentElement.style.setProperty('--card-border', '#e2e8f0');
+                document.documentElement.style.setProperty('--text-main', '#0f172a');
+                document.documentElement.style.setProperty('--text-muted', '#64748b');
+            } else {
+                document.documentElement.style.setProperty('--card-bg', '#141824');
+                document.documentElement.style.setProperty('--card-border', '#22293a');
+                document.documentElement.style.setProperty('--text-main', '#f8fafc');
+                document.documentElement.style.setProperty('--text-muted', '#94a3b8');
+            }
             document.documentElement.style.setProperty('--gold', goldColor);
             document.documentElement.style.setProperty('--gold-light', goldColor);
             document.documentElement.style.setProperty('--gold-gradient', `linear-gradient(135deg, ${goldColor}, #ffffff, ${goldColor})`);
         }
 
-        // حفظ الألوان في فايربيس لتنعكس عند كل الزبائن
+        // معاينة فورية للألوان (للمدير زكريا فقط أثناء التعديل وقبل الحفظ)
+        window.livePreviewTheme = function() {
+            let bg = document.getElementById('bgColorPicker').value;
+            let gold = document.getElementById('goldColorPicker').value;
+            applyThemeColors(bg, gold);
+        }
+
+        window.applyPreset = function(bg, card, gold) {
+            document.getElementById('bgColorPicker').value = bg;
+            document.getElementById('goldColorPicker').value = gold;
+            applyThemeColors(bg, gold);
+        }
+
+        // حفظ الألوان سحابياً (لا تظهر للناس إلا بعد الضغط هنا)
         window.saveThemeSettings = async function() {
             let bg = document.getElementById('bgColorPicker').value;
             let gold = document.getElementById('goldColorPicker').value;
             try {
                 await setDoc(doc(db, "settings", "theme"), { bg, gold });
-                applyThemeColors(bg, gold);
-                alert("تم حفظ وتطبيق الألوان بنجاح للجميع!");
+                alert("تم حفظ ونشر الألوان الجديدة للزبائن بنجاح!");
             } catch(e) {
                 alert("خطأ في حفظ الألوان");
             }
         }
 
-        // جلب الألوان المحفوظة من السحابة عند فتح الموقع
+        // تحميل الألوان من السحابة للزبائن
         async function loadThemeFromCloud() {
             try {
                 const docSnap = await getDoc(doc(db, "settings", "theme"));
@@ -253,7 +287,6 @@
 
         window.toggleLanguage = function() {
             currentLang = (currentLang === 'ar') ? 'en' : 'ar';
-            
             const htmlRoot = document.getElementById('htmlRoot');
             const langBtn = document.getElementById('langBtn');
             const mainTitle = document.getElementById('mainTitle');
@@ -327,6 +360,7 @@
                     document.getElementById('addCategorySection').style.display = 'none';
                     document.getElementById('themeSection').style.display = 'none';
                     document.getElementById('lockIcon').className = "fa-solid fa-lock";
+                    loadThemeFromCloud(); // إعادة الألوان المحفوظة للعامة عند الخروج
                     renderMenu(menuItems);
                     renderCategories();
                 }
@@ -465,7 +499,7 @@
                     let delText = (currentLang === 'en') ? 'Delete' : 'حذف';
 
                     adminControlsHTML = `
-                        <div style="background: #1a2234; padding: 12px; border-top: 1px solid var(--card-border); margin-top: 10px;">
+                        <div style="background: var(--card-bg); padding: 12px; border-top: 1px solid var(--card-border); margin-top: 10px;">
                             <div style="display:grid; grid-template-columns:1fr 1fr; gap:5px;">
                                 <input type="text" id="nameAr_${item.id}" class="admin-input" value="${item.nameAr || item.name || ''}" placeholder="الاسم عربي">
                                 <input type="text" id="nameEn_${item.id}" class="admin-input" value="${item.nameEn || ''}" placeholder="Name English">
