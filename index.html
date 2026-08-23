@@ -19,9 +19,8 @@
             --text-muted: #94a3b8;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Tajawal', sans-serif; -webkit-tap-highlight-color: transparent; }
-        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 30px; }
+        body { background-color: var(--bg-dark); color: var(--text-main); min-height: 100vh; padding-bottom: 30px; transition: 0.3s; }
         
-        /* أزرار التحكم العليا (الأدمن وتغيير اللغة) */
         .top-controls { position: absolute; top: 15px; left: 15px; right: 15px; display: flex; justify-content: space-between; z-index: 200; }
         .admin-trigger, .lang-btn { background: rgba(212, 175, 55, 0.1); border: 1px solid var(--gold); color: var(--gold); width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: 0.3s; font-weight: 700; font-size: 0.85rem; }
         .admin-trigger:hover, .lang-btn:hover { background: var(--gold); color: #0a0c10; }
@@ -59,7 +58,6 @@
         .item-price { font-size: 1.2rem; font-weight: 900; color: var(--gold); }
         .item-price span { font-size: 0.85rem; font-weight: 500; color: var(--gold-light); }
 
-        /* لوحة التحكم والأدمن */
         .admin-input { width: 100%; padding: 8px 12px; background: #0a0c10; border: 1px solid var(--card-border); border-radius: 8px; color: #fff; font-size: 0.9rem; margin-bottom: 8px; outline: none; }
         .admin-input:focus { border-color: var(--gold); }
         .btn-edit { background: #25d366; color: #fff; border: none; padding: 6px 12px; border-radius: 6px; cursor: pointer; font-weight: 700; font-size: 0.8rem; flex: 1; }
@@ -70,11 +68,9 @@
         .img-adjuster label { display: block; margin-bottom: 2px; color: var(--gold-light); }
         .img-adjuster input[type="range"] { width: 100%; accent-color: var(--gold); }
 
-        /* حقوق الملكية بالأسفل */
         .footer { text-align: center; padding: 30px 15px; margin-top: 40px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.85rem; }
         .footer span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
 
-        /* نافذة الترحيب بـ زكريا */
         #welcomePopup { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 16, 0.85); backdrop-filter: blur(8px); display: none; align-items: center; justify-content: center; z-index: 9999; animation: fadeIn 0.3s ease; }
         .welcome-card { background: var(--card-bg); border: 2px solid var(--gold); padding: 30px; border-radius: 20px; text-align: center; max-width: 380px; width: 90%; box-shadow: 0 0 40px rgba(212, 175, 55, 0.3); }
         .welcome-card h2 { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-size: 1.5rem; margin-bottom: 12px; }
@@ -94,9 +90,7 @@
 
     <header class="hero">
         <div class="top-controls">
-            <!-- زر تبديل اللغة -->
             <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
-            <!-- زر لوحة التحكم -->
             <div class="admin-trigger" onclick="checkAdminLogin()" title="لوحة التحكم">
                 <i class="fa-solid fa-lock" id="lockIcon"></i>
             </div>
@@ -109,6 +103,22 @@
     </header>
 
     <main class="container">
+        <!-- تحكم بالألوان والهوية البصرية (تظهر للأدمن فقط) -->
+        <div class="admin-section-box" id="themeSection">
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الهوية البصرية والألوان</h3>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
+                <div>
+                    <label style="font-size: 0.8rem; color: var(--gold-light);">لون الخلفية العامة:</label>
+                    <input type="color" id="bgColorPicker" class="admin-input" value="#0a0c10" style="height: 40px; cursor: pointer;">
+                </div>
+                <div>
+                    <label style="font-size: 0.8rem; color: var(--gold-light);">لون اللمسات الذهبية:</label>
+                    <input type="color" id="goldColorPicker" class="admin-input" value="#d4af37" style="height: 40px; cursor: pointer;">
+                </div>
+            </div>
+            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer;" onclick="saveThemeSettings()">تطبيق وحفظ الألوان فوراً</button>
+        </div>
+
         <!-- إدارة القوائم -->
         <div class="admin-section-box" id="addCategorySection">
             <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddCatTitle"><i class="fa-solid fa-folder-plus"></i> إضافة قسم (قائمة) جديدة</h3>
@@ -163,7 +173,6 @@
         </div>
     </main>
 
-    <!-- حقوق الملكية الفخمة بالأسفل -->
     <footer class="footer">
         <p>جميع الحقوق محفوظة © 2026 لـ <span>مطعم السعادة لاند</span></p>
         <p style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">Al-Saada Land Restaurant. All Rights Reserved.</p>
@@ -172,7 +181,7 @@
     <!-- جافاسكريبت وربط Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-        import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
         const firebaseConfig = {
           apiKey: "AIzaSyA0P7gSQu2rl5ZWwcXPrHedsL2OfmY3Cdk",
@@ -208,7 +217,40 @@
             "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء."
         ];
 
-        // تبديل اللغة بسلاسة تامة بين العربي والإنجليزية
+        // تطبيق الألوان على الموقع
+        window.applyThemeColors = function(bgColor, goldColor) {
+            document.documentElement.style.setProperty('--bg-dark', bgColor);
+            document.documentElement.style.setProperty('--gold', goldColor);
+            document.documentElement.style.setProperty('--gold-light', goldColor);
+            document.documentElement.style.setProperty('--gold-gradient', `linear-gradient(135deg, ${goldColor}, #ffffff, ${goldColor})`);
+        }
+
+        // حفظ الألوان في فايربيس لتنعكس عند كل الزبائن
+        window.saveThemeSettings = async function() {
+            let bg = document.getElementById('bgColorPicker').value;
+            let gold = document.getElementById('goldColorPicker').value;
+            try {
+                await setDoc(doc(db, "settings", "theme"), { bg, gold });
+                applyThemeColors(bg, gold);
+                alert("تم حفظ وتطبيق الألوان بنجاح للجميع!");
+            } catch(e) {
+                alert("خطأ في حفظ الألوان");
+            }
+        }
+
+        // جلب الألوان المحفوظة من السحابة عند فتح الموقع
+        async function loadThemeFromCloud() {
+            try {
+                const docSnap = await getDoc(doc(db, "settings", "theme"));
+                if (docSnap.exists()) {
+                    let data = docSnap.data();
+                    applyThemeColors(data.bg, data.gold);
+                    document.getElementById('bgColorPicker').value = data.bg;
+                    document.getElementById('goldColorPicker').value = data.gold;
+                }
+            } catch(e) {}
+        }
+
         window.toggleLanguage = function() {
             currentLang = (currentLang === 'ar') ? 'en' : 'ar';
             
@@ -283,6 +325,7 @@
                     isAdminLoggedIn = false;
                     document.getElementById('addItemSection').style.display = 'none';
                     document.getElementById('addCategorySection').style.display = 'none';
+                    document.getElementById('themeSection').style.display = 'none';
                     document.getElementById('lockIcon').className = "fa-solid fa-lock";
                     renderMenu(menuItems);
                     renderCategories();
@@ -297,6 +340,7 @@
                 isAdminLoggedIn = true;
                 document.getElementById('addItemSection').style.display = 'block';
                 document.getElementById('addCategorySection').style.display = 'block';
+                document.getElementById('themeSection').style.display = 'block';
                 document.getElementById('lockIcon').className = "fa-solid fa-unlock-keyhole";
                 
                 let randomMsg = zekoMessages[Math.floor(Math.random() * zekoMessages.length)];
@@ -587,6 +631,7 @@
         });
 
         loadMenuFromCloud();
+        loadThemeFromCloud();
     </script>
 </body>
 </html>
