@@ -34,7 +34,7 @@
         
         .sticky-nav { position: sticky; top: 0; background: rgba(10, 12, 16, 0.92); backdrop-filter: blur(12px); z-index: 100; padding: 12px 15px; border-bottom: 1px solid rgba(212, 175, 55, 0.15); }
         .search-box { position: relative; margin-bottom: 10px; }
-        .search-box input { width: 100%; padding: 10px 40px 10px 15px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 25px; color: #fff; font-size: 0.9rem; outline: none; transition: 0.3s; }
+        .search-box input { width: 100%; padding: 10px 40px 10px 15px; background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 25px; color: var(--text-main); font-size: 0.9rem; outline: none; transition: 0.3s; }
         .search-box input:focus { border-color: var(--gold); box-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
         .search-box i { position: absolute; right: 15px; top: 50%; transform: translateY(-50%); color: var(--gold); }
         
@@ -52,7 +52,7 @@
         .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
         
         .item-content-body { padding: 14px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
-        .item-title { font-size: 1.1rem; font-weight: 700; color: #fff; margin-bottom: 6px; }
+        .item-title { font-size: 1.1rem; font-weight: 700; color: var(--text-main); margin-bottom: 6px; }
         .item-desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; margin-bottom: 15px; }
         .item-footer { display: flex; justify-content: space-between; align-items: center; margin-top: auto; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 10px; }
         .item-price { font-size: 1.2rem; font-weight: 900; color: var(--gold); }
@@ -106,15 +106,15 @@
     </header>
 
     <main class="container">
-        <!-- قسم تخصيص الألوان مع معاينة فورية لزكريا -->
+        <!-- قسم تخصيص الألوان (معاينة حصرية لزكريا دون حفظ تلقائي) -->
         <div class="admin-section-box" id="themeSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الألوان والثيم (معاينة فورية لك وحدك)</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الثيم والألوان (معاينة لك، لا تحفظ إلا بالضغط أدناه)</h3>
             
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px;">
-                <button class="theme-preset-btn" onclick="applyPreset('#0a0c10', '#141824', '#d4af37')">🖤 أسود فخم الملكي</button>
-                <button class="theme-preset-btn" onclick="applyPreset('#f8fafc', '#ffffff', '#2563eb')">🤍 أبيض عصري ناصع</button>
-                <button class="theme-preset-btn" onclick="applyPreset('#111827', '#1f2937', '#f59e0b')">👑 ذهبي ملكي دافئ</button>
-                <button class="theme-preset-btn" onclick="applyPreset('#1e293b', '#334155', '#94a3b8')">🩶 رمادي راقي هادئ</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#0a0c10', '#d4af37')">🖤 أسود فخم الملكي</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#f8fafc', '#2563eb')">🤍 أبيض عصري ناصع</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#111827', '#f59e0b')">👑 ذهبي ملكي دافئ</button>
+                <button class="theme-preset-btn" onclick="applyPreset('#1e293b', '#64748b')">🩶 رمادي راقي هادئ</button>
             </div>
 
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px;">
@@ -123,7 +123,7 @@
                     <input type="color" id="bgColorPicker" class="admin-input" value="#0a0c10" style="height: 40px; cursor: pointer;" oninput="livePreviewTheme()">
                 </div>
                 <div>
-                    <label style="font-size: 0.8rem; color: var(--gold-light);">لون اللمسات (الذهبى/المميز):</label>
+                    <label style="font-size: 0.8rem; color: var(--gold-light);">لون اللمسات المميزة:</label>
                     <input type="color" id="goldColorPicker" class="admin-input" value="#d4af37" style="height: 40px; cursor: pointer;" oninput="livePreviewTheme()">
                 </div>
             </div>
@@ -160,8 +160,8 @@
                 <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="compressAndPreview(event, 'new')">
             </div>
             
-            <div style="text-align: center; margin-bottom: 10px; background: #0a0c10; padding: 10px; border-radius: 8px;">
-                <div style="width: 100px; height: 100px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); position: relative; background: #141824;">
+            <div style="text-align: center; margin-bottom: 10px; background: var(--card-bg); padding: 10px; border-radius: 8px;">
+                <div style="width: 100px; height: 100px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); position: relative;">
                     <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
@@ -228,51 +228,65 @@
             "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء."
         ];
 
-        // تطبيق الألوان على الشاشة
+        // تطبيق الألوان بذكاء مع تناسق النصوص
         window.applyThemeColors = function(bgColor, goldColor) {
             document.documentElement.style.setProperty('--bg-dark', bgColor);
-            if(bgColor === '#f8fafc') {
+            
+            // تحديد إذا كان الخلفية فاتحة أو غامقة لتعديل لون النصوص تلقائياً لتكون واضحة ومتناسقة
+            let isLight = isLightColor(bgColor);
+            if (isLight) {
                 document.documentElement.style.setProperty('--card-bg', '#ffffff');
-                document.documentElement.style.setProperty('--card-border', '#e2e8f0');
+                document.documentElement.style.setProperty('--card-border', '#cbd5e1');
                 document.documentElement.style.setProperty('--text-main', '#0f172a');
-                document.documentElement.style.setProperty('--text-muted', '#64748b');
+                document.documentElement.style.setProperty('--text-muted', '#475569');
             } else {
                 document.documentElement.style.setProperty('--card-bg', '#141824');
                 document.documentElement.style.setProperty('--card-border', '#22293a');
                 document.documentElement.style.setProperty('--text-main', '#f8fafc');
                 document.documentElement.style.setProperty('--text-muted', '#94a3b8');
             }
+
             document.documentElement.style.setProperty('--gold', goldColor);
             document.documentElement.style.setProperty('--gold-light', goldColor);
             document.documentElement.style.setProperty('--gold-gradient', `linear-gradient(135deg, ${goldColor}, #ffffff, ${goldColor})`);
         }
 
-        // معاينة فورية للألوان (للمدير زكريا فقط أثناء التعديل وقبل الحفظ)
+        function isLightColor(color) {
+            let hex = color.replace('#', '');
+            let r = parseInt(hex.substr(0, 2), 16);
+            let g = parseInt(hex.substr(2, 2), 16);
+            let b = parseInt(hex.substr(4, 2), 16);
+            let yiq = (r * 299 + g * 587 + b * 114) / 1000;
+            return yiq >= 128;
+        }
+
+        // معاينة حصرية لزكريا فقط أثناء التجربة دون التأثير على الزبائن
         window.livePreviewTheme = function() {
+            if(!isAdminLoggedIn) return; // حماية إضافية
             let bg = document.getElementById('bgColorPicker').value;
             let gold = document.getElementById('goldColorPicker').value;
             applyThemeColors(bg, gold);
         }
 
-        window.applyPreset = function(bg, card, gold) {
+        window.applyPreset = function(bg, gold) {
             document.getElementById('bgColorPicker').value = bg;
             document.getElementById('goldColorPicker').value = gold;
             applyThemeColors(bg, gold);
         }
 
-        // حفظ الألوان سحابياً (لا تظهر للناس إلا بعد الضغط هنا)
+        // حفظ الألوان سحابياً (تظهر للناس فقط عند النقر هنا)
         window.saveThemeSettings = async function() {
             let bg = document.getElementById('bgColorPicker').value;
             let gold = document.getElementById('goldColorPicker').value;
             try {
                 await setDoc(doc(db, "settings", "theme"), { bg, gold });
-                alert("تم حفظ ونشر الألوان الجديدة للزبائن بنجاح!");
+                alert("تم حفظ ونشر الهوية والألوان للزبائن بنجاح!");
             } catch(e) {
                 alert("خطأ في حفظ الألوان");
             }
         }
 
-        // تحميل الألوان من السحابة للزبائن
+        // تحميل الألوان للعامة
         async function loadThemeFromCloud() {
             try {
                 const docSnap = await getDoc(doc(db, "settings", "theme"));
@@ -360,7 +374,7 @@
                     document.getElementById('addCategorySection').style.display = 'none';
                     document.getElementById('themeSection').style.display = 'none';
                     document.getElementById('lockIcon').className = "fa-solid fa-lock";
-                    loadThemeFromCloud(); // إعادة الألوان المحفوظة للعامة عند الخروج
+                    loadThemeFromCloud(); // إعادة الألوان الحقيقية المحفوظة سحابياً
                     renderMenu(menuItems);
                     renderCategories();
                 }
