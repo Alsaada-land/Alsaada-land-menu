@@ -48,7 +48,7 @@
         .item-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
         .item-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
         
-        .item-img-container { width: 100%; height: 160px; overflow: hidden; position: relative; background: #1a2234; display: flex; align-items: center; justify-content: center; }
+        .item-img-container { width: 100%; height: 160px; overflow: hidden; position: relative; background: #1a2234; display: flex; align-items: center; justify-content: center; perspective: 800px; }
         .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
         
         .item-content-body { padding: 14px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
@@ -67,14 +67,16 @@
         .theme-preset-btn { background: #1a2234; border: 1px solid var(--card-border); color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: 0.2s; text-align: center; }
         .theme-preset-btn:hover { border-color: var(--gold); }
 
-        /* تعديلات الـ 3D الاحترافية وإلغاء الأشرطة المزعجة */
-        .img-adjuster-3d { background: #0d1117; padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-muted); perspective: 800px; }
-        .img-adjuster-3d label { display: block; margin-bottom: 3px; color: var(--gold-light); font-weight: 600; }
-        .img-adjuster-3d input[type="range"] { width: 100%; accent-color: var(--gold); margin-bottom: 8px; }
+        /* نافذة محرر الصور الاحترافي المتكامل (3D + تحريك وتحجيم وقص مرن) */
+        #proImageEditorModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 16, 0.92); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 20000; padding: 15px; overflow-y: auto; }
+        .editor-card-box { background: var(--card-bg); border: 2px solid var(--gold); padding: 20px; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); text-align: center; }
         
-        /* نافذة المعاطفة المنبثقة الفورية (Popup) */
-        #imagePopupModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 16, 0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 10000; }
-        .popup-content-box { background: var(--card-bg); border: 2px solid var(--gold); padding: 20px; border-radius: 20px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); transform-style: preserve-style; }
+        .editor-canvas-container { width: 220px; height: 220px; margin: 0 auto 15px; background: #000; border-radius: 16px; border: 2px solid var(--gold); overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 900px; position: relative; }
+        .editor-canvas-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.05s ease; }
+
+        .editor-controls-grid { background: #0a0c10; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px; text-align: right; }
+        .editor-controls-grid label { display: block; font-size: 0.8rem; color: var(--gold-light); margin-bottom: 3px; font-weight: 600; }
+        .editor-controls-grid input[type="range"] { width: 100%; accent-color: var(--gold); margin-bottom: 10px; }
 
         .footer { text-align: center; padding: 30px 15px; margin-top: 40px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.85rem; }
         .footer span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
@@ -96,15 +98,37 @@
         </div>
     </div>
 
-    <!-- نافذة معاينة الصورة ثلاثية الأبعاد الفورية -->
-    <div id="imagePopupModal">
-        <div class="popup-content-box">
-            <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fa-solid fa-cube"></i> معاينة الصورة الاحترافية (3D)</h3>
-            <div style="width: 250px; height: 250px; margin: 0 auto 15px; border-radius: 12px; overflow: hidden; background: #0a0c10; display: flex; align-items: center; justify-content: center; perspective: 1000px; border: 1px solid var(--card-border);">
-                <img id="popupLiveImg" src="" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s ease;">
+    <!-- نافذة محرر الصور الاحترافي الخارجية قبل اعتمادها بالسيستم -->
+    <div id="proImageEditorModal">
+        <div class="editor-card-box">
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-wand-magic-sparkles"></i> محرر ومعاينة الصور الاحترافي</h3>
+            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 12px;">قم بتعديل الزوايا، التحجيم، والإمالة ثلاثية الأبعاد (3D) بحرية تامة قبل النشر</p>
+            
+            <div class="editor-canvas-container">
+                <img id="editorLiveImg" src="">
             </div>
-            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">تم رفع الصورة بنجاح وعرضها بشكل تجميلي نقي خالي من أي أشرطة تمرير مزعجة.</p>
-            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="closePopupModal()">اعتماد وإغلاق</button>
+
+            <div class="editor-controls-grid">
+                <label>إمالة 3D رأسية (فوق / تحت - Rotate X): <span id="lblRotX">0</span>°</label>
+                <input type="range" min="-50" max="50" value="0" id="rangeRotX" oninput="applyEditorTransform()">
+
+                <label>إمالة 3D أفقية (يمين / يسار - Rotate Y): <span id="lblRotY">0</span>°</label>
+                <input type="range" min="-50" max="50" value="0" id="rangeRotY" oninput="applyEditorTransform()">
+
+                <label>تكبير / تصغير (Zoom Scale): <span id="lblScale">1.0</span>x</label>
+                <input type="range" min="0.8" max="2.5" step="0.1" value="1" id="rangeScale" oninput="applyEditorTransform()">
+
+                <label>تحريك أفقي (Move X): <span id="lblPosX">0</span>px</label>
+                <input type="range" min="-120" max="120" value="0" id="rangePosX" oninput="applyEditorTransform()">
+
+                <label>تحريك عمودي (Move Y): <span id="lblPosY">0</span>px</label>
+                <input type="range" min="-120" max="120" value="0" id="rangePosY" oninput="applyEditorTransform()">
+            </div>
+
+            <div style="display: flex; gap: 10px;">
+                <button style="background: #e74c3c; color: #fff; font-weight: 700; border: none; padding: 10px; flex: 1; border-radius: 8px; cursor: pointer;" onclick="cancelImageEditor()">إلغاء</button>
+                <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; flex: 2; border-radius: 8px; cursor: pointer;" onclick="saveImageEditorResult()">حفظ واعتماد الصورة</button>
+            </div>
         </div>
     </div>
 
@@ -158,9 +182,9 @@
             <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="addNewCategory()">إضافة القسم الجديد</button>
         </div>
 
-        <!-- إضافة طبق جديد مع نظام 3D الاحترافي -->
+        <!-- إضافة طبق جديد مع زر المحرر المتقدم -->
         <div class="admin-section-box" id="addItemSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد بمعاينة 3D</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                 <input type="text" id="newNameAr" class="admin-input" placeholder="اسم الطبق بالعربي">
                 <input type="text" id="newNameEn" class="admin-input" placeholder="اسم الطبق بالانجليزي">
@@ -172,26 +196,14 @@
                 <input type="text" id="newDescEn" class="admin-input" placeholder="وصف الطبق بالانجليزي">
             </div>
             
-            <div style="margin-bottom: 8px;">
-                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق (بدون أشرطة تمرير تقليدية):</label>
-                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="compressAndPreview(event, 'new')">
-            </div>
-
-            <!-- أداة تحكم ثلاثية الأبعاد 3D للتعديل بدون أشرطة مزعجة -->
-            <div class="img-adjuster-3d">
-                <label><i class="fa-solid fa-arrows-spin"></i> التحكم بمنظور الـ 3D (إمالة يمين/يسار - Rotate Y): <span id="newRotateYVal">0</span>°</label>
-                <input type="range" min="-45" max="45" value="0" oninput="updateNew3DTransform('rotateY', this.value)">
-
-                <label><i class="fa-solid fa-arrows-up-down-left-right"></i> التحكم بمنظور الـ 3D (إمالة فوق/تحت - Rotate X): <span id="newRotateXVal">0</span>°</label>
-                <input type="range" min="-45" max="45" value="0" oninput="updateNew3DTransform('rotateX', this.value)">
-
-                <label><i class="fa-solid fa-expand"></i> ضبط حجم العرض (Scale): <span id="newScaleVal">1</span>x</label>
-                <input type="range" min="0.8" max="1.8" step="0.1" value="1" oninput="updateNew3DTransform('scale', this.value)">
+            <div style="margin-bottom: 10px;">
+                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق وقم بتعديلها:</label>
+                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="openProEditor(event, 'new')">
             </div>
             
-            <div style="text-align: center; margin-bottom: 10px; background: var(--card-bg); padding: 10px; border-radius: 8px; perspective: 800px;">
-                <div style="width: 120px; height: 120px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center;">
-                    <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s ease;">
+            <div style="text-align: center; margin-bottom: 10px; background: var(--card-bg); padding: 10px; border-radius: 8px;">
+                <div style="width: 100px; height: 100px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center; perspective: 800px;">
+                    <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover;">
                 </div>
             </div>
 
@@ -218,7 +230,7 @@
         <p style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">Al-Saada Land Restaurant. All Rights Reserved.</p>
     </footer>
 
-    <!-- جافاسكريبت مع دعم الـ 3D المتقدم والإطارات الفورية بدون أشرطة تمرير -->
+    <!-- جافاسكريبت مع محرر الصور الخارجي وربط Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -249,9 +261,10 @@
         };
         let isAdminLoggedIn = false;
         let currentLang = 'ar';
+
         let newOptimizedImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
-        
-        let new3DState = { rotateX: 0, rotateY: 0, scale: 1 };
+        let activeEditingTarget = null;
+        let activeRawDataUrl = "";
 
         const zekoMessages = [
             "مرحباً بك يا زكريا.. يا بطل الإنجاز والتميز، عقول العظماء وحدها تصنع الفخامة. نتمنى لك يوماً مليئاً بالنجاح والسعادة!",
@@ -323,6 +336,121 @@
             } catch(e) {}
         }
 
+        // نظام محرر الصور الخارجي (فتح شاشة تعديل 3D والزوايا والقص)
+        window.openProEditor = function(event, targetKey) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            activeEditingTarget = targetKey; // 'new' أو id الطبق
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                activeRawDataUrl = e.target.result;
+                document.getElementById('editorLiveImg').src = activeRawDataUrl;
+                
+                // إعادة ضبط القيم الافتراضية للمحرر
+                document.getElementById('rangeRotX').value = 0;
+                document.getElementById('rangeRotY').value = 0;
+                document.getElementById('rangeScale').value = 1;
+                document.getElementById('rangePosX').value = 0;
+                document.getElementById('rangePosY').value = 0;
+                
+                document.getElementById('lblRotX').innerText = 0;
+                document.getElementById('lblRotY').innerText = 0;
+                document.getElementById('lblScale').innerText = '1.0';
+                document.getElementById('lblPosX').innerText = 0;
+                document.getElementById('lblPosY').innerText = 0;
+                
+                document.getElementById('editorLiveImg').style.transform = 'rotateX(0deg) rotateY(0deg) scale(1) translate(0px, 0px)';
+                document.getElementById('proImageEditorModal').style.display = 'flex';
+            }
+            reader.readAsDataURL(file);
+        }
+
+        window.applyEditorTransform = function() {
+            let rx = document.getElementById('rangeRotX').value;
+            let ry = document.getElementById('rangeRotY').value;
+            let sc = document.getElementById('rangeScale').value;
+            let px = document.getElementById('rangePosX').value;
+            let py = document.getElementById('rangePosY').value;
+
+            document.getElementById('lblRotX').innerText = rx;
+            document.getElementById('lblRotY').innerText = ry;
+            document.getElementById('lblScale').innerText = sc;
+            document.getElementById('lblPosX').innerText = px;
+            document.getElementById('lblPosY').innerText = py;
+
+            let img = document.getElementById('editorLiveImg');
+            img.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
+        }
+
+        window.cancelImageEditor = function() {
+            document.getElementById('proImageEditorModal').style.display = 'none';
+            // تفريغ حقل الـ file عشان يقدر يعيد اختيارها لو حب
+            if(activeEditingTarget === 'new') {
+                document.getElementById('newImageFile').value = '';
+            } else {
+                let fileInput = document.getElementById(`file_${activeEditingTarget}`);
+                if(fileInput) fileInput.value = '';
+            }
+        }
+
+        window.saveImageEditorResult = function() {
+            let rx = Number(document.getElementById('rangeRotX').value);
+            let ry = Number(document.getElementById('rangeRotY').value);
+            let sc = Number(document.getElementById('rangeScale').value);
+            let px = Number(document.getElementById('rangePosX').value);
+            let py = Number(document.getElementById('rangePosY').value);
+
+            // دمج المعالجة والرسم في Canvas لتوليد الصورة النهائية المقصوصة والمضبوطة تماماً كما طلب زكريا
+            const img = new Image();
+            img.src = activeRawDataUrl;
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                canvas.width = 600;
+                canvas.height = 600;
+                const ctx = canvas.getContext('2d');
+                
+                ctx.fillStyle = '#0a0c10';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.save();
+                ctx.translate(canvas.width / 2 + (px * 2), canvas.height / 2 + (py * 2));
+                ctx.scale(sc, sc);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                ctx.restore();
+
+                let finalCompressedUrl = canvas.toDataURL('image/jpeg', 0.9);
+
+                if(activeEditingTarget === 'new') {
+                    newOptimizedImage = finalConsumerObject(finalCompressedUrl, rx, ry, sc, px, py);
+                } else {
+                    let item = menuItems.find(i => i.id === activeEditingTarget);
+                    if(item) {
+                        item.img = finalCompressedUrl;
+                        item.rotX = rx;
+                        item.rotY = ry;
+                        item.scale = sc;
+                        item.posX = px;
+                        item.posY = py;
+                        document.getElementById(`img_view_${activeEditingTarget}`).src = finalCompressedUrl;
+                        document.getElementById(`img_view_${activeEditingTarget}`).style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
+                    }
+                }
+
+                document.getElementById('proImageEditorModal').style.display = 'none';
+                alert("تم ضبط الصورة وقصها واعتمادها بنجاح!");
+            }
+        }
+
+        let tempNew3DData = { rotX: 0, rotY: 0, scale: 1, posX: 0, posY: 0 };
+        function finalConsumerObject(url, rx, ry, sc, px, py) {
+            newOptimizedImage = url;
+            tempNew3DData = { rotX: rx, rotY: ry, scale: sc, posX: px, posY: py };
+            document.getElementById('newImgPreview').src = url;
+            document.getElementById('newImgPreview').style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
+            return url;
+        }
+
         window.toggleLanguage = function() {
             currentLang = (currentLang === 'ar') ? 'en' : 'ar';
             const htmlRoot = document.getElementById('htmlRoot');
@@ -348,68 +476,6 @@
             }
             renderCategories();
             renderMenu(menuItems);
-        }
-
-        // معالجة معاينة الصورة وعرضها فوراً في نافذة منبثقة (Popup) بدون أشرطة تمرير تقليدية
-        window.compressAndPreview = function(event, targetId) {
-            const file = event.target.files[0];
-            if (!file) return;
-
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.src = e.target.result;
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    const MAX_WIDTH = 800;
-                    const MAX_HEIGHT = 800;
-                    let width = img.width;
-                    let height = img.height;
-
-                    if (width > height) {
-                        if (width > MAX_WIDTH) { height *= MAX_WIDTH / width; width = MAX_WIDTH; }
-                    } else {
-                        if (height > MAX_HEIGHT) { width *= MAX_HEIGHT / height; height = MAX_HEIGHT; }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    const compressedDataUrl = canvas.toDataURL('image/jpeg', 0.85);
-
-                    if (targetId === 'new') {
-                        newOptimizedImage = compressedDataUrl;
-                        document.getElementById('newImgPreview').src = compressedDataUrl;
-                        
-                        // إظهار نافذة المعاينة الفورية بأسلوب 3D عصري وبدون أشرطة تمرير
-                        document.getElementById('popupLiveImg').src = compressedDataUrl;
-                        document.getElementById('imagePopupModal').style.display = 'flex';
-                    } else {
-                        tempUpdatedImages[targetId] = compressedDataUrl;
-                        document.getElementById(`img_view_${targetId}`).src = compressedDataUrl;
-                        
-                        document.getElementById('popupLiveImg').src = compressedDataUrl;
-                        document.getElementById('imagePopupModal').style.display = 'flex';
-                    }
-                }
-            }
-            reader.readAsDataURL(file);
-        }
-
-        window.closePopupModal = function() {
-            document.getElementById('imagePopupModal').style.display = 'none';
-        }
-
-        window.updateNew3DTransform = function(prop, val) {
-            new3DState[prop] = Number(val);
-            if(prop === 'rotateX') document.getElementById('newRotateXVal').innerText = val;
-            if(prop === 'rotateY') document.getElementById('newRotateYVal').innerText = val;
-            if(prop === 'scale') document.getElementById('newScaleVal').innerText = val;
-
-            let previewImg = document.getElementById('newImgPreview');
-            previewImg.style.transform = `perspective(600px) rotateX(${new3DState.rotateX}deg) rotateY(${new3DState.rotateY}deg) scale(${new3DState.scale})`;
         }
 
         window.checkAdminLogin = function() {
@@ -544,6 +610,8 @@
                 let rotX = item.rotX || 0;
                 let rotY = item.rotY || 0;
                 let scale = item.scale || 1;
+                let px = item.posX || 0;
+                let py = item.posY || 0;
 
                 let title = (currentLang === 'en') ? (item.nameEn || item.nameAr || item.name) : (item.nameAr || item.name);
                 let desc = (currentLang === 'en') ? (item.descEn || item.descAr || item.desc || '') : (item.descAr || item.desc || '');
@@ -572,19 +640,8 @@
                             </div>
                             
                             <div style="margin-bottom: 8px;">
-                                <label style="font-size:0.75rem; color:var(--gold);">تغيير صورة الطبق:</label>
-                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="compressAndPreview(event, '${item.id}')">
-                            </div>
-
-                            <div class="img-adjuster-3d">
-                                <label>إمالة 3D رأسية (Rotate X): <span id="rotX_val_${item.id}">${rotX}</span>°</label>
-                                <input type="range" min="-45" max="45" value="${rotX}" oninput="adjustImage3DProp('${item.id}', 'rotX', this.value)">
-                                
-                                <label>إمالة 3D أفقية (Rotate Y): <span id="rotY_val_${item.id}">${rotY}</span>°</label>
-                                <input type="range" min="-45" max="45" value="${rotY}" oninput="adjustImage3DProp('${item.id}', 'rotY', this.value)">
-
-                                <label>الحجم (Scale): <span id="scale_val_${item.id}">${scale}</span>x</label>
-                                <input type="range" min="0.8" max="1.8" step="0.1" value="${scale}" oninput="adjustImage3DProp('${item.id}', 'scale', this.value)">
+                                <label style="font-size:0.75rem; color:var(--gold);">تعديل صورة الطبق بمحرر 3D الخارجي:</label>
+                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="openProEditor(event, '${item.id}')">
                             </div>
 
                             <div style="display: flex; gap: 5px; margin-top: 5px;">
@@ -596,8 +653,8 @@
                 }
 
                 card.innerHTML = `
-                    <div class="item-img-container" style="perspective: 800px;">
-                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${title}" class="item-img" style="transform: rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale});">
+                    <div class="item-img-container">
+                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${title}" class="item-img" style="transform: rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale}) translate(${px}px, ${py}px);">
                     </div>
                     <div class="item-content-body">
                         <div>
@@ -614,20 +671,6 @@
             });
         }
 
-        window.adjustImage3DProp = function(id, type, val) {
-            let imgEl = document.getElementById(`img_view_${id}`);
-            let item = menuItems.find(i => i.id === id);
-            if(!item) return;
-
-            if(type === 'rotX') item.rotX = Number(val);
-            if(type === 'rotY') item.rotY = Number(val);
-            if(type === 'scale') item.scale = Number(val);
-
-            document.getElementById(`${type}_val_${id}`).innerText = val;
-            imgEl.style.transform = `rotateX(${item.rotX || 0}deg) rotateY(${item.rotY || 0}deg) scale(${item.scale || 1})`;
-        }
-
-        let tempUpdatedImages = {};
         window.updateItemData = async function(id) {
             let nameAr = document.getElementById(`nameAr_${id}`).value;
             let nameEn = document.getElementById(`nameEn_${id}`).value;
@@ -646,12 +689,11 @@
                 descEn,
                 rotX: item.rotX || 0,
                 rotY: item.rotY || 0,
-                scale: item.scale || 1
+                scale: item.scale || 1,
+                posX: item.posX || 0,
+                posY: item.posY || 0,
+                img: item.img
             };
-
-            if(tempUpdatedImages[id]) {
-                updatePayload.img = tempUpdatedImages[id];
-            }
 
             try {
                 await updateDoc(doc(db, "menu", id), updatePayload);
@@ -691,9 +733,11 @@
                     descAr,
                     descEn: descEn || descAr,
                     img: newOptimizedImage,
-                    rotX: new3DState.rotateX,
-                    rotY: new3DState.rotateY,
-                    scale: new3DState.scale
+                    rotX: tempNew3DData.rotX || 0,
+                    rotY: tempNew3DData.rotY || 0,
+                    scale: tempNew3DData.scale || 1,
+                    posX: tempNew3DData.posX || 0,
+                    posY: tempNew3DData.posY || 0
                 });
                 alert("تمت إضافة الطبق بنجاح!");
                 document.getElementById('newNameAr').value = '';
