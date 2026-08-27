@@ -67,9 +67,14 @@
         .theme-preset-btn { background: #1a2234; border: 1px solid var(--card-border); color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: 0.2s; text-align: center; }
         .theme-preset-btn:hover { border-color: var(--gold); }
 
-        .img-adjuster { background: #0d1117; padding: 8px; border-radius: 8px; margin-bottom: 8px; border: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-muted); }
-        .img-adjuster label { display: block; margin-bottom: 2px; color: var(--gold-light); }
-        .img-adjuster input[type="range"] { width: 100%; accent-color: var(--gold); }
+        /* تعديلات الـ 3D الاحترافية وإلغاء الأشرطة المزعجة */
+        .img-adjuster-3d { background: #0d1117; padding: 12px; border-radius: 12px; margin-bottom: 10px; border: 1px solid var(--card-border); font-size: 0.8rem; color: var(--text-muted); perspective: 800px; }
+        .img-adjuster-3d label { display: block; margin-bottom: 3px; color: var(--gold-light); font-weight: 600; }
+        .img-adjuster-3d input[type="range"] { width: 100%; accent-color: var(--gold); margin-bottom: 8px; }
+        
+        /* نافذة المعاطفة المنبثقة الفورية (Popup) */
+        #imagePopupModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 16, 0.9); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 10000; }
+        .popup-content-box { background: var(--card-bg); border: 2px solid var(--gold); padding: 20px; border-radius: 20px; text-align: center; max-width: 420px; width: 90%; box-shadow: 0 0 30px rgba(212, 175, 55, 0.3); transform-style: preserve-style; }
 
         .footer { text-align: center; padding: 30px 15px; margin-top: 40px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.85rem; }
         .footer span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
@@ -91,6 +96,18 @@
         </div>
     </div>
 
+    <!-- نافذة معاينة الصورة ثلاثية الأبعاد الفورية -->
+    <div id="imagePopupModal">
+        <div class="popup-content-box">
+            <h3 style="color: var(--gold); margin-bottom: 15px;"><i class="fa-solid fa-cube"></i> معاينة الصورة الاحترافية (3D)</h3>
+            <div style="width: 250px; height: 250px; margin: 0 auto 15px; border-radius: 12px; overflow: hidden; background: #0a0c10; display: flex; align-items: center; justify-content: center; perspective: 1000px; border: 1px solid var(--card-border);">
+                <img id="popupLiveImg" src="" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s ease;">
+            </div>
+            <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 15px;">تم رفع الصورة بنجاح وعرضها بشكل تجميلي نقي خالي من أي أشرطة تمرير مزعجة.</p>
+            <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px 20px; border-radius: 8px; cursor: pointer;" onclick="closePopupModal()">اعتماد وإغلاق</button>
+        </div>
+    </div>
+
     <header class="hero">
         <div class="top-controls">
             <button class="lang-btn" onclick="toggleLanguage()" id="langBtn">EN</button>
@@ -106,9 +123,9 @@
     </header>
 
     <main class="container">
-        <!-- قسم تخصيص الألوان (معاينة حصرية لزكريا دون حفظ تلقائي) -->
+        <!-- قسم تخصيص الألوان -->
         <div class="admin-section-box" id="themeSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الثيم والألوان (معاينة لك، لا تحفظ إلا بالضغط أدناه)</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-palette"></i> تخصيص الثيم والألوان</h3>
             
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; margin-bottom: 12px;">
                 <button class="theme-preset-btn" onclick="applyPreset('#0a0c10', '#d4af37')">🖤 أسود فخم الملكي</button>
@@ -141,9 +158,9 @@
             <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="addNewCategory()">إضافة القسم الجديد</button>
         </div>
 
-        <!-- إضافة طبق جديد -->
+        <!-- إضافة طبق جديد مع نظام 3D الاحترافي -->
         <div class="admin-section-box" id="addItemSection">
-            <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد</h3>
+            <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد بمعاينة 3D</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
                 <input type="text" id="newNameAr" class="admin-input" placeholder="اسم الطبق بالعربي">
                 <input type="text" id="newNameEn" class="admin-input" placeholder="اسم الطبق بالانجليزي">
@@ -156,13 +173,25 @@
             </div>
             
             <div style="margin-bottom: 8px;">
-                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق الحقيقية:</label>
+                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق (بدون أشرطة تمرير تقليدية):</label>
                 <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="compressAndPreview(event, 'new')">
             </div>
+
+            <!-- أداة تحكم ثلاثية الأبعاد 3D للتعديل بدون أشرطة مزعجة -->
+            <div class="img-adjuster-3d">
+                <label><i class="fa-solid fa-arrows-spin"></i> التحكم بمنظور الـ 3D (إمالة يمين/يسار - Rotate Y): <span id="newRotateYVal">0</span>°</label>
+                <input type="range" min="-45" max="45" value="0" oninput="updateNew3DTransform('rotateY', this.value)">
+
+                <label><i class="fa-solid fa-arrows-up-down-left-right"></i> التحكم بمنظور الـ 3D (إمالة فوق/تحت - Rotate X): <span id="newRotateXVal">0</span>°</label>
+                <input type="range" min="-45" max="45" value="0" oninput="updateNew3DTransform('rotateX', this.value)">
+
+                <label><i class="fa-solid fa-expand"></i> ضبط حجم العرض (Scale): <span id="newScaleVal">1</span>x</label>
+                <input type="range" min="0.8" max="1.8" step="0.1" value="1" oninput="updateNew3DTransform('scale', this.value)">
+            </div>
             
-            <div style="text-align: center; margin-bottom: 10px; background: var(--card-bg); padding: 10px; border-radius: 8px;">
-                <div style="width: 100px; height: 100px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); position: relative;">
-                    <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover;">
+            <div style="text-align: center; margin-bottom: 10px; background: var(--card-bg); padding: 10px; border-radius: 8px; perspective: 800px;">
+                <div style="width: 120px; height: 120px; margin: auto; overflow: hidden; border-radius: 12px; border: 2px solid var(--gold); display: flex; align-items: center; justify-content: center;">
+                    <img id="newImgPreview" src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.1s ease;">
                 </div>
             </div>
 
@@ -189,7 +218,7 @@
         <p style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">Al-Saada Land Restaurant. All Rights Reserved.</p>
     </footer>
 
-    <!-- جافاسكريبت وربط Firebase -->
+    <!-- جافاسكريبت مع دعم الـ 3D المتقدم والإطارات الفورية بدون أشرطة تمرير -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -221,6 +250,8 @@
         let isAdminLoggedIn = false;
         let currentLang = 'ar';
         let newOptimizedImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
+        
+        let new3DState = { rotateX: 0, rotateY: 0, scale: 1 };
 
         const zekoMessages = [
             "مرحباً بك يا زكريا.. يا بطل الإنجاز والتميز، عقول العظماء وحدها تصنع الفخامة. نتمنى لك يوماً مليئاً بالنجاح والسعادة!",
@@ -228,11 +259,8 @@
             "يا هلا بزكريا الفنان! مطعم السعادة لاند ينير بوجودك. دمت مبدعاً ومحلقاً في سماء التميز والرخاء."
         ];
 
-        // تطبيق الألوان بذكاء مع تناسق النصوص
         window.applyThemeColors = function(bgColor, goldColor) {
             document.documentElement.style.setProperty('--bg-dark', bgColor);
-            
-            // تحديد إذا كان الخلفية فاتحة أو غامقة لتعديل لون النصوص تلقائياً لتكون واضحة ومتناسقة
             let isLight = isLightColor(bgColor);
             if (isLight) {
                 document.documentElement.style.setProperty('--card-bg', '#ffffff');
@@ -245,7 +273,6 @@
                 document.documentElement.style.setProperty('--text-main', '#f8fafc');
                 document.documentElement.style.setProperty('--text-muted', '#94a3b8');
             }
-
             document.documentElement.style.setProperty('--gold', goldColor);
             document.documentElement.style.setProperty('--gold-light', goldColor);
             document.documentElement.style.setProperty('--gold-gradient', `linear-gradient(135deg, ${goldColor}, #ffffff, ${goldColor})`);
@@ -260,9 +287,8 @@
             return yiq >= 128;
         }
 
-        // معاينة حصرية لزكريا فقط أثناء التجربة دون التأثير على الزبائن
         window.livePreviewTheme = function() {
-            if(!isAdminLoggedIn) return; // حماية إضافية
+            if(!isAdminLoggedIn) return;
             let bg = document.getElementById('bgColorPicker').value;
             let gold = document.getElementById('goldColorPicker').value;
             applyThemeColors(bg, gold);
@@ -274,7 +300,6 @@
             applyThemeColors(bg, gold);
         }
 
-        // حفظ الألوان سحابياً (تظهر للناس فقط عند النقر هنا)
         window.saveThemeSettings = async function() {
             let bg = document.getElementById('bgColorPicker').value;
             let gold = document.getElementById('goldColorPicker').value;
@@ -286,7 +311,6 @@
             }
         }
 
-        // تحميل الألوان للعامة
         async function loadThemeFromCloud() {
             try {
                 const docSnap = await getDoc(doc(db, "settings", "theme"));
@@ -326,6 +350,7 @@
             renderMenu(menuItems);
         }
 
+        // معالجة معاينة الصورة وعرضها فوراً في نافذة منبثقة (Popup) بدون أشرطة تمرير تقليدية
         window.compressAndPreview = function(event, targetId) {
             const file = event.target.files[0];
             if (!file) return;
@@ -357,13 +382,34 @@
                     if (targetId === 'new') {
                         newOptimizedImage = compressedDataUrl;
                         document.getElementById('newImgPreview').src = compressedDataUrl;
+                        
+                        // إظهار نافذة المعاينة الفورية بأسلوب 3D عصري وبدون أشرطة تمرير
+                        document.getElementById('popupLiveImg').src = compressedDataUrl;
+                        document.getElementById('imagePopupModal').style.display = 'flex';
                     } else {
                         tempUpdatedImages[targetId] = compressedDataUrl;
                         document.getElementById(`img_view_${targetId}`).src = compressedDataUrl;
+                        
+                        document.getElementById('popupLiveImg').src = compressedDataUrl;
+                        document.getElementById('imagePopupModal').style.display = 'flex';
                     }
                 }
             }
             reader.readAsDataURL(file);
+        }
+
+        window.closePopupModal = function() {
+            document.getElementById('imagePopupModal').style.display = 'none';
+        }
+
+        window.updateNew3DTransform = function(prop, val) {
+            new3DState[prop] = Number(val);
+            if(prop === 'rotateX') document.getElementById('newRotateXVal').innerText = val;
+            if(prop === 'rotateY') document.getElementById('newRotateYVal').innerText = val;
+            if(prop === 'scale') document.getElementById('newScaleVal').innerText = val;
+
+            let previewImg = document.getElementById('newImgPreview');
+            previewImg.style.transform = `perspective(600px) rotateX(${new3DState.rotateX}deg) rotateY(${new3DState.rotateY}deg) scale(${new3DState.scale})`;
         }
 
         window.checkAdminLogin = function() {
@@ -374,7 +420,7 @@
                     document.getElementById('addCategorySection').style.display = 'none';
                     document.getElementById('themeSection').style.display = 'none';
                     document.getElementById('lockIcon').className = "fa-solid fa-lock";
-                    loadThemeFromCloud(); // إعادة الألوان الحقيقية المحفوظة سحابياً
+                    loadThemeFromCloud();
                     renderMenu(menuItems);
                     renderCategories();
                 }
@@ -495,9 +541,9 @@
                 const card = document.createElement('div');
                 card.className = 'item-card';
 
-                let zoomVal = item.zoom || 1;
-                let posXVal = item.posX || 0;
-                let posYVal = item.posY || 0;
+                let rotX = item.rotX || 0;
+                let rotY = item.rotY || 0;
+                let scale = item.scale || 1;
 
                 let title = (currentLang === 'en') ? (item.nameEn || item.nameAr || item.name) : (item.nameAr || item.name);
                 let desc = (currentLang === 'en') ? (item.descEn || item.descAr || item.desc || '') : (item.descAr || item.desc || '');
@@ -530,15 +576,15 @@
                                 <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="compressAndPreview(event, '${item.id}')">
                             </div>
 
-                            <div class="img-adjuster">
-                                <label>Zoom: <span id="zoom_val_${item.id}">${zoomVal}</span></label>
-                                <input type="range" min="1" max="2.5" step="0.1" value="${zoomVal}" oninput="adjustImageProp('${item.id}', 'zoom', this.value)">
+                            <div class="img-adjuster-3d">
+                                <label>إمالة 3D رأسية (Rotate X): <span id="rotX_val_${item.id}">${rotX}</span>°</label>
+                                <input type="range" min="-45" max="45" value="${rotX}" oninput="adjustImage3DProp('${item.id}', 'rotX', this.value)">
                                 
-                                <label style="margin-top: 5px;">Move X (Left/Right):</label>
-                                <input type="range" min="-100" max="100" value="${posXVal}" oninput="adjustImageProp('${item.id}', 'x', this.value)">
+                                <label>إمالة 3D أفقية (Rotate Y): <span id="rotY_val_${item.id}">${rotY}</span>°</label>
+                                <input type="range" min="-45" max="45" value="${rotY}" oninput="adjustImage3DProp('${item.id}', 'rotY', this.value)">
 
-                                <label style="margin-top: 5px;">Move Y (Up/Down):</label>
-                                <input type="range" min="-100" max="100" value="${posYVal}" oninput="adjustImageProp('${item.id}', 'y', this.value)">
+                                <label>الحجم (Scale): <span id="scale_val_${item.id}">${scale}</span>x</label>
+                                <input type="range" min="0.8" max="1.8" step="0.1" value="${scale}" oninput="adjustImage3DProp('${item.id}', 'scale', this.value)">
                             </div>
 
                             <div style="display: flex; gap: 5px; margin-top: 5px;">
@@ -550,8 +596,8 @@
                 }
 
                 card.innerHTML = `
-                    <div class="item-img-container">
-                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${title}" class="item-img" style="transform: scale(${zoomVal}) translate(${posXVal}px, ${posYVal}px);">
+                    <div class="item-img-container" style="perspective: 800px;">
+                        <img id="img_view_${item.id}" src="${item.img || 'https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500'}" alt="${title}" class="item-img" style="transform: rotateX(${rotX}deg) rotateY(${rotY}deg) scale(${scale});">
                     </div>
                     <div class="item-content-body">
                         <div>
@@ -568,16 +614,17 @@
             });
         }
 
-        window.adjustImageProp = function(id, type, val) {
+        window.adjustImage3DProp = function(id, type, val) {
             let imgEl = document.getElementById(`img_view_${id}`);
             let item = menuItems.find(i => i.id === id);
             if(!item) return;
 
-            if(type === 'zoom') item.zoom = Number(val);
-            if(type === 'x') item.posX = Number(val);
-            if(type === 'y') item.posY = Number(val);
+            if(type === 'rotX') item.rotX = Number(val);
+            if(type === 'rotY') item.rotY = Number(val);
+            if(type === 'scale') item.scale = Number(val);
 
-            imgEl.style.transform = `scale(${item.zoom || 1}) translate(${item.posX || 0}px, ${item.posY || 0}px)`;
+            document.getElementById(`${type}_val_${id}`).innerText = val;
+            imgEl.style.transform = `rotateX(${item.rotX || 0}deg) rotateY(${item.rotY || 0}deg) scale(${item.scale || 1})`;
         }
 
         let tempUpdatedImages = {};
@@ -597,9 +644,9 @@
                 cat: newCat,
                 descAr,
                 descEn,
-                zoom: item.zoom || 1,
-                posX: item.posX || 0,
-                posY: item.posY || 0
+                rotX: item.rotX || 0,
+                rotY: item.rotY || 0,
+                scale: item.scale || 1
             };
 
             if(tempUpdatedImages[id]) {
@@ -644,9 +691,9 @@
                     descAr,
                     descEn: descEn || descAr,
                     img: newOptimizedImage,
-                    zoom: 1,
-                    posX: 0,
-                    posY: 0
+                    rotX: new3DState.rotateX,
+                    rotY: new3DState.rotateY,
+                    scale: new3DState.scale
                 });
                 alert("تمت إضافة الطبق بنجاح!");
                 document.getElementById('newNameAr').value = '';
