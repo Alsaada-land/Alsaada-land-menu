@@ -48,7 +48,7 @@
         .item-card { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; transition: 0.3s; }
         .item-card:hover { border-color: rgba(212, 175, 55, 0.4); transform: translateY(-2px); }
         
-        .item-img-container { width: 100%; height: 160px; overflow: hidden; position: relative; background: #1a2234; display: flex; align-items: center; justify-content: center; perspective: 800px; }
+        .item-img-container { width: 100%; height: 160px; overflow: hidden; position: relative; background: #1a2234; display: flex; align-items: center; justify-content: center; perspective: 900px; }
         .item-img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.2s ease; }
         
         .item-content-body { padding: 14px 16px; display: flex; flex-direction: column; flex-grow: 1; justify-content: space-between; }
@@ -67,16 +67,20 @@
         .theme-preset-btn { background: #1a2234; border: 1px solid var(--card-border); color: #fff; padding: 8px 12px; border-radius: 8px; cursor: pointer; font-size: 0.8rem; font-weight: 700; transition: 0.2s; text-align: center; }
         .theme-preset-btn:hover { border-color: var(--gold); }
 
-        /* نافذة محرر الصور الاحترافي المتكامل (3D + تحريك وتحجيم وقص مرن) */
-        #proImageEditorModal { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(10, 12, 16, 0.92); backdrop-filter: blur(10px); display: none; align-items: center; justify-content: center; z-index: 20000; padding: 15px; overflow-y: auto; }
-        .editor-card-box { background: var(--card-bg); border: 2px solid var(--gold); padding: 20px; border-radius: 20px; width: 100%; max-width: 480px; box-shadow: 0 0 40px rgba(212, 175, 55, 0.4); text-align: center; }
+        /* استديو صفحة الويب المستقلة لتعديل الصور ثلاثي الأبعاد 3D */
+        #studioPageOverlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #0a0c10; z-index: 30000; display: none; flex-direction: column; overflow-y: auto; padding: 20px; }
+        .studio-header { display: flex; justify-content: space-between; align-items: center; max-width: 900px; margin: 0 auto 20px; width: 100%; border-bottom: 1px solid var(--card-border); padding-bottom: 15px; }
+        .studio-body { max-width: 900px; margin: 0 auto; width: 100%; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+        @media(max-width: 768px) { .studio-body { grid-template-columns: 1fr; } }
         
-        .editor-canvas-container { width: 220px; height: 220px; margin: 0 auto 15px; background: #000; border-radius: 16px; border: 2px solid var(--gold); overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 900px; position: relative; }
-        .editor-canvas-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.05s ease; }
-
-        .editor-controls-grid { background: #0a0c10; padding: 12px; border-radius: 12px; border: 1px solid var(--card-border); margin-bottom: 15px; text-align: right; }
-        .editor-controls-grid label { display: block; font-size: 0.8rem; color: var(--gold-light); margin-bottom: 3px; font-weight: 600; }
-        .editor-controls-grid input[type="range"] { width: 100%; accent-color: var(--gold); margin-bottom: 10px; }
+        .studio-preview-box { background: var(--card-bg); border: 2px solid var(--gold); border-radius: 16px; padding: 20px; text-align: center; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+        .customer-card-mockup { width: 240px; background: #0f131d; border: 1px solid var(--card-border); border-radius: 14px; overflow: hidden; box-shadow: 0 10px 30px rgba(0,0,0,0.5); text-align: right; }
+        .mockup-img-wrap { width: 100%; height: 150px; background: #000; overflow: hidden; display: flex; align-items: center; justify-content: center; perspective: 900px; }
+        .mockup-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.05s ease; }
+        
+        .studio-controls-panel { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 16px; padding: 20px; }
+        .studio-controls-panel label { display: block; font-size: 0.85rem; color: var(--gold-light); margin-bottom: 5px; font-weight: 600; }
+        .studio-controls-panel input[type="range"] { width: 100%; accent-color: var(--gold); margin-bottom: 15px; }
 
         .footer { text-align: center; padding: 30px 15px; margin-top: 40px; border-top: 1px solid var(--card-border); color: var(--text-muted); font-size: 0.85rem; }
         .footer span { background: var(--gold-gradient); -webkit-background-clip: text; -webkit-text-fill-color: transparent; font-weight: 700; }
@@ -98,36 +102,53 @@
         </div>
     </div>
 
-    <!-- نافذة محرر الصور الاحترافي الخارجية قبل اعتمادها بالسيستم -->
-    <div id="proImageEditorModal">
-        <div class="editor-card-box">
-            <h3 style="color: var(--gold); margin-bottom: 10px;"><i class="fa-solid fa-wand-magic-sparkles"></i> محرر ومعاينة الصور الاحترافي</h3>
-            <p style="color: var(--text-muted); font-size: 0.8rem; margin-bottom: 12px;">قم بتعديل الزوايا، التحجيم، والإمالة ثلاثية الأبعاد (3D) بحرية تامة قبل النشر</p>
-            
-            <div class="editor-canvas-container">
-                <img id="editorLiveImg" src="">
+    <!-- صفحة استديو الويب المستقلة للتحكم بـ 3D ومعاينة شكل الزبون الحقيقي -->
+    <div id="studioPageOverlay">
+        <div class="studio-header">
+            <div>
+                <h2 style="color: var(--gold); font-size: 1.3rem;"><i class="fa-solid fa-cube"></i> استديو 3D الاحترافي لتعديل الصور</h2>
+                <p style="color: var(--text-muted); font-size: 0.85rem;">هنا ترى كيف سيرى الزبون الطبق تماماً قبل الحفظ النهائي</p>
             </div>
-
-            <div class="editor-controls-grid">
-                <label>إمالة 3D رأسية (فوق / تحت - Rotate X): <span id="lblRotX">0</span>°</label>
-                <input type="range" min="-50" max="50" value="0" id="rangeRotX" oninput="applyEditorTransform()">
-
-                <label>إمالة 3D أفقية (يمين / يسار - Rotate Y): <span id="lblRotY">0</span>°</label>
-                <input type="range" min="-50" max="50" value="0" id="rangeRotY" oninput="applyEditorTransform()">
-
-                <label>تكبير / تصغير (Zoom Scale): <span id="lblScale">1.0</span>x</label>
-                <input type="range" min="0.8" max="2.5" step="0.1" value="1" id="rangeScale" oninput="applyEditorTransform()">
-
-                <label>تحريك أفقي (Move X): <span id="lblPosX">0</span>px</label>
-                <input type="range" min="-120" max="120" value="0" id="rangePosX" oninput="applyEditorTransform()">
-
-                <label>تحريك عمودي (Move Y): <span id="lblPosY">0</span>px</label>
-                <input type="range" min="-120" max="120" value="0" id="rangePosY" oninput="applyEditorTransform()">
-            </div>
-
             <div style="display: flex; gap: 10px;">
-                <button style="background: #e74c3c; color: #fff; font-weight: 700; border: none; padding: 10px; flex: 1; border-radius: 8px; cursor: pointer;" onclick="cancelImageEditor()">إلغاء</button>
-                <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; flex: 2; border-radius: 8px; cursor: pointer;" onclick="saveImageEditorResult()">حفظ واعتماد الصورة</button>
+                <button style="background: #e74c3c; color: #fff; border: none; padding: 8px 16px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="closeStudioStudio()">إلغاء</button>
+                <button style="background: var(--gold-gradient); color: #0a0c10; border: none; padding: 8px 20px; border-radius: 8px; font-weight: 700; cursor: pointer;" onclick="saveStudioResult()">اعتماد وحفظ للسيستم</button>
+            </div>
+        </div>
+
+        <div class="studio-body">
+            <!-- قسم معاينة شكل الزبون الحقيقي -->
+            <div class="studio-preview-box">
+                <h4 style="color: var(--gold); margin-bottom: 12px; font-size: 0.95rem;"><i class="fa-solid fa-eye"></i> معاينة حية (كما سيراها الزبون):</h4>
+                <div class="customer-card-mockup">
+                    <div class="mockup-img-wrap">
+                        <img id="studioMockupImg" src="">
+                    </div>
+                    <div style="padding: 12px;">
+                        <div style="font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 4px;">اسم الطبق التجريبي</div>
+                        <div style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px;">وصف الطبق يظهر هنا بشكل احترافي...</div>
+                        <div style="font-size: 1.1rem; font-weight: 900; color: var(--gold);">25 <span>₪</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- أشرطة التحكم ثلاثية الأبعاد 3D المتقدمة -->
+            <div class="studio-controls-panel">
+                <h4 style="color: var(--gold); margin-bottom: 15px; font-size: 0.95rem;"><i class="fa-solid fa-sliders"></i> لوحة التحكم بالزوايا والمنظور</h4>
+                
+                <label>إمالة 3D رأسية (فوق / تحت - Rotate X): <span id="sLblRotX">0</span>°</label>
+                <input type="range" min="-50" max="50" value="0" id="sRangeRotX" oninput="updateStudioTransform()">
+
+                <label>إمالة 3D أفقية (يمين / يسار - Rotate Y): <span id="sLblRotY">0</span>°</label>
+                <input type="range" min="-50" max="50" value="0" id="sRangeRotY" oninput="updateStudioTransform()">
+
+                <label>تكبير / تصغير (Zoom Scale): <span id="sLblScale">1.0</span>x</label>
+                <input type="range" min="0.8" max="2.5" step="0.1" value="1" id="sRangeScale" oninput="updateStudioTransform()">
+
+                <label>تحريك أفقي (Move X): <span id="sLblPosX">0</span>px</label>
+                <input type="range" min="-100" max="100" value="0" id="sRangePosX" oninput="updateStudioTransform()">
+
+                <label>تحريك عمودي (Move Y): <span id="sLblPosY">0</span>px</label>
+                <input type="range" min="-100" max="100" value="0" id="sRangePosY" oninput="updateStudioTransform()">
             </div>
         </div>
     </div>
@@ -182,7 +203,7 @@
             <button style="background: var(--gold-gradient); color: #0a0c10; font-weight: 700; border: none; padding: 10px; width: 100%; border-radius: 8px; cursor: pointer; margin-top: 10px;" onclick="addNewCategory()">إضافة القسم الجديد</button>
         </div>
 
-        <!-- إضافة طبق جديد مع زر المحرر المتقدم -->
+        <!-- إضافة طبق جديد مع استديو 3D المستقل -->
         <div class="admin-section-box" id="addItemSection">
             <h3 style="color: var(--gold); margin-bottom: 10px;" id="txtAddItemTitle"><i class="fa-solid fa-plus-circle"></i> إضافة طبق جديد</h3>
             <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 8px;">
@@ -197,8 +218,8 @@
             </div>
             
             <div style="margin-bottom: 10px;">
-                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق وقم بتعديلها:</label>
-                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="openProEditor(event, 'new')">
+                <label style="font-size: 0.85rem; color: var(--gold);" id="txtChooseImg">اختر صورة الطبق لفتح استديو التعديل 3D:</label>
+                <input type="file" id="newImageFile" class="admin-input" accept="image/*" onchange="launchStudio(event, 'new')">
             </div>
             
             <div style="text-align: center; margin-bottom: 10px; background: var(--card-bg); padding: 10px; border-radius: 8px;">
@@ -230,7 +251,7 @@
         <p style="margin-top: 5px; font-size: 0.75rem; color: var(--text-muted);">Al-Saada Land Restaurant. All Rights Reserved.</p>
     </footer>
 
-    <!-- جافاسكريبت مع محرر الصور الخارجي وربط Firebase -->
+    <!-- جافاسكريبت مع استديو 3D المستقل وربط Firebase -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
         import { getFirestore, collection, getDocs, addDoc, doc, updateDoc, deleteDoc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -263,8 +284,8 @@
         let currentLang = 'ar';
 
         let newOptimizedImage = "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=500";
-        let activeEditingTarget = null;
-        let activeRawDataUrl = "";
+        let activeStudioTarget = null;
+        let activeStudioRawData = "";
 
         const zekoMessages = [
             "مرحباً بك يا زكريا.. يا بطل الإنجاز والتميز، عقول العظماء وحدها تصنع الفخامة. نتمنى لك يوماً مليئاً بالنجاح والسعادة!",
@@ -336,74 +357,72 @@
             } catch(e) {}
         }
 
-        // نظام محرر الصور الخارجي (فتح شاشة تعديل 3D والزوايا والقص)
-        window.openProEditor = function(event, targetKey) {
+        // تشغيل استديو 3D المستقل
+        window.launchStudio = function(event, targetKey) {
             const file = event.target.files[0];
             if (!file) return;
 
-            activeEditingTarget = targetKey; // 'new' أو id الطبق
+            activeStudioTarget = targetKey;
             const reader = new FileReader();
             reader.onload = function(e) {
-                activeRawDataUrl = e.target.result;
-                document.getElementById('editorLiveImg').src = activeRawDataUrl;
+                activeStudioRawData = e.target.result;
+                document.getElementById('studioMockupImg').src = activeStudioRawData;
                 
-                // إعادة ضبط القيم الافتراضية للمحرر
-                document.getElementById('rangeRotX').value = 0;
-                document.getElementById('rangeRotY').value = 0;
-                document.getElementById('rangeScale').value = 1;
-                document.getElementById('rangePosX').value = 0;
-                document.getElementById('rangePosY').value = 0;
-                
-                document.getElementById('lblRotX').innerText = 0;
-                document.getElementById('lblRotY').innerText = 0;
-                document.getElementById('lblScale').innerText = '1.0';
-                document.getElementById('lblPosX').innerText = 0;
-                document.getElementById('lblPosY').innerText = 0;
-                
-                document.getElementById('editorLiveImg').style.transform = 'rotateX(0deg) rotateY(0deg) scale(1) translate(0px, 0px)';
-                document.getElementById('proImageEditorModal').style.display = 'flex';
+                // إعادة الضبط
+                document.getElementById('sRangeRotX').value = 0;
+                document.getElementById('sRangeRotY').value = 0;
+                document.getElementById('sRangeScale').value = 1;
+                document.getElementById('sRangePosX').value = 0;
+                document.getElementById('sRangePosY').value = 0;
+
+                document.getElementById('sLblRotX').innerText = 0;
+                document.getElementById('sLblRotY').innerText = 0;
+                document.getElementById('sLblScale').innerText = '1.0';
+                document.getElementById('sLblPosX').innerText = 0;
+                document.getElementById('sLblPosY').innerText = 0;
+
+                document.getElementById('studioMockupImg').style.transform = 'rotateX(0deg) rotateY(0deg) scale(1) translate(0px, 0px)';
+                document.getElementById('studioPageOverlay').style.display = 'flex';
             }
             reader.readAsDataURL(file);
         }
 
-        window.applyEditorTransform = function() {
-            let rx = document.getElementById('rangeRotX').value;
-            let ry = document.getElementById('rangeRotY').value;
-            let sc = document.getElementById('rangeScale').value;
-            let px = document.getElementById('rangePosX').value;
-            let py = document.getElementById('rangePosY').value;
+        window.updateStudioTransform = function() {
+            let rx = document.getElementById('sRangeRotX').value;
+            let ry = document.getElementById('sRangeRotY').value;
+            let sc = document.getElementById('sRangeScale').value;
+            let px = document.getElementById('sRangePosX').value;
+            let py = document.getElementById('sRangePosY').value;
 
-            document.getElementById('lblRotX').innerText = rx;
-            document.getElementById('lblRotY').innerText = ry;
-            document.getElementById('lblScale').innerText = sc;
-            document.getElementById('lblPosX').innerText = px;
-            document.getElementById('lblPosY').innerText = py;
+            document.getElementById('sLblRotX').innerText = rx;
+            document.getElementById('sLblRotY').innerText = ry;
+            document.getElementById('sLblScale').innerText = sc;
+            document.getElementById('sLblPosX').innerText = px;
+            document.getElementById('sLblPosY').innerText = py;
 
-            let img = document.getElementById('editorLiveImg');
-            img.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
+            let mockupImg = document.getElementById('studioMockupImg');
+            mockupImg.style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
         }
 
-        window.cancelImageEditor = function() {
-            document.getElementById('proImageEditorModal').style.display = 'none';
-            // تفريغ حقل الـ file عشان يقدر يعيد اختيارها لو حب
-            if(activeEditingTarget === 'new') {
+        window.closeStudioStudio = function() {
+            document.getElementById('studioPageOverlay').style.display = 'none';
+            if(activeStudioTarget === 'new') {
                 document.getElementById('newImageFile').value = '';
             } else {
-                let fileInput = document.getElementById(`file_${activeEditingTarget}`);
-                if(fileInput) fileInput.value = '';
+                let fi = document.getElementById(`file_${activeStudioTarget}`);
+                if(fi) fi.value = '';
             }
         }
 
-        window.saveImageEditorResult = function() {
-            let rx = Number(document.getElementById('rangeRotX').value);
-            let ry = Number(document.getElementById('rangeRotY').value);
-            let sc = Number(document.getElementById('rangeScale').value);
-            let px = Number(document.getElementById('rangePosX').value);
-            let py = Number(document.getElementById('rangePosY').value);
+        window.saveStudioResult = function() {
+            let rx = Number(document.getElementById('sRangeRotX').value);
+            let ry = Number(document.getElementById('sRangeRotY').value);
+            let sc = Number(document.getElementById('sRangeScale').value);
+            let px = Number(document.getElementById('sRangePosX').value);
+            let py = Number(document.getElementById('sRangePosY').value);
 
-            // دمج المعالجة والرسم في Canvas لتوليد الصورة النهائية المقصوصة والمضبوطة تماماً كما طلب زكريا
             const img = new Image();
-            img.src = activeRawDataUrl;
+            img.src = activeStudioRawData;
             img.onload = function() {
                 const canvas = document.createElement('canvas');
                 canvas.width = 600;
@@ -421,10 +440,13 @@
 
                 let finalCompressedUrl = canvas.toDataURL('image/jpeg', 0.9);
 
-                if(activeEditingTarget === 'new') {
-                    newOptimizedImage = finalConsumerObject(finalCompressedUrl, rx, ry, sc, px, py);
+                if(activeStudioTarget === 'new') {
+                    newOptimizedImage = finalCompressedUrl;
+                    tempNewStudio3D = { rotX: rx, rotY: ry, scale: sc, posX: px, posY: py };
+                    document.getElementById('newImgPreview').src = finalCompressedUrl;
+                    document.getElementById('newImgPreview').style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
                 } else {
-                    let item = menuItems.find(i => i.id === activeEditingTarget);
+                    let item = menuItems.find(i => i.id === activeStudioTarget);
                     if(item) {
                         item.img = finalCompressedUrl;
                         item.rotX = rx;
@@ -432,24 +454,17 @@
                         item.scale = sc;
                         item.posX = px;
                         item.posY = py;
-                        document.getElementById(`img_view_${activeEditingTarget}`).src = finalCompressedUrl;
-                        document.getElementById(`img_view_${activeEditingTarget}`).style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
+                        document.getElementById(`img_view_${activeStudioTarget}`).src = finalCompressedUrl;
+                        document.getElementById(`img_view_${activeStudioTarget}`).style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
                     }
                 }
 
-                document.getElementById('proImageEditorModal').style.display = 'none';
-                alert("تم ضبط الصورة وقصها واعتمادها بنجاح!");
+                document.getElementById('studioPageOverlay').style.display = 'none';
+                alert("تم حفظ واعتماد زوايا الـ 3D وصورة الزبون بنجاح!");
             }
         }
 
-        let tempNew3DData = { rotX: 0, rotY: 0, scale: 1, posX: 0, posY: 0 };
-        function finalConsumerObject(url, rx, ry, sc, px, py) {
-            newOptimizedImage = url;
-            tempNew3DData = { rotX: rx, rotY: ry, scale: sc, posX: px, posY: py };
-            document.getElementById('newImgPreview').src = url;
-            document.getElementById('newImgPreview').style.transform = `rotateX(${rx}deg) rotateY(${ry}deg) scale(${sc}) translate(${px}px, ${py}px)`;
-            return url;
-        }
+        let tempNewStudio3D = { rotX: 0, rotY: 0, scale: 1, posX: 0, posY: 0 };
 
         window.toggleLanguage = function() {
             currentLang = (currentLang === 'ar') ? 'en' : 'ar';
@@ -640,8 +655,8 @@
                             </div>
                             
                             <div style="margin-bottom: 8px;">
-                                <label style="font-size:0.75rem; color:var(--gold);">تعديل صورة الطبق بمحرر 3D الخارجي:</label>
-                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="openProEditor(event, '${item.id}')">
+                                <label style="font-size:0.75rem; color:var(--gold);">تعديل الصورة باستديو 3D:</label>
+                                <input type="file" id="file_${item.id}" class="admin-input" accept="image/*" onchange="launchStudio(event, '${item.id}')">
                             </div>
 
                             <div style="display: flex; gap: 5px; margin-top: 5px;">
@@ -733,11 +748,11 @@
                     descAr,
                     descEn: descEn || descAr,
                     img: newOptimizedImage,
-                    rotX: tempNew3DData.rotX || 0,
-                    rotY: tempNew3DData.rotY || 0,
-                    scale: tempNew3DData.scale || 1,
-                    posX: tempNew3DData.posX || 0,
-                    posY: tempNew3DData.posY || 0
+                    rotX: tempNewStudio3D.rotX || 0,
+                    rotY: tempNewStudio3D.rotY || 0,
+                    scale: tempNewStudio3D.scale || 1,
+                    posX: tempNewStudio3D.posX || 0,
+                    posY: tempNewStudio3D.posY || 0
                 });
                 alert("تمت إضافة الطبق بنجاح!");
                 document.getElementById('newNameAr').value = '';
