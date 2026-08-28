@@ -3,223 +3,337 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو المطعم والكافي - الفخامة والأناقة</title>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <title>منيو المطعم والكافي الفاخر</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
+        :root {
+            --bg-color: #0f0e0d;
+            --card-bg: #1c1815;
+            --accent-color: #d4af37;
+            --text-main: #f4f1ea;
+            --text-muted: #a39b90;
+            --border-color: rgba(212, 175, 55, 0.2);
+        }
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Cairo', sans-serif;
+            font-family: 'Tajawal', sans-serif;
         }
+
         body {
-            background-color: #1a1512;
-            color: #f3efe6;
-            padding-bottom: 50px;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            padding-bottom: 60px;
         }
-        header {
+
+        /* الهيدر والشعار */
+        .hero {
             text-align: center;
-            padding: 30px 20px;
-            background: linear-gradient(135deg, #2a221d, #120f0d);
-            border-bottom: 2px solid #c5a059;
+            padding: 40px 20px;
+            background: radial-gradient(circle, #2a221b 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-color);
         }
-        header h1 {
-            color: #c5a059;
-            font-size: 28px;
-            margin-bottom: 5px;
+
+        .hero h1 {
+            font-size: 32px;
+            color: var(--accent-color);
+            font-weight: 900;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
         }
-        header p {
-            color: #b0a89f;
+
+        .hero p {
+            color: var(--text-muted);
             font-size: 14px;
         }
-        .categories {
+
+        /* شريط الأقسام المتحرك */
+        .nav-categories {
             display: flex;
-            justify-content: center;
             gap: 10px;
-            padding: 15px;
-            background: #221c18;
+            padding: 15px 20px;
+            background: rgba(28, 24, 21, 0.95);
             overflow-x: auto;
             white-space: nowrap;
             position: sticky;
             top: 0;
             z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
         }
-        .cat-btn {
+
+        .nav-categories::-webkit-scrollbar {
+            display: none;
+        }
+
+        .tab-btn {
             background: transparent;
-            border: 1px solid #c5a059;
-            color: #f3efe6;
-            padding: 8px 18px;
-            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            color: var(--text-main);
+            padding: 8px 20px;
+            border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
-            transition: 0.3s;
+            font-weight: 500;
+            transition: all 0.3s ease;
         }
-        .cat-btn.active, .cat-btn:hover {
-            background: #c5a059;
-            color: #1a1512;
+
+        .tab-btn.active, .tab-btn:hover {
+            background: var(--accent-color);
+            color: var(--bg-color);
+            border-color: var(--accent-color);
             font-weight: 700;
         }
+
+        /* المحتوى الرئيسي */
         .container {
-            max-width: 800px;
-            margin: 20px auto;
+            max-width: 900px;
+            margin: 25px auto;
             padding: 0 15px;
         }
-        .section-title {
-            color: #c5a059;
-            font-size: 20px;
-            margin: 25px 0 15px;
-            border-right: 4px solid #c5a059;
-            padding-right: 10px;
+
+        .category-section {
+            margin-bottom: 35px;
         }
-        .menu-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+
+        .section-header {
+            display: flex;
+            align-items: center;
             gap: 15px;
+            margin-bottom: 20px;
         }
-        .menu-item {
-            background: #2a221d;
-            border-radius: 12px;
-            padding: 15px;
+
+        .section-header h2 {
+            font-size: 20px;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .section-header::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: var(--border-color);
+        }
+
+        /* شبكة المنتجات بتصميم عصري */
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+        }
+
+        .menu-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: transform 0.3s ease, border-color 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .menu-card:hover {
+            transform: translateY(-4px);
+            border-color: var(--accent-color);
+        }
+
+        .card-content {
+            padding: 18px;
+        }
+
+        .card-header-info {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border: 1px solid rgba(197, 160, 89, 0.2);
-            transition: 0.3s;
+            align-items: flex-start;
+            margin-bottom: 8px;
         }
-        .menu-item:hover {
-            border-color: #c5a059;
-            transform: translateY(-2px);
-        }
-        .item-details h3 {
-            font-size: 16px;
-            margin-bottom: 5px;
-            color: #fff;
-        }
-        .item-details p {
-            font-size: 12px;
-            color: #b0a89f;
-        }
-        .item-price {
+
+        .card-title {
             font-size: 16px;
             font-weight: 700;
-            color: #c5a059;
-            background: rgba(197, 160, 89, 0.1);
-            padding: 5px 10px;
+            color: #fff;
+        }
+
+        .card-price {
+            font-size: 16px;
+            font-weight: 900;
+            color: var(--accent-color);
+            background: rgba(212, 175, 55, 0.1);
+            padding: 4px 10px;
             border-radius: 8px;
         }
+
+        .card-desc {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+
+        /* الفوتر */
         footer {
             text-align: center;
-            margin-top: 40px;
-            color: #7a7067;
+            margin-top: 50px;
+            color: var(--text-muted);
             font-size: 13px;
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
         }
     </style>
 </head>
 <body>
 
-    <header>
+    <header class="hero">
         <h1>اسم المطعم والكافي</h1>
-        <p>أشهى المأكولات وأفخم المشروبات بين أيديكم</p>
+        <p>تجربة استثنائية تجمع أصالة المذاق وفخامة الأجواء</p>
     </header>
 
-    <div class="categories">
-        <button class="cat-btn active" onclick="filterMenu('all')">الكل</button>
-        <button class="cat-btn" onclick="filterMenu('meals')}}">الوجبات الرئيسية</button>
-        <button class="cat-btn" onclick="filterMenu('fastfood')">وجبات سريعة ومشاوي</button>
-        <button class="cat-btn" onclick="filterMenu('coffee')">القهوة والمشروبات الساخنة</button>
-        <button class="cat-btn" onclick="filterMenu('cold')">المشروبات الباردة</button>
-        <button class="cat-btn" onclick="filterMenu('dessert')">الحلويات</button>
+    <div class="nav-categories">
+        <button class="tab-btn active" onclick="filterCategory('all')">الكل</button>
+        <button class="tab-btn" onclick="filterCategory('grills')">المشاوي والوجبات</button>
+        <button class="tab-btn" onclick="filterCategory('fastfood')">الوجبات السريعة</button>
+        <button class="tab-btn" onclick="filterCategory('coffee')">القهوة المختصة</button>
+        <button class="tab-btn" onclick="filterCategory('cold')">المشروبات الباردة</button>
+        <button class="tab-btn" onclick="filterCategory('dessert')">الحلويات الفاخرة</button>
     </div>
 
     <div class="container">
-        
-        <div class="section-title">الوجبات الرئيسية</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-category="meals">
-                <div class="item-details">
-                    <h3>كبسة لحم فاخرة</h3>
-                    <p>أرز بسمتي مع لحم طازج ومكسرات محمصة</p>
-                </div>
-                <div class="item-price">45 د.أ</div>
+
+        <!-- قسم المشاوي والوجبات -->
+        <div class="category-section" data-section="grills">
+            <div class="section-header">
+                <h2>المشاوي والأطباق الرئيسية</h2>
             </div>
-            <div class="menu-item" data-category="meals">
-                <div class="item-details">
-                    <h3>صينية دجاج بالفرن</h3>
-                    <p>دجاج متبل على الطريقة الخاصة مع بطاطس</p>
+            <div class="items-grid">
+                <div class="menu-card" data-cat="grills">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">مشاوي مشكلة ملكية</span>
+                            <span class="card-price">38 د.أ</span>
+                        </div>
+                        <p class="card-desc">تشكيلة فاخرة من شيش طاووق، كباب لحم، وتكة، تَقدم مع المخللات والخبز الساخن.</p>
+                    </div>
                 </div>
-                <div class="item-price">30 د.أ</div>
+                <div class="menu-card" data-cat="grills">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">مندي لحم طازج</span>
+                            <span class="card-price">45 د.أ</span>
+                        </div>
+                        <p class="card-desc">لحم غنم طازج مطهو على الطريقة التقليدية مع أرز البسمتي المنكه والمكسرات.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="section-title">المشاوي والوجبات السريعة</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-category="fastfood">
-                <div class="item-details">
-                    <h3>مشاوي مشكلة (كيلو)</h3>
-                    <p>شيش طاووق، كباب، وتكة لحم مع سلطات</p>
-                </div>
-                <div class="item-price">35 د.أ</div>
+        <!-- قسم الوجبات السريعة -->
+        <div class="category-section" data-section="fastfood">
+            <div class="section-header">
+                <h2>الوجبات السريعة والبرجر</h2>
             </div>
-            <div class="menu-item" data-category="fastfood">
-                <div class="item-details">
-                    <h3>برجر ديلوكس</h3>
-                    <p>لحم برجر خاص، جبنة شيدر وصوص مميز</p>
+            <div class="items-grid">
+                <div class="menu-card" data-cat="fastfood">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">ترافل برجر لحم</span>
+                            <span class="card-price">12 د.أ</span>
+                        </div>
+                        <p class="card-desc">شريحة لحم أنجوس، جبنة شيدر، وصوص الترافل الفاخر في خبز بريوش.</p>
+                    </div>
                 </div>
-                <div class="item-price">12 د.أ</div>
-            </div>
-        </div>
-
-        <div class="section-title">القهوة والمشروبات الساخنة</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-category="coffee">
-                <div class="item-details">
-                    <h3>إسبريسو مزدوج</h3>
-                    <p>مستخلص من حبوب بن فاخرة</p>
+                <div class="menu-card" data-cat="fastfood">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">وجبة كريسبي تشكن</span>
+                            <span class="card-price">10 د.أ</span>
+                        </div>
+                        <p class="card-desc">قطع دجاج مقرمشة مع البطاطس المقلية وصوص الثوم الخاص.</p>
+                    </div>
                 </div>
-                <div class="item-price">4 د.أ</div>
-            </div>
-            <div class="menu-item" data-category="coffee">
-                <div class="item-details">
-                    <h3>كابتشينو إيطالي</h3>
-                    <p>إسبريسو مع حليب مكثف ورغوة كريمية</p>
-                </div>
-                <div class="item-price">5 د.أ</div>
             </div>
         </div>
 
-        <div class="section-title">المشروبات الباردة والعصائر</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-category="cold">
-                <div class="item-details">
-                    <h3>آيس لاتيه كراميل</h3>
-                    <p>إسبريسو، حليب بارد وصوص كراميل</p>
-                </div>
-                <div class="item-price">6 د.أ</div>
+        <!-- قسم القهوة -->
+        <div class="category-section" data-section="coffee">
+            <div class="section-header">
+                <h2>القهوة المختصة والساخنة</h2>
             </div>
-            <div class="menu-item" data-category="cold">
-                <div class="item-details">
-                    <h3>ماتشا لاتيه مثلج</h3>
-                    <p>ماتشا يابانية أصلية مع حليب كريمي</p>
+            <div class="items-grid">
+                <div class="menu-card" data-cat="coffee">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">سبيشالتي لاتيه</span>
+                            <span class="card-price">4.5 د.أ</span>
+                        </div>
+                        <p class="card-desc">إسبريسو غني مع حليب مخفوق بعناية ورغوة كريمية ناعمة.</p>
+                    </div>
                 </div>
-                <div class="item-price">7 د.أ</div>
+                <div class="menu-card" data-cat="coffee">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">V60 قهوة مقطرة</span>
+                            <span class="card-price">5 د.أ</span>
+                        </div>
+                        <p class="card-desc">محاصيل قهوة فاخرة محضرة يوماً بيوم بطريقة التقطير.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="section-title">الحلويات</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-category="dessert">
-                <div class="item-details">
-                    <h3>تشيز كيك فانيليا</h3>
-                    <p>مع طبقة صوص الفراولة أو التوت</p>
-                </div>
-                <div class="item-price">5 د.أ</div>
+        <!-- قسم المشروبات الباردة -->
+        <div class="category-section" data-section="cold">
+            <div class="section-header">
+                <h2>المشروبات الباردة والمنعشة</h2>
             </div>
-            <div class="menu-item" data-category="dessert">
-                <div class="item-details">
-                    <h3>كيكة الشوكولاتة</h3>
-                    <p>جاتوه شوكولاتة غني بالكريمة</p>
+            <div class="items-grid">
+                <div class="menu-card" data-cat="cold">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">آيس سبانش لاتيه</span>
+                            <span class="card-price">5.5 د.أ</span>
+                        </div>
+                        <p class="card-desc">مزيج الإسبريسو مع الحليب المكثف المحلى والثلج المنعش.</p>
+                    </div>
                 </div>
-                <div class="item-price">6 د.أ</div>
+                <div class="menu-card" data-cat="cold">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">ماتشا لاتيه مثلج</span>
+                            <span class="card-price">6 د.أ</span>
+                        </div>
+                        <p class="card-desc">مسحوق الماتشا الياباني الأصلي مع الحليب والثلج.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- قسم الحلويات -->
+        <div class="category-section" data-section="dessert">
+            <div class="section-header">
+                <h2>الحلويات والتشيز كيك</h2>
+            </div>
+            <div class="items-grid">
+                <div class="menu-card" data-cat="dessert">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">سان سباستيان كيك</span>
+                            <span class="card-price">6 د.أ</span>
+                        </div>
+                        <p class="card-desc">كيكة الجبن المحروقة الشهيرة تَقدم مع صوص الشوكولاتة الغني.</p>
+                    </div>
+                </div>
+                <div class="menu-card" data-cat="dessert">
+                    <div class="card-content">
+                        <div class="card-header-info">
+                            <span class="card-title">مولتن كيك</span>
+                            <span class="card-price">5.5 د.أ</span>
+                        </div>
+                        <p class="card-desc">كيكة شوكولاتة دافئة مع قلب ساائل من الشوكولاتة وبولة آيس كريم.</p>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -230,27 +344,22 @@
     </footer>
 
     <script>
-        function filterMenu(category) {
-            const buttons = document.querySelectorAll('.cat-btn');
+        function filterCategory(category) {
+            // تحديث أزرار التفعيل
+            const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
 
-            const items = document.querySelectorAll('.menu-item');
-            const sections = document.querySelectorAll('.section-title');
-
-            if (category === 'all') {
-                items.forEach(item => item.style.display = 'flex');
-                sections.forEach(section => section.style.display = 'block');
-            } else {
-                sections.forEach(section => section.style.display = 'none');
-                items.forEach(item => {
-                    if (item.getAttribute('data-category') === category) {
-                        item.style.display = 'flex';
-                    } else {
-                        item.style.display = 'none';
-                    }
-                });
-            }
+            // إظهار وإخفاء الأقسام بناءً على الاختيار
+            const sections = document.querySelectorAll('.category-section');
+            
+            sections.forEach(sec => {
+                if (category === 'all' || sec.getAttribute('data-section') === category) {
+                    sec.style.display = 'block';
+                } else {
+                    sec.style.display = 'none';
+                }
+            });
         }
     </script>
 </body>
