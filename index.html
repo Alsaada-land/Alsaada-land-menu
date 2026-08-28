@@ -3,16 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منيو المطعم والكافي الفاخر</title>
+    <title>منيو الفخامة - مطعم وكافي</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0f0e0d;
-            --card-bg: #1c1815;
-            --accent-color: #d4af37;
-            --text-main: #f4f1ea;
-            --text-muted: #a39b90;
-            --border-color: rgba(212, 175, 55, 0.2);
+            --bg-color: #0b0908;
+            --card-bg: #16120f;
+            --accent: #d4af37;
+            --accent-light: #f3e5ab;
+            --text-main: #fbf9f5;
+            --text-muted: #9e9588;
+            --border-gold: rgba(212, 175, 55, 0.3);
         }
 
         * {
@@ -20,48 +21,83 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Tajawal', sans-serif;
+            scroll-behavior: smooth;
         }
 
         body {
             background-color: var(--bg-color);
             color: var(--text-main);
-            padding-bottom: 60px;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* الهيدر والشعار */
-        .hero {
+        /* خلفية متلألئة متحركة */
+        .ambient-glow {
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+            z-index: -1;
+            animation: rotateGlow 20s linear infinite;
+        }
+
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* رأس الصفحة مع أنيميشن دخول */
+        header {
             text-align: center;
-            padding: 40px 20px;
-            background: radial-gradient(circle, #2a221b 0%, var(--bg-color) 100%);
-            border-bottom: 1px solid var(--border-color);
+            padding: 50px 20px 30px;
+            background: linear-gradient(180deg, #1c1510 0%, var(--bg-color) 100%);
+            border-bottom: 1px solid var(--border-gold);
+            position: relative;
+            animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .hero h1 {
-            font-size: 32px;
-            color: var(--accent-color);
+        @keyframes slideDown {
+            0% { transform: translateY(-50px); opacity: 0; }
+            100% { transform: translateY(0); opacity: 1; }
+        }
+
+        header h1 {
+            font-size: 34px;
+            color: var(--accent);
             font-weight: 900;
-            letter-spacing: 1px;
-            margin-bottom: 8px;
+            letter-spacing: 2px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            animation: pulseGlow 3s ease-in-out infinite alternate;
         }
 
-        .hero p {
+        @keyframes pulseGlow {
+            0% { text-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
+            100% { text-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
+        }
+
+        header p {
             color: var(--text-muted);
-            font-size: 14px;
+            font-size: 15px;
+            letter-spacing: 1px;
         }
 
-        /* شريط الأقسام المتحرك */
+        /* شريط الأقسام التفاعلي المتحرك */
         .nav-categories {
             display: flex;
-            gap: 10px;
+            gap: 12px;
             padding: 15px 20px;
-            background: rgba(28, 24, 21, 0.95);
+            background: rgba(22, 18, 15, 0.9);
             overflow-x: auto;
             white-space: nowrap;
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid var(--border-color);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-gold);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
         }
 
         .nav-categories::-webkit-scrollbar {
@@ -69,155 +105,224 @@
         }
 
         .tab-btn {
-            background: transparent;
-            border: 1px solid var(--border-color);
+            background: #1f1914;
+            border: 1px solid var(--border-gold);
             color: var(--text-main);
-            padding: 8px 20px;
+            padding: 10px 22px;
             border-radius: 30px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 500;
-            transition: all 0.3s ease;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tab-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            transition: 0.5s;
+        }
+
+        .tab-btn:hover::before {
+            left: 100%;
         }
 
         .tab-btn.active, .tab-btn:hover {
-            background: var(--accent-color);
+            background: var(--accent);
             color: var(--bg-color);
-            border-color: var(--accent-color);
-            font-weight: 700;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
         }
 
-        /* المحتوى الرئيسي */
+        /* الحاويات الرئيسية */
         .container {
             max-width: 900px;
-            margin: 25px auto;
+            margin: 30px auto;
             padding: 0 15px;
         }
 
         .category-section {
-            margin-bottom: 35px;
+            margin-bottom: 40px;
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .section-header {
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 20px;
+            margin-bottom: 25px;
         }
 
         .section-header h2 {
-            font-size: 20px;
-            color: var(--accent-color);
-            font-weight: 700;
+            font-size: 22px;
+            color: var(--accent);
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
         .section-header::after {
             content: "";
             flex: 1;
             height: 1px;
-            background: var(--border-color);
+            background: linear-gradient(90deg, var(--border-gold), transparent);
         }
 
-        /* شبكة المنتجات بتصميم عصري */
+        /* شبكة الكروت التفاعلية */
         .items-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
         }
 
         .menu-card {
             background: var(--card-bg);
-            border-radius: 16px;
+            border-radius: 18px;
             overflow: hidden;
-            border: 1px solid var(--border-color);
-            transition: transform 0.3s ease, border-color 0.3s ease;
+            border: 1px solid var(--border-gold);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .menu-card:hover {
-            transform: translateY(-4px);
-            border-color: var(--accent-color);
+            transform: translateY(-8px) scale(1.02);
+            border-color: var(--accent);
+            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
         }
 
         .card-content {
-            padding: 18px;
+            padding: 22px;
         }
 
         .card-header-info {
             display: flex;
             justify-content: space-between;
             align-items: flex-start;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
         }
 
         .card-title {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 700;
             color: #fff;
+            transition: color 0.3s;
+        }
+
+        .menu-card:hover .card-title {
+            color: var(--accent-light);
         }
 
         .card-price {
-            font-size: 16px;
+            font-size: 17px;
             font-weight: 900;
-            color: var(--accent-color);
-            background: rgba(212, 175, 55, 0.1);
-            padding: 4px 10px;
-            border-radius: 8px;
+            color: var(--accent);
+            background: rgba(212, 175, 55, 0.12);
+            padding: 5px 12px;
+            border-radius: 10px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            animation: bouncePrice 2s infinite ease-in-out;
+        }
+
+        @keyframes bouncePrice {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-3px); }
         }
 
         .card-desc {
             font-size: 13px;
             color: var(--text-muted);
-            line-height: 1.5;
+            line-height: 1.6;
+        }
+
+        .card-footer-action {
+            padding: 12px 22px;
+            background: rgba(212, 175, 55, 0.05);
+            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        .card-footer-action span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: transform 0.3s;
+        }
+
+        .menu-card:hover .card-footer-action span {
+            transform: translateX(-5px);
         }
 
         /* الفوتر */
         footer {
             text-align: center;
-            margin-top: 50px;
+            margin-top: 60px;
             color: var(--text-muted);
             font-size: 13px;
-            border-top: 1px solid var(--border-color);
-            padding-top: 20px;
+            border-top: 1px solid var(--border-gold);
+            padding-top: 25px;
+            background: linear-gradient(0deg, #1c1510 0%, var(--bg-color) 100%);
         }
     </style>
 </head>
 <body>
 
-    <header class="hero">
+    <div class="ambient-glow"></div>
+
+    <header>
         <h1>اسم المطعم والكافي</h1>
-        <p>تجربة استثنائية تجمع أصالة المذاق وفخامة الأجواء</p>
+        <p>تجربة استثنائية تنبض بالفخامة والمذاق الرفيع</p>
     </header>
 
     <div class="nav-categories">
-        <button class="tab-btn active" onclick="filterCategory('all')">الكل</button>
-        <button class="tab-btn" onclick="filterCategory('grills')">المشاوي والوجبات</button>
-        <button class="tab-btn" onclick="filterCategory('fastfood')">الوجبات السريعة</button>
-        <button class="tab-btn" onclick="filterCategory('coffee')">القهوة المختصة</button>
-        <button class="tab-btn" onclick="filterCategory('cold')">المشروبات الباردة</button>
-        <button class="tab-btn" onclick="filterCategory('dessert')">الحلويات الفاخرة</button>
+        <button class="tab-btn active" onclick="filterCategory('all', event)">✨ الكل</button>
+        <button class="tab-btn" onclick="filterCategory('grills', event)">🥩 المشاوي والأطباق</button>
+        <button class="tab-btn" onclick="filterCategory('fastfood', event)">🍔 الوجبات السريعة</button>
+        <button class="tab-btn" onclick="filterCategory('coffee', event)">☕ القهوة المختصة</button>
+        <button class="tab-btn" onclick="filterCategory('cold', event)">🍹 المشروبات الباردة</button>
+        <button class="tab-btn" onclick="filterCategory('dessert', event)">🍰 الحلويات الفاخرة</button>
     </div>
 
-    <div class="container">
+    <div class="container" id="menu-container">
 
-        <!-- قسم المشاوي والوجبات -->
         <div class="category-section" data-section="grills">
             <div class="section-header">
                 <h2>المشاوي والأطباق الرئيسية</h2>
             </div>
             <div class="items-grid">
-                <div class="menu-card" data-cat="grills">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">مشاوي مشكلة ملكية</span>
                             <span class="card-price">38 د.أ</span>
                         </div>
-                        <p class="card-desc">تشكيلة فاخرة من شيش طاووق، كباب لحم، وتكة، تَقدم مع المخللات والخبز الساخن.</p>
+                        <p class="card-desc">تشكيلة فاخرة من شيش طاووق، كباب لحم، وتكة، تُقدم مع المخللات والخبز الساخن.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>طازج يومياً</span>
                     </div>
                 </div>
-                <div class="menu-card" data-cat="grills">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">مندي لحم طازج</span>
@@ -225,113 +330,145 @@
                         </div>
                         <p class="card-desc">لحم غنم طازج مطهو على الطريقة التقليدية مع أرز البسمتي المنكه والمكسرات.</p>
                     </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>الأكثر طلباً</span>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- قسم الوجبات السريعة -->
         <div class="category-section" data-section="fastfood">
             <div class="section-header">
                 <h2>الوجبات السريعة والبرجر</h2>
             </div>
             <div class="items-grid">
-                <div class="menu-card" data-cat="fastfood">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">ترافل برجر لحم</span>
                             <span class="card-price">12 د.أ</span>
                         </div>
-                        <p class="card-desc">شريحة لحم أنجوس، جبنة شيدر، وصوص الترافل الفاخر في خبز بريوش.</p>
+                        <p class="card-desc">شريحة لحم أنجوس، جبنة شيدر، وصوص الترافل الفاخر في خبز بريوش هش.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>لحم أنجوس 100%</span>
                     </div>
                 </div>
-                <div class="menu-card" data-cat="fastfood">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">وجبة كريسبي تشكن</span>
                             <span class="card-price">10 د.أ</span>
                         </div>
-                        <p class="card-desc">قطع دجاج مقرمشة مع البطاطس المقلية وصوص الثوم الخاص.</p>
+                        <p class="card-desc">قطع دجاج مقرمشة مع البطاطس المقلية وصوص الثوم الخاص بالمنزل.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>قرمشة مثالية</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- قسم القهوة -->
         <div class="category-section" data-section="coffee">
             <div class="section-header">
                 <h2>القهوة المختصة والساخنة</h2>
             </div>
             <div class="items-grid">
-                <div class="menu-card" data-cat="coffee">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">سبيشالتي لاتيه</span>
                             <span class="card-price">4.5 د.أ</span>
                         </div>
-                        <p class="card-desc">إسبريسو غني مع حليب مخفوق بعناية ورغوة كريمية ناعمة.</p>
+                        <p class="card-desc">إسبريسو غني مع حليب مخفوق بعناية ورغوة كريمية ناعمة تحاكي الفن.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>بن فاخر</span>
                     </div>
                 </div>
-                <div class="menu-card" data-cat="coffee">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">V60 قهوة مقطرة</span>
                             <span class="card-price">5 د.أ</span>
                         </div>
-                        <p class="card-desc">محاصيل قهوة فاخرة محضرة يوماً بيوم بطريقة التقطير.</p>
+                        <p class="card-desc">محاصيل قهوة فاخرة أحادية الإيحاء محضرة يوماً بيوم بطريقة التقطير اليدوي.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>تخمير بطيء</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- قسم المشروبات الباردة -->
         <div class="category-section" data-section="cold">
             <div class="section-header">
                 <h2>المشروبات الباردة والمنعشة</h2>
             </div>
             <div class="items-grid">
-                <div class="menu-card" data-cat="cold">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">آيس سبانش لاتيه</span>
                             <span class="card-price">5.5 د.أ</span>
                         </div>
-                        <p class="card-desc">مزيج الإسبريسو مع الحليب المكثف المحلى والثلج المنعش.</p>
+                        <p class="card-desc">مزيج الإسبريسو مع الحليب المكثف المحلى والثلج المنعش لطاقة يومية متجددة.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>منعش ولذيذ</span>
                     </div>
                 </div>
-                <div class="menu-card" data-cat="cold">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">ماتشا لاتيه مثلج</span>
                             <span class="card-price">6 د.أ</span>
                         </div>
-                        <p class="card-desc">مسحوق الماتشا الياباني الأصلي مع الحليب والثلج.</p>
+                        <p class="card-desc">مسحوق الماتشا الياباني الأصلي مع الحليب والثلج الفاخر.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>صحي ومنعش</span>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- قسم الحلويات -->
         <div class="category-section" data-section="dessert">
             <div class="section-header">
                 <h2>الحلويات والتشيز كيك</h2>
             </div>
             <div class="items-grid">
-                <div class="menu-card" data-cat="dessert">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">سان سباستيان كيك</span>
                             <span class="card-price">6 د.أ</span>
                         </div>
-                        <p class="card-desc">كيكة الجبن المحروقة الشهيرة تَقدم مع صوص الشوكولاتة الغني.</p>
+                        <p class="card-desc">كيكة الجبن المحروقة الشهيرة تُقدم مع صوص الشوكولاتة البلجيكية الغني.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>تُحضّر طازجة</span>
                     </div>
                 </div>
-                <div class="menu-card" data-cat="dessert">
+                <div class="menu-card">
                     <div class="card-content">
                         <div class="card-header-info">
                             <span class="card-title">مولتن كيك</span>
                             <span class="card-price">5.5 د.أ</span>
                         </div>
-                        <p class="card-desc">كيكة شوكولاتة دافئة مع قلب ساائل من الشوكولاتة وبولة آيس كريم.</p>
+                        <p class="card-desc">كيكة شوكولاتة دافئة مع قلب سائلاً من الشوكولاتة وبولة آيس كريم فانيليا.</p>
+                    </div>
+                    <div class="card-footer-action">
+                        <span>اطلب الآن ←</span>
+                        <span>تُقدم دافئة</span>
                     </div>
                 </div>
             </div>
@@ -340,25 +477,32 @@
     </div>
 
     <footer>
-        <p>جميع الحقوق محفوظة &copy; 2026</p>
+        <p>جميع الحقوق محفوظة &copy; 2026 - صُمم بعناية للمطاعم والكافيهات الفاخرة</p>
     </footer>
 
     <script>
-        function filterCategory(category) {
-            // تحديث أزرار التفعيل
+        function filterCategory(category, event) {
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            event.currentTarget.classList.add('active');
 
-            // إظهار وإخفاء الأقسام بناءً على الاختيار
             const sections = document.querySelectorAll('.category-section');
             
             sections.forEach(sec => {
-                if (category === 'all' || sec.getAttribute('data-section') === category) {
-                    sec.style.display = 'block';
-                } else {
-                    sec.style.display = 'none';
-                }
+                sec.style.opacity = '0';
+                sec.style.transform = 'translateY(15px)';
+                setTimeout(() => {
+                    if (category === 'all' || sec.getAttribute('data-section') === category) {
+                        sec.style.display = 'block';
+                        setTimeout(() => {
+                            sec.style.opacity = '1';
+                            sec.style.transform = 'translateY(0)';
+                            sec.style.transition = 'all 0.5s ease';
+                        }, 50);
+                    } else {
+                        sec.style.display = 'none';
+                    }
+                }, 200);
             });
         }
     </script>
