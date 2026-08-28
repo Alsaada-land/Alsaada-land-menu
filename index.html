@@ -4,16 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>منيو الفخامة - مطعم وكافي</title>
+    <!-- ربط الاستضافة والتعرف على النطاق الأساسي لـ GitHub Pages -->
+    <base href="" id="hosting-base">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0b0908;
-            --card-bg: #16120f;
-            --accent: #d4af37;
-            --accent-light: #f3e5ab;
-            --text-main: #fbf9f5;
-            --text-muted: #9e9588;
-            --border-gold: rgba(212, 175, 55, 0.3);
+            --bg-color: #0c100e;        /* خلفية داكنة بلون زيتي عميق وفخم */
+            --card-bg: #151c18;        /* خلفية الكروت بدرجة زيتي دافئ */
+            --accent: #c2b280;          /* لون ذهبي هادئ ومتناسق مع الزيتي */
+            --accent-light: #e5dfcb;    /* لون ذهبي فاتح للنصوص المضيئة */
+            --text-main: #f4f6f4;       /* نص أبيض ناصع ومريح */
+            --text-muted: #95a39b;      /* نص ثانوي هادئ */
+            --border-gold: rgba(194, 178, 128, 0.3); /* حدود ذهبية خفيفة */
+            --olive-glow: rgba(74, 93, 79, 0.15);    /* إضاءة زيتي محيطية */
         }
 
         * {
@@ -31,14 +34,14 @@
             position: relative;
         }
 
-        /* خلفية متلألئة متحركة */
+        /* خلفية متحركة متلألئة بدرجات الزيتي الفاخر */
         .ambient-glow {
             position: fixed;
             top: -50%;
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.05) 0%, transparent 60%);
+            background: radial-gradient(circle at 50% 50%, var(--olive-glow) 0%, transparent 60%);
             z-index: -1;
             animation: rotateGlow 20s linear infinite;
         }
@@ -52,7 +55,7 @@
         header {
             text-align: center;
             padding: 50px 20px 30px;
-            background: linear-gradient(180deg, #1c1510 0%, var(--bg-color) 100%);
+            background: linear-gradient(180deg, #121915 0%, var(--bg-color) 100%);
             border-bottom: 1px solid var(--border-gold);
             position: relative;
             animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -69,13 +72,13 @@
             font-weight: 900;
             letter-spacing: 2px;
             margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+            text-shadow: 0 0 20px rgba(194, 178, 128, 0.3);
             animation: pulseGlow 3s ease-in-out infinite alternate;
         }
 
         @keyframes pulseGlow {
-            0% { text-shadow: 0 0 10px rgba(212, 175, 55, 0.2); }
-            100% { text-shadow: 0 0 25px rgba(212, 175, 55, 0.6); }
+            0% { text-shadow: 0 0 10px rgba(194, 178, 128, 0.2); }
+            100% { text-shadow: 0 0 25px rgba(194, 178, 128, 0.5); }
         }
 
         header p {
@@ -89,7 +92,7 @@
             display: flex;
             gap: 12px;
             padding: 15px 20px;
-            background: rgba(22, 18, 15, 0.9);
+            background: rgba(18, 25, 21, 0.9);
             overflow-x: auto;
             white-space: nowrap;
             position: sticky;
@@ -105,7 +108,7 @@
         }
 
         .tab-btn {
-            background: #1f1914;
+            background: #17211c;
             border: 1px solid var(--border-gold);
             color: var(--text-main);
             padding: 10px 22px;
@@ -125,7 +128,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(212, 175, 55, 0.2), transparent);
+            background: linear-gradient(90deg, transparent, rgba(194, 178, 128, 0.2), transparent);
             transition: 0.5s;
         }
 
@@ -138,7 +141,7 @@
             color: var(--bg-color);
             border-color: var(--accent);
             transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+            box-shadow: 0 5px 15px rgba(194, 178, 128, 0.3);
         }
 
         /* الحاويات الرئيسية */
@@ -202,7 +205,7 @@
         .menu-card:hover {
             transform: translateY(-8px) scale(1.02);
             border-color: var(--accent);
-            box-shadow: 0 15px 35px rgba(212, 175, 55, 0.2);
+            box-shadow: 0 15px 35px rgba(74, 93, 79, 0.4);
         }
 
         .card-content {
@@ -231,10 +234,10 @@
             font-size: 17px;
             font-weight: 900;
             color: var(--accent);
-            background: rgba(212, 175, 55, 0.12);
+            background: rgba(194, 178, 128, 0.1);
             padding: 5px 12px;
             border-radius: 10px;
-            border: 1px solid rgba(212, 175, 55, 0.3);
+            border: 1px solid rgba(194, 178, 128, 0.3);
             animation: bouncePrice 2s infinite ease-in-out;
         }
 
@@ -251,8 +254,8 @@
 
         .card-footer-action {
             padding: 12px 22px;
-            background: rgba(212, 175, 55, 0.05);
-            border-top: 1px solid rgba(212, 175, 55, 0.1);
+            background: rgba(194, 178, 128, 0.04);
+            border-top: 1px solid rgba(194, 178, 128, 0.1);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -280,7 +283,7 @@
             font-size: 13px;
             border-top: 1px solid var(--border-gold);
             padding-top: 25px;
-            background: linear-gradient(0deg, #1c1510 0%, var(--bg-color) 100%);
+            background: linear-gradient(0deg, #121915 0%, var(--bg-color) 100%);
         }
     </style>
 </head>
@@ -304,6 +307,7 @@
 
     <div class="container" id="menu-container">
 
+        <!-- قسم المشاوي والوجبات -->
         <div class="category-section" data-section="grills">
             <div class="section-header">
                 <h2>المشاوي والأطباق الرئيسية</h2>
@@ -338,6 +342,7 @@
             </div>
         </div>
 
+        <!-- قسم الوجبات السريعة -->
         <div class="category-section" data-section="fastfood">
             <div class="section-header">
                 <h2>الوجبات السريعة والبرجر</h2>
@@ -372,6 +377,7 @@
             </div>
         </div>
 
+        <!-- قسم القهوة -->
         <div class="category-section" data-section="coffee">
             <div class="section-header">
                 <h2>القهوة المختصة والساخنة</h2>
@@ -406,6 +412,7 @@
             </div>
         </div>
 
+        <!-- قسم المشروبات الباردة -->
         <div class="category-section" data-section="cold">
             <div class="section-header">
                 <h2>المشروبات الباردة والمنعشة</h2>
@@ -440,6 +447,7 @@
             </div>
         </div>
 
+        <!-- قسم الحلويات -->
         <div class="category-section" data-section="dessert">
             <div class="section-header">
                 <h2>الحلويات والتشيز كيك</h2>
@@ -481,6 +489,16 @@
     </footer>
 
     <script>
+        // إعداد مسار الاستضافة تلقائياً ليتوافق مع GitHub Pages
+        window.addEventListener('DOMContentLoaded', () => {
+            const pathSegments = window.location.pathname.split('/');
+            if (window.location.hostname.includes('github.io') && pathSegments.length > 1 && pathSegments[1]) {
+                document.getElementById('hosting-base').href = '/' + pathSegments[1] + '/';
+            } else {
+                document.getElementById('hosting-base').href = '/';
+            }
+        });
+
         function filterCategory(category, event) {
             const buttons = document.querySelectorAll('.tab-btn');
             buttons.forEach(btn => btn.classList.remove('active'));
