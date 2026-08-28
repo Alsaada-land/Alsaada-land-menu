@@ -3,218 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>السعادة لاند - المنيو الرقمي</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>منيو المطعم والكافي - الفخامة والأناقة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Cairo', sans-serif;
+        }
+        body {
+            background-color: #1a1512;
+            color: #f3efe6;
+            padding-bottom: 50px;
+        }
+        header {
+            text-align: center;
+            padding: 30px 20px;
+            background: linear-gradient(135deg, #2a221d, #120f0d);
+            border-bottom: 2px solid #c5a059;
+        }
+        header h1 {
+            color: #c5a059;
+            font-size: 28px;
+            margin-bottom: 5px;
+        }
+        header p {
+            color: #b0a89f;
+            font-size: 14px;
+        }
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 15px;
+            background: #221c18;
+            overflow-x: auto;
+            white-space: nowrap;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .cat-btn {
+            background: transparent;
+            border: 1px solid #c5a059;
+            color: #f3efe6;
+            padding: 8px 18px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: 0.3s;
+        }
+        .cat-btn.active, .cat-btn:hover {
+            background: #c5a059;
+            color: #1a1512;
+            font-weight: 700;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .section-title {
+            color: #c5a059;
+            font-size: 20px;
+            margin: 25px 0 15px;
+            border-right: 4px solid #c5a059;
+            padding-right: 10px;
+        }
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 15px;
+        }
+        .menu-item {
+            background: #2a221d;
+            border-radius: 12px;
+            padding: 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(197, 160, 89, 0.2);
+            transition: 0.3s;
+        }
+        .menu-item:hover {
+            border-color: #c5a059;
+            transform: translateY(-2px);
+        }
+        .item-details h3 {
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #fff;
+        }
+        .item-details p {
+            font-size: 12px;
+            color: #b0a89f;
+        }
+        .item-price {
+            font-size: 16px;
+            font-weight: 700;
+            color: #c5a059;
+            background: rgba(197, 160, 89, 0.1);
+            padding: 5px 10px;
+            border-radius: 8px;
+        }
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #7a7067;
+            font-size: 13px;
+        }
+    </style>
 </head>
 <body>
 
-    <!-- Header Section -->
-    <header class="main-header">
-        <div class="header-inner">
-            <div class="brand-box">
-                <div class="logo-wrapper">
-                    <img src="https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=150" alt="السعادة لاند" class="logo-img">
-                    <span class="status-dot"></span>
-                </div>
-                <div class="brand-details">
-                    <h1>السعادة لاند</h1>
-                    <span class="status-pill open">
-                        <i class="fa-solid fa-circle"></i> مفتوح الآن
-                    </span>
-                </div>
-            </div>
-
-            <div class="header-icons">
-                <button class="action-icon-btn" id="searchToggleBtn" title="بحث">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                </button>
-                <button class="action-icon-btn cart-icon-btn" id="cartBtn" title="السلة">
-                    <i class="fa-solid fa-bag-shopping"></i>
-                    <span class="cart-badge">0</span>
-                </button>
-                <button class="action-icon-btn" id="menuToggleBtn" title="القائمة">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-            </div>
-        </div>
-
-        <!-- Order Type Selection Bar -->
-        <div class="order-type-wrapper">
-            <div class="order-tabs">
-                <button class="o-tab active" data-type="delivery">
-                    <i class="fa-solid fa-motorcycle"></i> توصيل
-                </button>
-                <button class="o-tab" data-type="pickup">
-                    <i class="fa-solid fa-bag-shopping"></i> استلام من الفرع
-                </button>
-                <button class="o-tab" data-type="table">
-                    <i class="fa-solid fa-utensils"></i> على الطاولة
-                </button>
-            </div>
-        </div>
-
-        <!-- Live Search Input (Hidden by default) -->
-        <div class="search-box-wrap" id="searchContainer">
-            <input type="text" id="searchInput" placeholder="ابحث في قائمة الطعام...">
-            <i class="fa-solid fa-magnifying-glass"></i>
-        </div>
+    <header>
+        <h1>اسم المطعم والكافي</h1>
+        <p>أشهى المأكولات وأفخم المشروبات بين أيديكم</p>
     </header>
 
-    <!-- Main Body Container -->
-    <main class="menu-container">
+    <div class="categories">
+        <button class="cat-btn active" onclick="filterMenu('all')">الكل</button>
+        <button class="cat-btn" onclick="filterMenu('meals')}}">الوجبات الرئيسية</button>
+        <button class="cat-btn" onclick="filterMenu('fastfood')">وجبات سريعة ومشاوي</button>
+        <button class="cat-btn" onclick="filterMenu('coffee')">القهوة والمشروبات الساخنة</button>
+        <button class="cat-btn" onclick="filterMenu('cold')">المشروبات الباردة</button>
+        <button class="cat-btn" onclick="filterMenu('dessert')">الحلويات</button>
+    </div>
+
+    <div class="container">
         
-        <!-- Promo Slider Banner -->
-        <section class="banner-slider">
-            <div class="banner-slide">
-                <img src="https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=800" alt="عروض خاصة">
-                <div class="banner-text">
-                    <h2>عروض السعادة الحصرية</h2>
-                    <p>اطلب وجبتك المفضلة واستمتع بالطعم الأصلي</p>
+        <div class="section-title">الوجبات الرئيسية</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="meals">
+                <div class="item-details">
+                    <h3>كبسة لحم فاخرة</h3>
+                    <p>أرز بسمتي مع لحم طازج ومكسرات محمصة</p>
                 </div>
+                <div class="item-price">45 د.أ</div>
             </div>
-        </section>
-
-        <!-- Circular Categories Navigation -->
-        <nav class="categories-nav-bar">
-            <div class="cats-scroll" id="categoriesContainer">
-                <button class="cat-pill active" data-cat="all">
-                    <div class="cat-circle-img">
-                        <img src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150" alt="الكل">
-                    </div>
-                    <span>القائمة</span>
-                </button>
-                <button class="cat-pill" data-cat="burgers">
-                    <div class="cat-circle-img">
-                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=150" alt="برغر">
-                    </div>
-                    <span>البرغر</span>
-                </button>
-                <button class="cat-pill" data-cat="chicken">
-                    <div class="cat-circle-img">
-                        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=150" alt="دجاج">
-                    </div>
-                    <span>دجاج مقرمش</span>
-                </button>
-                <button class="cat-pill" data-cat="appetizers">
-                    <div class="cat-circle-img">
-                        <img src="https://images.unsplash.com/photo-1576107232684-1279f390859f?w=150" alt="مقبلات">
-                    </div>
-                    <span>المقبلات</span>
-                </button>
-                <button class="cat-pill" data-cat="drinks">
-                    <div class="cat-circle-img">
-                        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=150" alt="مشروبات">
-                    </div>
-                    <span>مشروبات</span>
-                </button>
+            <div class="menu-item" data-category="meals">
+                <div class="item-details">
+                    <h3>صينية دجاج بالفرن</h3>
+                    <p>دجاج متبل على الطريقة الخاصة مع بطاطس</p>
+                </div>
+                <div class="item-price">30 د.أ</div>
             </div>
-        </nav>
-
-        <!-- Menu Items List Section -->
-        <section class="menu-items-section">
-            <div class="section-heading-row">
-                <h3 id="activeCategoryTitle">البرغر المميز</h3>
-                <span class="total-items">4 أطباق</span>
-            </div>
-
-            <div class="items-list-grid" id="productsGrid">
-                <!-- Item 1 -->
-                <div class="menu-item-card" data-cat="burgers" data-name="سلطان النار">
-                    <div class="item-thumb">
-                        <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" alt="سلطان النار">
-                        <span class="item-tag hot">الأكثر مبيعاً 🔥</span>
-                    </div>
-                    <div class="item-details">
-                        <h4>سلطان النار</h4>
-                        <p class="item-desc">قطعة لحم بقر مشوية بعناية مع جبنة الشيدر الذائبة وشرائح البالبيكو الحارة.</p>
-                        <div class="item-footer-row">
-                            <span class="item-price">34 شيكل</span>
-                            <button class="add-btn" onclick="addToCart('سلطان النار', 34)">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 2 -->
-                <div class="menu-item-card" data-cat="burgers" data-name="ملك الجبنة">
-                    <div class="item-thumb">
-                        <img src="https://images.unsplash.com/photo-1586190848861-99aa4a171e90?w=400" alt="ملك الجبنة">
-                        <span class="item-tag">الأكثر مبيعاً</span>
-                    </div>
-                    <div class="item-details">
-                        <h4>ملك الجبنة</h4>
-                        <p class="item-desc">لحم بقر طازج بطبقتين من الشيدر والجبنة الأمريكية مع الصوص الخاص.</p>
-                        <div class="item-footer-row">
-                            <span class="item-price">40 شيكل</span>
-                            <button class="add-btn" onclick="addToCart('ملك الجبنة', 40)">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 3 -->
-                <div class="menu-item-card" data-cat="chicken" data-name="الدجاج الذهبي">
-                    <div class="item-thumb">
-                        <img src="https://images.unsplash.com/photo-1626082927389-6cd097cdc6ec?w=400" alt="الدجاج الذهبي">
-                        <span class="item-tag new">جديد</span>
-                    </div>
-                    <div class="item-details">
-                        <h4>الدجاج الذهبي المقرمش</h4>
-                        <p class="item-desc">صدر دجاج مقرمش مع الخس والمايونيز والخبز الطازج.</p>
-                        <div class="item-footer-row">
-                            <span class="item-price">25 شيكل</span>
-                            <button class="add-btn" onclick="addToCart('الدجاج الذهبي المقرمش', 25)">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Item 4 -->
-                <div class="menu-item-card" data-cat="drinks" data-name="موهيتو ليمون السعادة">
-                    <div class="item-thumb">
-                        <img src="https://images.unsplash.com/photo-1551024709-8f23befc6f87?w=400" alt="موهيتو">
-                    </div>
-                    <div class="item-details">
-                        <h4>موهيتو ليمون السعادة</h4>
-                        <p class="item-desc">عصير ليمون طازج مع النعناع والثلج المجروش لمنحك انتعاشاً مضاعفاً.</p>
-                        <div class="item-footer-row">
-                            <span class="item-price">10 شيكل</span>
-                            <button class="add-btn" onclick="addToCart('موهيتو ليمون السعادة', 10)">
-                                <i class="fa-solid fa-plus"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- Sidebar Slide Menu -->
-    <div class="drawer-overlay" id="drawerOverlay"></div>
-    <aside class="side-drawer" id="sideDrawer">
-        <div class="drawer-header">
-            <h3>قائمة السعادة لاند</h3>
-            <button class="close-drawer-btn" id="closeDrawerBtn"><i class="fa-solid fa-xmark"></i></button>
         </div>
-        <ul class="drawer-links-list">
-            <li><a href="#"><i class="fa-solid fa-house"></i> الرئيسية</a></li>
-            <li><a href="#"><i class="fa-solid fa-clock"></i> أوقات العمل: 12 ظهراً - 2 صباحاً</a></li>
-            <li><a href="#"><i class="fa-solid fa-circle-info"></i> نبذة عنا</a></li>
-            <li><a href="#"><i class="fa-solid fa-location-dot"></i> موقع الفرع</a></li>
-            <li><a href="https://maps.google.com" target="_blank"><i class="fa-solid fa-star text-gold"></i> شارك تجربتك على جوجل ماب</a></li>
-            <li><a href="#"><i class="fa-solid fa-share-nodes"></i> مشاركة القائمة</a></li>
-        </ul>
-    </aside>
 
-    <!-- Footer -->
-    <footer class="site-footer">
-        <p>جميع الحقوق محفوظة © 2026 <strong>السعادة لاند</strong></p>
+        <div class="section-title">المشاوي والوجبات السريعة</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="fastfood">
+                <div class="item-details">
+                    <h3>مشاوي مشكلة (كيلو)</h3>
+                    <p>شيش طاووق، كباب، وتكة لحم مع سلطات</p>
+                </div>
+                <div class="item-price">35 د.أ</div>
+            </div>
+            <div class="menu-item" data-category="fastfood">
+                <div class="item-details">
+                    <h3>برجر ديلوكس</h3>
+                    <p>لحم برجر خاص، جبنة شيدر وصوص مميز</p>
+                </div>
+                <div class="item-price">12 د.أ</div>
+            </div>
+        </div>
+
+        <div class="section-title">القهوة والمشروبات الساخنة</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="coffee">
+                <div class="item-details">
+                    <h3>إسبريسو مزدوج</h3>
+                    <p>مستخلص من حبوب بن فاخرة</p>
+                </div>
+                <div class="item-price">4 د.أ</div>
+            </div>
+            <div class="menu-item" data-category="coffee">
+                <div class="item-details">
+                    <h3>كابتشينو إيطالي</h3>
+                    <p>إسبريسو مع حليب مكثف ورغوة كريمية</p>
+                </div>
+                <div class="item-price">5 د.أ</div>
+            </div>
+        </div>
+
+        <div class="section-title">المشروبات الباردة والعصائر</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="cold">
+                <div class="item-details">
+                    <h3>آيس لاتيه كراميل</h3>
+                    <p>إسبريسو، حليب بارد وصوص كراميل</p>
+                </div>
+                <div class="item-price">6 د.أ</div>
+            </div>
+            <div class="menu-item" data-category="cold">
+                <div class="item-details">
+                    <h3>ماتشا لاتيه مثلج</h3>
+                    <p>ماتشا يابانية أصلية مع حليب كريمي</p>
+                </div>
+                <div class="item-price">7 د.أ</div>
+            </div>
+        </div>
+
+        <div class="section-title">الحلويات</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-category="dessert">
+                <div class="item-details">
+                    <h3>تشيز كيك فانيليا</h3>
+                    <p>مع طبقة صوص الفراولة أو التوت</p>
+                </div>
+                <div class="item-price">5 د.أ</div>
+            </div>
+            <div class="menu-item" data-category="dessert">
+                <div class="item-details">
+                    <h3>كيكة الشوكولاتة</h3>
+                    <p>جاتوه شوكولاتة غني بالكريمة</p>
+                </div>
+                <div class="item-price">6 د.أ</div>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <p>جميع الحقوق محفوظة &copy; 2026</p>
     </footer>
 
-    <script src="script.js"></script>
+    <script>
+        function filterMenu(category) {
+            const buttons = document.querySelectorAll('.cat-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+
+            const items = document.querySelectorAll('.menu-item');
+            const sections = document.querySelectorAll('.section-title');
+
+            if (category === 'all') {
+                items.forEach(item => item.style.display = 'flex');
+                sections.forEach(section => section.style.display = 'block');
+            } else {
+                sections.forEach(section => section.style.display = 'none');
+                items.forEach(item => {
+                    if (item.getAttribute('data-category') === category) {
+                        item.style.display = 'flex';
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>
