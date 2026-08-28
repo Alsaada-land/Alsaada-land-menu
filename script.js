@@ -2,18 +2,20 @@ let cartCount = 0;
 
 function addToCart(itemName, price) {
     cartCount++;
-    document.querySelector('.cart-count').textContent = cartCount;
+    document.querySelector('.cart-badge').textContent = cartCount;
     alert(`تم إضافة "${itemName}" إلى السلة بنجاح!`);
 }
 
-const tabBtns = document.querySelectorAll('.tab-btn');
-tabBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        tabBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+// Order Tabs Switcher
+const orderTabs = document.querySelectorAll('.o-tab');
+orderTabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+        orderTabs.forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
     });
 });
 
+// Search Bar Toggle
 const searchToggleBtn = document.getElementById('searchToggleBtn');
 const searchContainer = document.getElementById('searchContainer');
 searchToggleBtn.addEventListener('click', () => {
@@ -23,53 +25,56 @@ searchToggleBtn.addEventListener('click', () => {
     }
 });
 
+// Sidebar Drawer Toggle
 const menuToggleBtn = document.getElementById('menuToggleBtn');
-const sidebarDrawer = document.getElementById('sidebarDrawer');
-const sidebarOverlay = document.getElementById('sidebarOverlay');
-const closeSidebarBtn = document.getElementById('closeSidebarBtn');
+const sideDrawer = document.getElementById('sideDrawer');
+const drawerOverlay = document.getElementById('drawerOverlay');
+const closeDrawerBtn = document.getElementById('closeDrawerBtn');
 
-function toggleSidebar() {
-    sidebarDrawer.classList.toggle('active');
-    sidebarOverlay.classList.toggle('active');
+function toggleDrawer() {
+    sideDrawer.classList.toggle('active');
+    drawerOverlay.classList.toggle('active');
 }
 
-menuToggleBtn.addEventListener('click', toggleSidebar);
-closeSidebarBtn.addEventListener('click', toggleSidebar);
-sidebarOverlay.addEventListener('click', toggleSidebar);
+menuToggleBtn.addEventListener('click', toggleDrawer);
+closeDrawerBtn.addEventListener('click', toggleDrawer);
+drawerOverlay.addEventListener('click', toggleDrawer);
 
-const catCards = document.querySelectorAll('.cat-card');
-const productCards = document.querySelectorAll('.product-card');
-const currentCategoryTitle = document.getElementById('currentCategoryTitle');
+// Category Filtering logic
+const catPills = document.querySelectorAll('.cat-pill');
+const menuItemCards = document.querySelectorAll('.menu-item-card');
+const activeCategoryTitle = document.getElementById('activeCategoryTitle');
 
-catCards.forEach(card => {
-    card.addEventListener('click', () => {
-        catCards.forEach(c => c.classList.remove('active'));
-        card.classList.add('active');
+catPills.forEach(pill => {
+    pill.addEventListener('click', () => {
+        catPills.forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
         
-        const selectedCat = card.getAttribute('data-category');
-        const catName = card.querySelector('span').textContent;
-        currentCategoryTitle.textContent = `قائمة ${catName}`;
+        const selectedCat = pill.getAttribute('data-cat');
+        const catLabel = pill.querySelector('span').textContent;
+        activeCategoryTitle.textContent = catLabel;
         
-        productCards.forEach(product => {
-            const productCat = product.getAttribute('data-category');
-            if(selectedCat === 'all' || productCat === selectedCat) {
-                product.style.display = 'flex';
+        menuItemCards.forEach(card => {
+            const cardCat = card.getAttribute('data-cat');
+            if(selectedCat === 'all' || cardCat === selectedCat) {
+                card.style.display = 'flex';
             } else {
-                product.style.display = 'none';
+                card.style.display = 'none';
             }
         });
     });
 });
 
+// Live Text Search
 const searchInput = document.getElementById('searchInput');
 searchInput.addEventListener('input', (e) => {
-    const term = e.target.value.toLowerCase().trim();
-    productCards.forEach(product => {
-        const name = product.getAttribute('data-name').toLowerCase();
-        if(name.includes(term)) {
-            product.style.display = 'flex';
+    const query = e.target.value.toLowerCase().trim();
+    menuItemCards.forEach(card => {
+        const title = card.getAttribute('data-name').toLowerCase();
+        if(title.includes(query)) {
+            card.style.display = 'flex';
         } else {
-            product.style.display = 'none';
+            card.style.display = 'none';
         }
     });
 });
