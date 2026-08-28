@@ -3,20 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- منع التخزين المؤقت لضمان ظهور التحديثات فوراً بدون تأخير -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>منيو الفخامة - مطعم وكافي</title>
-    <!-- ربط الاستضافة والتعرف على النطاق الأساسي لـ GitHub Pages -->
     <base href="" id="hosting-base">
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;900&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #0c100e;        /* خلفية داكنة بلون زيتي عميق وفخم */
-            --card-bg: #151c18;        /* خلفية الكروت بدرجة زيتي دافئ */
-            --accent: #c2b280;          /* لون ذهبي هادئ ومتناسق مع الزيتي */
-            --accent-light: #e5dfcb;    /* لون ذهبي فاتح للنصوص المضيئة */
-            --text-main: #f4f6f4;       /* نص أبيض ناصع ومريح */
-            --text-muted: #95a39b;      /* نص ثانوي هادئ */
-            --border-gold: rgba(194, 178, 128, 0.3); /* حدود ذهبية خفيفة */
-            --olive-glow: rgba(74, 93, 79, 0.15);    /* إضاءة زيتي محيطية */
+            --bg-color: #f2f5f3;        /* خلفية بيضاء بزيتي خفيف جداً ونظيف */
+            --card-bg: #ffffff;        /* كروت بيضاء ناصعة وفخمة */
+            --accent: #b8973b;          /* ذهبي ملكي فخم وواضح */
+            --accent-light: #947728;    /* درجة ذهبية أدكن للتوضيح */
+            --text-main: #1a261f;       /* نص أساسي بلون زيتي غامق وواضح */
+            --text-muted: #53635a;      /* نص ثانوي هادئ */
+            --border-gold: rgba(184, 151, 59, 0.4); /* حدود ذهبية راقية */
+            --olive-tint: #2c3e35;      /* زيتي فخم للعناصر البارزة */
         }
 
         * {
@@ -34,73 +37,44 @@
             position: relative;
         }
 
-        /* خلفية متحركة متلألئة بدرجات الزيتي الفاخر */
-        .ambient-glow {
-            position: fixed;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle at 50% 50%, var(--olive-glow) 0%, transparent 60%);
-            z-index: -1;
-            animation: rotateGlow 20s linear infinite;
-        }
-
-        @keyframes rotateGlow {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-        }
-
-        /* رأس الصفحة مع أنيميشن دخول */
+        /* رأس الصفحة الفاخر */
         header {
             text-align: center;
-            padding: 50px 20px 30px;
-            background: linear-gradient(180deg, #121915 0%, var(--bg-color) 100%);
-            border-bottom: 1px solid var(--border-gold);
+            padding: 45px 20px 30px;
+            background: linear-gradient(135deg, #23332b 0%, #1a261f 100%);
+            border-bottom: 3px solid var(--accent);
             position: relative;
-            animation: slideDown 1s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes slideDown {
-            0% { transform: translateY(-50px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
         }
 
         header h1 {
-            font-size: 34px;
+            font-size: 32px;
             color: var(--accent);
             font-weight: 900;
-            letter-spacing: 2px;
-            margin-bottom: 10px;
-            text-shadow: 0 0 20px rgba(194, 178, 128, 0.3);
-            animation: pulseGlow 3s ease-in-out infinite alternate;
-        }
-
-        @keyframes pulseGlow {
-            0% { text-shadow: 0 0 10px rgba(194, 178, 128, 0.2); }
-            100% { text-shadow: 0 0 25px rgba(194, 178, 128, 0.5); }
+            letter-spacing: 1.5px;
+            margin-bottom: 8px;
+            text-shadow: 0 2px 10px rgba(0,0,0,0.3);
         }
 
         header p {
-            color: var(--text-muted);
-            font-size: 15px;
-            letter-spacing: 1px;
+            color: #d1dcd5;
+            font-size: 14px;
+            letter-spacing: 0.5px;
         }
 
-        /* شريط الأقسام التفاعلي المتحرك */
+        /* شريط الأقسام الجديد كلياً وبشكل أنيق وفخم */
         .nav-categories {
             display: flex;
             gap: 12px;
-            padding: 15px 20px;
-            background: rgba(18, 25, 21, 0.9);
+            padding: 18px 15px;
+            background: #ffffff;
             overflow-x: auto;
             white-space: nowrap;
             position: sticky;
             top: 0;
             z-index: 1000;
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-gold);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            box-shadow: 0 4px 20px rgba(44, 62, 53, 0.08);
+            border-bottom: 1px solid #e1e8e4;
         }
 
         .nav-categories::-webkit-scrollbar {
@@ -108,40 +82,31 @@
         }
 
         .tab-btn {
-            background: #17211c;
-            border: 1px solid var(--border-gold);
-            color: var(--text-main);
-            padding: 10px 22px;
-            border-radius: 30px;
+            background: #f4f7f5;
+            border: 1px solid #d0dad3;
+            color: var(--olive-tint);
+            padding: 10px 20px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 14px;
-            font-weight: 600;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .tab-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(194, 178, 128, 0.2), transparent);
-            transition: 0.5s;
-        }
-
-        .tab-btn:hover::before {
-            left: 100%;
-        }
-
-        .tab-btn.active, .tab-btn:hover {
-            background: var(--accent);
-            color: var(--bg-color);
+        .tab-btn:hover {
             border-color: var(--accent);
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(194, 178, 128, 0.3);
+            background: #fffdf5;
+        }
+
+        .tab-btn.active {
+            background: var(--olive-tint);
+            color: var(--accent);
+            border-color: var(--accent);
+            box-shadow: 0 4px 12px rgba(44, 62, 53, 0.2);
+            transform: translateY(-2px);
         }
 
         /* الحاويات الرئيسية */
@@ -153,11 +118,11 @@
 
         .category-section {
             margin-bottom: 40px;
-            animation: fadeIn 0.8s ease-in-out;
+            animation: fadeIn 0.6s ease-in-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
+            from { opacity: 0; transform: translateY(15px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
@@ -165,11 +130,11 @@
             display: flex;
             align-items: center;
             gap: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 20px;
         }
 
         .section-header h2 {
-            font-size: 22px;
+            font-size: 20px;
             color: var(--accent);
             font-weight: 800;
             letter-spacing: 0.5px;
@@ -178,38 +143,37 @@
         .section-header::after {
             content: "";
             flex: 1;
-            height: 1px;
+            height: 2px;
             background: linear-gradient(90deg, var(--border-gold), transparent);
         }
 
-        /* شبكة الكروت التفاعلية */
+        /* شبكة الكروت البيضاء والفخمة */
         .items-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 20px;
+            gap: 18px;
         }
 
         .menu-card {
             background: var(--card-bg);
-            border-radius: 18px;
+            border-radius: 16px;
             overflow: hidden;
-            border: 1px solid var(--border-gold);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #e2e8e4;
+            box-shadow: 0 6px 18px rgba(0,0,0,0.04);
+            transition: all 0.3s ease;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
-            position: relative;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
 
         .menu-card:hover {
-            transform: translateY(-8px) scale(1.02);
+            transform: translateY(-5px);
             border-color: var(--accent);
-            box-shadow: 0 15px 35px rgba(74, 93, 79, 0.4);
+            box-shadow: 0 12px 25px rgba(184, 151, 59, 0.15);
         }
 
         .card-content {
-            padding: 22px;
+            padding: 20px;
         }
 
         .card-header-info {
@@ -221,29 +185,18 @@
 
         .card-title {
             font-size: 17px;
-            font-weight: 700;
-            color: #fff;
-            transition: color 0.3s;
-        }
-
-        .menu-card:hover .card-title {
-            color: var(--accent-light);
+            font-weight: 800;
+            color: var(--olive-tint);
         }
 
         .card-price {
-            font-size: 17px;
+            font-size: 16px;
             font-weight: 900;
             color: var(--accent);
-            background: rgba(194, 178, 128, 0.1);
+            background: #fffcf0;
             padding: 5px 12px;
-            border-radius: 10px;
-            border: 1px solid rgba(194, 178, 128, 0.3);
-            animation: bouncePrice 2s infinite ease-in-out;
-        }
-
-        @keyframes bouncePrice {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-3px); }
+            border-radius: 8px;
+            border: 1px solid var(--border-gold);
         }
 
         .card-desc {
@@ -253,43 +206,31 @@
         }
 
         .card-footer-action {
-            padding: 12px 22px;
-            background: rgba(194, 178, 128, 0.04);
-            border-top: 1px solid rgba(194, 178, 128, 0.1);
+            padding: 10px 20px;
+            background: #f8faf9;
+            border-top: 1px solid #edf2ef;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 12px;
             color: var(--accent);
-            font-weight: 600;
-        }
-
-        .card-footer-action span {
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            transition: transform 0.3s;
-        }
-
-        .menu-card:hover .card-footer-action span {
-            transform: translateX(-5px);
+            font-weight: 700;
         }
 
         /* الفوتر */
         footer {
             text-align: center;
-            margin-top: 60px;
+            margin-top: 50px;
             color: var(--text-muted);
             font-size: 13px;
-            border-top: 1px solid var(--border-gold);
+            border-top: 1px solid #d8e2dc;
             padding-top: 25px;
-            background: linear-gradient(0deg, #121915 0%, var(--bg-color) 100%);
+            background: #1a261f;
+            color: #b3c2bc;
         }
     </style>
 </head>
 <body>
-
-    <div class="ambient-glow"></div>
 
     <header>
         <h1>اسم المطعم والكافي</h1>
@@ -489,7 +430,6 @@
     </footer>
 
     <script>
-        // إعداد مسار الاستضافة تلقائياً ليتوافق مع GitHub Pages
         window.addEventListener('DOMContentLoaded', () => {
             const pathSegments = window.location.pathname.split('/');
             if (window.location.hostname.includes('github.io') && pathSegments.length > 1 && pathSegments[1]) {
@@ -515,12 +455,12 @@
                         setTimeout(() => {
                             sec.style.opacity = '1';
                             sec.style.transform = 'translateY(0)';
-                            sec.style.transition = 'all 0.5s ease';
-                        }, 50);
+                            sec.style.transition = 'all 0.4s ease';
+                        }, 40);
                     } else {
                         sec.style.display = 'none';
                     }
-                }, 200);
+                }, 150);
             });
         }
     </script>
